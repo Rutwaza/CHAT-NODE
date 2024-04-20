@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <style>
+        
+        body {
+            background-color: #000000;
+            align-items:center;
+        }
+        .main{
+            background-image: url("str.gif");
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 97vh;
+            width:100%;
+            margin-left:20%;
+            margin: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            border-color:2px solid green;
+        }
+
+        .form {
+            padding: 20px;
+            height: 530px;
+            background-color: #14141462;
+            box-shadow: 0 0 10px rgb(61, 60, 60);
+            border-radius: 10px;
+            width: 350px;
+            z-index: 1;
+            margin-right:20px
+        }
+        .form h3{
+            margin-left:18%;
+            font-size: 1.5em;
+            color:  #020a71 ;
+            text-shadow: 1px 1px #0091ff;
+        }
+
+       
+
+        input, select {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 15px;
+            background-color: #222;
+            border: 1px solid #444;
+            border-radius: 5px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+        input[type="date"] {
+            padding: 7px;
+        }
+
+        input[type="file"] {
+            border: none;
+            background-color: transparent;
+            color: #fff;
+        }
+
+        input[type="password"] {
+            position: relative;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            background: url('eye-icon.png') center/contain no-repeat;
+            filter: brightness(1.5);
+        }
+
+        button {
+            background-color: #16a085;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-left: 36%;
+        }
+        
+        button1 {
+            background-color: #16a085;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-left: 22%;
+        }
+
+        button:hover {
+            background-color: #138971;
+            align-items: center;
+            
+        }
+
+        .prag1 {
+            color: rgb(5, 242, 5);
+            font-size: large;
+            overflow: hidden; /* Hide overflow to prevent scrollbar */
+            white-space: nowrap; /* Ensure the text stays on one line */
+            border-right: 2px solid #fff; /* Create a blinking cursor effect */
+            animation: typing 9s steps(40) infinite, blink-caret 0.4s step-end infinite;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink-caret {
+            from, to {
+                border-color: transparent;
+            }
+            50% {
+                border-color: #fff;
+            }
+        }
+        .left{
+            background-color: rgba(74, 153, 1, 0.116);
+            border-radius : 10px;
+            margin-right:15%
+            
+        }
+
+        .left a{
+            text-decoration: none;
+        }
+        .logdiv{
+            margin-left:20%
+        }
+        .conn{
+            color:white;
+            padding-bottom: 200px;
+        }
+        .connected {
+        font-size: 24px; 
+        color: #00ff00; 
+        text-shadow: 3px 3px 5px rgba(0, 255, 0, 0.8); 
+        margin-left:35%;
+        }
+        .success{
+            width:420px;
+            height:100px;
+            background:rgba(0, 0, 0, 0.452);
+            color:white;
+            text-align:center;
+            align-items:center;
+            margin-left:30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="left">
+            <div class="success" id="success-message"></div>
+            <div class="conn"><p class="connected" id="connection-message"></p></div>
+            <div><p class="prag1">******Join our hustle-driven community******</p></div>
+            <div class="logdiv">
+                <p>If You Already Have An Account <br><br>
+                    <a href="./login.html"><button1>LOGIN</button></a>
+                </p>
+            </div>
+            <div><p class="prag1">**Caring Connections for Every Life Chapter**</p></div>
+        </div>
+        <div class="form">
+            <h3>GhostLine-Signup</h3>
+            <form id="signup-form" action="/signup" method="POST">
+                <label for="username" id="username">Username</label> <br>
+                <input type="text" name="username" id="username" required><br>
+                <label for="email">Email</label><br>
+                <input type="text" name="email" id="email" required><br>
+                <label for="gender">Gender</label><br>
+                <select name="gender" id="gender" required>
+                    <option hidden>select gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="nottosay">Prefer not to say</option>
+                </select><br>
+                <!-- <label for="dob">Date OF Birth</label><br>
+                <input type="date" name="dob" id="dob"><br> -->
+                <label for="profile">Profile Photo</label><br>
+                <input type="file" name="profile" id="profile"><br>
+                <label for="password">Password</label><br>
+                <input type="password" name="password" id="password" required><br>
+                <label for="confirmPassword" >Confirm Password</label><br>
+                <input type="password" name="confirmPassword" id="confirmPassword" required><br>
+                <button type="submit">SIGNUP</button><br>
+            </form>
+        </div>
+    </div>
+
+
+</body>
+</html>
