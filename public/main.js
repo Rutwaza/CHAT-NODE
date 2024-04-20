@@ -6,6 +6,22 @@ const messageContainer = document.getElementById('message-container')
 const nameInput = document.getElementById('name-input')
 const messageForm = document.getElementById('message-form')
 const messageInput = document.getElementById('message-input')
+const loginForm = document.querySelector('form')
+
+loginForm.addEventListener("submit", async(data) => {
+    console.log(data)
+    const response = await fetch("http://localhost:9000", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+    })
+
+    if(response.status === 201) {
+        // ...addMessageToUI.
+    }
+})
 
 const messageTone = new Audio('/tone.mp3')
 
@@ -19,11 +35,10 @@ socket.on('active-users', (data) => {
     clientsTotal.textContent = `Total active users: ${data}`;
 });
 
-// Listen for user ID from the server
+
 socket.on('user-id', (userID) => {
     console.log('Received user ID:', userID);
-    // Now you can use the userID variable as needed in your client-side code
-    // For example, update the UI to display the user ID
+   
     document.getElementById('user-id').innerText = userID;
 });
 
@@ -116,15 +131,4 @@ document.addEventListener('DOMContentLoaded', function () {
     const currentTime = moment().format('HH:mm');
     document.getElementById('message-time').textContent = currentTime;
 });
-
-
-document.addEventListener('DOMContentLoaded', function () {
-    const isSignedUp = true; 
-
-    if (isSignedUp) {
-        window.location.href = './login.html'; 
-    } else {
-        window.location.href = '/signup.html'; 
-    }
-});
-
+//

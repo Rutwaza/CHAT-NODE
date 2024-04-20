@@ -195,65 +195,31 @@
 
 
 const express = require('express');
-const bodyParser = require('body-parser'); // Import body-parser
+const bodyParser = require('body-parser'); 
 const app = express();
-const path = require('path'); // Import the path module
+const path = require('path'); 
 
-const PORT = 8080;
+const PORT = 9000;
 
-// Serve your HTML files
+
 app.use(express.static('public'));
-
-// Parse incoming request bodies
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Handle root path
 app.get('/', (req, res) => {
-    // You can send a specific HTML file
-    res.sendFile(path.join(__dirname, 'public', 'Home.html'));
+    res.redirect('./public/Homepage.html');
 });
 
-// Handle login endpoint
-// app.post('/login', (req, res) => {
-//     // Check user credentials (you need to implement this logic)
-//     const validCredentials = true; // Replace with your actual authentication logic
-
-//     if (validCredentials) {
-//         // Redirect to the Ghost Line page on successful login
-//         res.redirect('/index.html');
-//     } else {
-//         res.send('Incorrect email or password');
-//     }
-// });
-
-
-// Handle login endpoint
-app.post('/login', (req, res) => {
-    const { email, password } = req.body;
-
-    // Check the credentials against a database or any other authentication mechanism
-    if (email === 'example@email.com' && password === 'password') {
-        // Set up a session for the user
-        req.session.userID = 123; // Replace 123 with the actual user ID
-
-        // Redirect to the index page on successful login
-        res.redirect('/index.html');
-    } else {
-        // Handle incorrect credentials
-        res.send('Incorrect email or password');
-    }
-});
-
-
-
-// Handle signup endpoint
 app.post('/signup', (req, res) => {
-    console.log('Received signup data:', req.body);
+    console.log('received signup data:', req.body);
+    res.redirect('/login.html'); 
+});
 
-    // Redirect to the login page after successful signup
-    res.redirect('./login.html');
+app.post('/login', (req, res) => {
+    res.redirect('./Homepage.html'); 
 });
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+

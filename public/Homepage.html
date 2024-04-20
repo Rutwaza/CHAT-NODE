@@ -1,23 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ghost Line Homepage </title>
-</head>
-<body>
-    <h1 class="title">Ghost Line</h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" referrerpolicy="no-referrer" />        <title>Ghost Line</title>
+        <link rel="stylesheet" href="style.css">
+        <title>chatting application</title>
+    </head>
+    <body>
+        
+        <h1 class="title">Ghost Line</h1>
         <div class="main">
             <div class="name">
                 <span><i class="far fa-user"></i></span>
                 <input type="text" id="name-input" class="name-input" placeholder="Your Name" maxlength="20">
             </div>
-    </div>
-    <div class="options">
-        <a href="./signup.html" class="option">Sign Up</a>
-        <a href="./login.html" class="option">Login</a>
-    </div>
-</div>
 
-</body>
+            <ul class="message-container" id="message-container">
+                <li class="message-left">
+                    <p class="message">
+                       Hello Rosine
+                       <span id="message-time"></span>
+                    </p>
+                </li>
+
+                <li class="message-right">
+                    <p class="message">
+                        Hello Nelson
+                        <span id="message-time"></span>
+                    </p>
+                </li>
+                
+                <li class="message-feedback">
+                    <p class="feedback" id="feedback">
+                    </p>
+                </li>
+
+            </ul>
+
+            <p style="color:rgb(187, 142, 60)">User ID: <span id="user-id" style="color: rgb(245, 160, 3);"></span></p>
+
+
+            <form  class="message-form" id="message-form">
+                <input type="text" id="message-input" class="message-input" name="message">
+                <div class="v-divider"></div>
+                <button type="submit" class="send-button">
+                    send <span><i class="fas fa-paper-plane"></i></span>
+                </button>
+            </form>
+
+        </div>
+
+        <h3 id="client-total" class="clients-total">
+            Total clients :2 
+        </h3>
+        
+        
+        <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js" integrity="sha512-Q1f3TS3vSt1jQ8AwP2OuenztnLU6LwxgyyYOG1jgMW/cbEMHps/3wjvnl1P3WTrF3chJUWEoxDUEjMxDV8pujg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="main.js"></script>
+    </body>
 </html>
