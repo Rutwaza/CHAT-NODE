@@ -112,21 +112,21 @@ title{
     padding: 8px 12px;
     margin: 12px;
     max-width: 250px;
-    font-size: 18px;
+    font-size: 14px;
     word-wrap: break-word;
 }
 
 .message-left{
     border-radius: 20px  20px 20px 0px;
     align-self: flex-start;
-    background-color: #052b00a6;
+    background-color: #25e00da6;
     box-shadow: -2px 2px 4px #dcdcdc;
 }
 
 .message-right{
     border-radius: 20px  20px 0px 20px;
     align-self: flex-end;
-    background-color: #000000af;
+    background-color: #f421c2af;
     box-shadow: 2px 2px 4px #dcdcdc;
     color: #f6f6f6;
 }

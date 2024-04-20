@@ -28,16 +28,17 @@ socket.on('user-id', (userID) => {
 });
 
 function sendMessage() {
-    if (messageInput.value === '') return
-    //console.log(messageInput.value)
+    if (messageInput.value === '') return;
+    
     const data ={
         name : nameInput.value,
         message : messageInput.value,
         dateTime : new Date()
-    }
-    socket.emit('message',data)
-    addMessageToUI(true, data)
-    messageInput.value = ''
+    };
+
+    addMessageToUI(true, data);
+    socket.emit('message', data);
+    messageInput.value = '';
 }
 
 socket.on('chat-message', (data) =>{
@@ -46,37 +47,50 @@ socket.on('chat-message', (data) =>{
     addMessageToUI(false, data)
 })
 
+
+function toggleEmojis() {
+    const emojiContainer = document.querySelector('.emoji-container');
+    emojiContainer.classList.toggle('show');
+}
+
+function react(reaction) {
+    console.log(`my reaction ${reaction}`);
+}
+
+
 function addMessageToUI(isOwnMessage, data){
     clearFeedback()
+    const currentTime = moment().format(' HH:mm');
     const element = `
                 <li class="${isOwnMessage ? "message-right" : "message-left"}">
                     <p class="message">
                         ${data.message}
-                        <span> ${data.name} ® ${moment(data.dateTime).fromNow()}</span>
+                        <span>${data.name}  ${currentTime}</span>
                     </p>
                 </li>`
-    
-    messageContainer.innerHTML += element
-    scrollToBottom()
+                document.getElementById('message-container').innerHTML += element;
+                scrollToBottom();
 }
+
+
 
 function scrollToBottom() {
     messageContainer.scrollTo(0, messageContainer.scrollHeight)
 }
 
-messageInput.addEventListener('focus', (e) => {
+messageInput.addEventListener('focus', () => {
     socket.emit('feedback', {
         feedback: `✍ ${nameInput.value} is typing ...`
     })
 })
 
-messageInput.addEventListener('keypress', (e) => {
+messageInput.addEventListener('keypress', () => {
     socket.emit('feedback', {
         feedback: `✍ ${nameInput.value} is typing ...`
     })
 })
 
-messageInput.addEventListener('blur', (e) => {
+messageInput.addEventListener('blur', () => {
     socket.emit('feedback', {
         feedback: ''
     })
@@ -100,20 +114,7 @@ function clearFeedback() {
     })
 }
 
-
-/* -----------------------------------------------
-// Retrieve messages from the server when page loads
-
-
-window.addEventListener('load', () => {
-    socket.emit('request-messages'); // Request messages from the server
+document.addEventListener('DOMContentLoaded', function () {
+    const currentTime = moment().format('HH:mm');
+    document.getElementById('message-time').textContent = currentTime;
 });
-
-// Event listener for receiving messages from the server
-socket.on('server-messages', (messages) => {
-    messages.forEach((message) => {
-        addMessageToUI(message);
-    });
-});
-
--------------------------------------------------------*/
