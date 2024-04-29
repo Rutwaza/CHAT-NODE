@@ -140,7 +140,7 @@
 //     });
 // });
 
-// // Socket.io connection handler
+// // Socket.io connection handler  **************************
 // function onConnected(socket) {
 //     console.log(socket.id);
 //     let socketsConnected = new Set();
@@ -180,7 +180,7 @@
 
 // io.on('connection', onConnected);
 
-// // Function to save message to the database
+// // Function to save message to the database **************************
 // function saveMessageToDatabase(data) {
 //     const { name, message, dateTime } = data;
 //     const query = 'INSERT INTO messages (name, message, dateTime) VALUES (?, ?, ?)';
@@ -193,67 +193,182 @@
 //     });
 // }
 
-
 const express = require('express');
-const bodyParser = require('body-parser'); // Import body-parser
+const session = require('express-session');
+const bodyParser = require('body-parser');
 const app = express();
-const path = require('path'); // Import the path module
+const path = require('path');
+const mysql = require("mysql")
+const cookieParser = require('cookie-parser');
+const socketIO = require('socket.io');
+const sharedSession = require('express-socket.io-session');
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8000;
+const server = app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+const io = socketIO(server);
 
 // Serve your HTML files
 app.use(express.static('public'));
+app.use(cookieParser());
 
 // Parse incoming request bodies
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Configure session middleware
+const sessionMiddleware = session({
+    secret: 'JpV~zQ92F4eK#7$!y@%e&6@8!Dg*m^A',
+    resave: false,
+    saveUninitialized: true
+});
+
+app.use(sessionMiddleware);
+
+// Configure Socket.io to use the same session middleware
+io.use(sharedSession(sessionMiddleware, {
+    autoSave:true
+}));
 
 // Handle root path
 app.get('/', (req, res) => {
-    // You can send a specific HTML file
-    res.sendFile(path.join(__dirname, 'public', 'Home.html'));
+    res.sendFile(path.join(__dirname, 'public', 'Homepage.html'));
 });
 
-// Handle login endpoint
-// app.post('/login', (req, res) => {
-//     // Check user credentials (you need to implement this logic)
-//     const validCredentials = true; // Replace with your actual authentication logic
+// Database connection configuration
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'chat'
+});
 
-//     if (validCredentials) {
-//         // Redirect to the Ghost Line page on successful login
-//         res.redirect('/index.html');
-//     } else {
-//         res.send('Incorrect email or password');
-//     }
-// });
+connection.connect((err) => {
+    if (err) {
+      console.error('Error connecting to database:', err);
+      return;
+    }
+    console.log('Connected to database');
+});
 
-
-// Handle login endpoint
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
 
-    // Check the credentials against a database or any other authentication mechanism
-    if (email === 'example@email.com' && password === 'password') {
-        // Set up a session for the user
-        req.session.userID = 123; // Replace 123 with the actual user ID
+    connection.query('SELECT * FROM users WHERE Email = ?', [email], (err, results) => {
+        if (err) {
+            console.error('Error querying database:', err);
+            res.status(500).send('Error logging in. Please try again later.');
+            return;
+        }
 
-        // Redirect to the index page on successful login
-        res.redirect('/index.html');
-    } else {
-        // Handle incorrect credentials
-        res.send('Incorrect email or password');
-    }
+        if (results.length === 0) {
+            res.status(401).send('Incorrect email or password');
+            return;
+        }
+
+        const user = results[0];
+        if (password === user.PasswordHash) {
+            req.session.userID = user.UserID;
+            req.session.username = user.Username; // Store username in session
+            console.log('User ID:', req.session.userID);
+            console.log('Username:', req.session.username); // Log the username
+                        
+            res.redirect('/index.html');
+        } else {
+            res.status(401).send('Incorrect email or password');
+        }
+    });
 });
-
 
 
 // Handle signup endpoint
 app.post('/signup', (req, res) => {
     console.log('Received signup data:', req.body);
 
-    // Redirect to the login page after successful signup
-    res.redirect('./login.html');
+    const { username, email, gender, password } = req.body;
+
+    const sql = `INSERT INTO users (Username, Email, Gender, PasswordHash, DateAdded) 
+                 VALUES (?, ?, ?, ?, NOW())`;
+    
+    connection.query(sql, [username, email, gender, password], (err, result) => {
+        if (err) {
+            console.error('Error inserting user:', err);
+            res.status(500).send('Error signing up. Please try again later.');
+            return;
+        }
+
+        console.log('User signed up successfully');
+        res.redirect('./login.html');
+    });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+// Socket.io connection handler
+function onConnected(socket) {
+    console.log(socket.id);
+    let socketsConnected = new Set();
+    socketsConnected.add(socket.id);
+    io.emit('active-users', socketsConnected.size);
+
+    connection.query('SELECT * FROM messages', (err, results) => {
+        if (err) {
+            console.error('Error retrieving messages from database:', err);
+            return;
+        }
+        results.forEach(message => {
+            socket.emit('chat-message', message);
+        });
+    });
+
+//if (socket.handshake.session && socket.handshake.session.userID) {
+//       const userID = socket.handshake.session.userID;
+//       const username = socket.handshake.session.username;
+//       socket.emit('user-id', userID);
+//   }
+
+if (socket.handshake.session && socket.handshake.session.userID) {
+    const userID = socket.handshake.session.userID;
+    const username = socket.handshake.session.username;
+    socket.emit('user-info', { userID, username });
+}
+
+    socket.on('disconnect', () => {
+        console.log('socket disconnected', socket.id);
+        socketsConnected.delete(socket.id);
+        io.emit('active-users', socketsConnected.size);
+    });
+
+    socket.on('message', (data) => {
+        saveMessageToDatabase(data);
+        socket.broadcast.emit('chat-message', data);
+    });
+
+    socket.on('feedback', (data) => {
+        socket.broadcast.emit('feedback', data);
+    });
+}
+
+io.on('connection', onConnected);
+
+/// Function to convert JavaScript date to MySQL format
+function toMysqlFormat(date) {
+    return date.toISOString().slice(0, 19).replace('T', ' ');
+}
+
+// Function to save message to the database
+function saveMessageToDatabase(data) {
+    const { name, message, dateTime } = data;
+    const formattedDateTime = toMysqlFormat(new Date(dateTime));
+    const query = 'INSERT INTO messages (name, message, dateTime) VALUES (?, ?, ?)';
+    connection.query(query, [name, message, formattedDateTime], (err, results) => {
+        if (err) {
+            console.error('Error saving message to database:', err);
+            return;
+        }
+        console.log('Message saved to database:', results);
+    });
+}
+
+
+
