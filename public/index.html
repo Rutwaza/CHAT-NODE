@@ -11,11 +11,15 @@
         
         <h1 class="title">Ghost Line</h1>
         <div class="main">
-            <div class="name">
-                <span><i class="far fa-user"></i></span>
-                <input type="text" id="name-input" class="name-input" placeholder="Your Name" maxlength="20">
+            
+            <div class="nameh" style="background-color: #1f1f1f;text-align: center;border-radius: 10px; box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);">
+                <p style="color: #bbb; font-family: 'Courier New', Courier, monospace; font-size: 16px; margin-bottom: 10px;"><span><i class="far fa-user"></i></span><span id="username" style="color: #f5a003; font-weight: bold;margin-left: 5px;"></span></p>
+                <p style="color: #bbb; font-family: 'Courier New', Courier, monospace; font-size: 16px; margin-bottom: 10px;">ID: <span id="user-id" style="color: #f5a003;"></span></p>
+                <h3 id="client-total" class="clients-total" style="color: #bbb; font-family: 'Courier New', Courier, monospace; font-size: 20px; background-color: #f5a003; width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: 45%;">
+                    Total clients
+                </h3>
             </div>
-
+            
             <ul class="message-container" id="message-container">
                 <li class="message-left">
                     <p class="message">
@@ -31,18 +35,17 @@
                     </p>
                 </li>
                 
-                <li class="message-feedback">
-                    <p class="feedback" id="feedback">
-                    </p>
-                </li>
-
             </ul>
 
-            <p style="color:rgb(187, 142, 60)">User ID: <span id="user-id" style="color: rgb(245, 160, 3);"></span></p>
+            <div class="feedb" id="feedb">
+                <li class="message-feedback">
+                    <p class="feedback" id="feedback"></p>
+                </li>
+            </div>
 
 
             <form  class="message-form" id="message-form">
-                <input type="text" id="message-input" class="message-input" name="message">
+                <input type="text" id="message-input" class="message-input" name="message" placeholder="type your message here ">
                 <div class="v-divider"></div>
                 <button type="submit" class="send-button">
                     send <span><i class="fas fa-paper-plane"></i></span>
@@ -51,9 +54,7 @@
 
         </div>
 
-        <h3 id="client-total" class="clients-total">
-            Total clients
-        </h3>
+        
         
         
         <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>

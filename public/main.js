@@ -3,11 +3,17 @@ const socket = io()
 const clientsTotal = document.getElementById('client-total')
 
 const messageContainer = document.getElementById('message-container')
-const nameInput = document.getElementById('name-input')
+
+//const nameInput = document.getElementById('name-input')
+//nameInput.value = document.getElementById('username').innerText;
+
+const username = document.getElementById('username')
 const messageForm = document.getElementById('message-form')
 const messageInput = document.getElementById('message-input')
-
+const feedb = document.getElementById('feedb')
 const messageTone = new Audio('/tone.mp3')
+
+//nameInput.value = document.getElementById('username').innerText;
 
 messageForm.addEventListener('submit', (e) =>{
     e.preventDefault()
@@ -16,15 +22,21 @@ messageForm.addEventListener('submit', (e) =>{
 
 
 socket.on('active-users', (data) => {
-    clientsTotal.textContent = `Total active users: ${data}`;
+    clientsTotal.textContent = `${data}`;
 });
 
 // Listen for user ID from the server
-socket.on('user-id', (userID) => {
-    console.log('Received user ID:', userID);
-    // Now you can use the userID variable as needed in your client-side code
-    // For example, update the UI to display the user ID
-    document.getElementById('user-id').innerText = userID;
+//socket.on('user-id', (userID) => {
+//   console.log('Received user ID:', userID);
+//   document.getElementById('user-id').innerText = userID;
+//});
+
+// Listen for the 'user-info' event emitted by the server
+socket.on('user-info', (userInfo) => {
+    console.log('Received user info:', userInfo);
+    // Do something with the user info, such as updating the UI
+    document.getElementById('user-id').innerText = userInfo.userID;
+    document.getElementById('username').innerText = userInfo.username;
 });
 
 socket.on('email exist', () => {
@@ -39,7 +51,7 @@ function sendMessage() {
     if (messageInput.value === '') return;
     
     const data ={
-        name : nameInput.value,
+        name : document.getElementById('username').innerText,
         message : messageInput.value,
         dateTime : new Date()
     };
@@ -78,13 +90,13 @@ function scrollToBottom() {
 
 messageInput.addEventListener('focus', () => {
     socket.emit('feedback', {
-        feedback: `✍ ${nameInput.value} is typing ...`
+        feedback: `✍ ${document.getElementById('username').innerText} is typing ...`
     })
 })
 
 messageInput.addEventListener('keypress', () => {
     socket.emit('feedback', {
-        feedback: `✍ ${nameInput.value} is typing ...`
+        feedback: `✍ ${document.getElementById('username').innerText} is typing ...` 
     })
 })
 
@@ -103,7 +115,7 @@ socket.on('feedback' , (data) => {
                     </p>
                 </li>`
 
-    messageContainer.innerHTML += element
+    feedb.innerHTML += element
 })
 
 function clearFeedback() {
@@ -118,6 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+/*
 document.addEventListener('DOMContentLoaded', function () {
     const isSignedUp = true; 
 
@@ -127,4 +140,5 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = '/signup.html'; 
     }
 });
+*/
 
