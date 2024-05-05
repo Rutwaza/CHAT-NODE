@@ -61,10 +61,18 @@ function sendMessage() {
     messageInput.value = '';
 }
 
+//changes committed separating messages from database to their collect display mine(right) other(left)
+
 socket.on('chat-message', (data) =>{
     messageTone.play()
-    addMessageToUI(false, data)
+
+    if(data.name == document.getElementById('username').innerText){
+    addMessageToUI(true, data)
+    }else{
+        addMessageToUI(false, data)  
+    }
 })
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
