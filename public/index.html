@@ -3,56 +3,138 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" referrerpolicy="no-referrer" />        <title>Ghost Line</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" referrerpolicy="no-referrer" />   
+        <title>Ghost Line</title>
         <link rel="stylesheet" href="style.css">
         <title>chatting application</title>
     </head>
     <body>
         
         <h1 class="title">Ghost Line</h1>
-        <div class="main">
-            
-            <div class="nameh" style="background-color: #1f1f1f;text-align: center;border-radius: 10px; box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);">
-                <p style="color: #bbb; font-family: 'Courier New', Courier, monospace; font-size: 16px; margin-bottom: 10px;"><span><i class="far fa-user"></i></span><span id="username" style="color: #f5a003; font-weight: bold;margin-left: 5px;"></span></p>
-                <p style="color: #bbb; font-family: 'Courier New', Courier, monospace; font-size: 16px; margin-bottom: 10px;">ID: <span id="user-id" style="color: #f5a003;"></span></p>
-                <h3 id="client-total" class="clients-total" style="color: #bbb; font-family: 'Courier New', Courier, monospace; font-size: 20px; background-color: #f5a003; width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: 45%;">
-                    Total clients
-                </h3>
-            </div>
-            
-            <ul class="message-container" id="message-container">
-                <li class="message-left">
-                    <p class="message">
-                       Hello Rosine
-                       <span id="message-time"></span>
-                    </p>
-                </li>
 
-                <li class="message-right">
-                    <p class="message">
-                        Hello Nelson
-                        <span id="message-time"></span>
-                    </p>
-                </li>
+      <div class="page">
+            <div class="main">
                 
-            </ul>
+                <div class="nameh" style="background-color: #1f1f1f;text-align: center;border-radius: 10px; box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);">
+                    <p style="color: #bbb; font-family: 'Courier New', Courier, monospace; font-size: 16px; margin-bottom: 10px;"><span><i class="far fa-user"></i></span><span id="username" style="color: #f5a003; font-weight: bold;margin-left: 5px;"></span></p>
+                    <p style="color: #bbb; font-family: 'Courier New', Courier, monospace; font-size: 16px; margin-bottom: 10px;">ID: <span id="user-id" style="color: #f5a003;"></span></p>
+                    <h3 id="client-total" class="clients-total" style="color: #bbb; font-family: 'Courier New', Courier, monospace; font-size: 20px; background-color: #f5a003; width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-left: 45%;">
+                        0
+                    </h3>
+                </div>
+                
+                <ul class="message-container" id="message-container">
+                    <li class="message-left">
+                        <p class="message">
+                        Hello Rosine
+                        <span id="message-time"></span>
+                        </p>
+                    </li>
 
-            <div class="feedb" id="feedb">
-                <li class="message-feedback">
-                    <p class="feedback" id="feedback"></p>
-                </li>
+                    <li class="message-right">
+                        <p class="message">
+                            Hello Nelson
+                            <span id="message-time"></span>
+                        </p>
+                    </li>
+                    
+                </ul>
+
+                <div class="feedb" id="feedb">
+                    <li class="message-feedback">
+                        <p class="feedback" id="feedback"></p>
+                    </li>
+                </div>
+
+
+                <form  class="message-form" id="message-form">
+                    <input type="text" id="message-input" class="message-input" name="message" placeholder="type your message here ">
+                    <div class="v-divider"></div>
+                    <button type="submit" class="send-button">
+                        send <span><i class="fas fa-paper-plane"></i></span>
+                    </button>
+                </form>
+    
             </div>
 
-
-            <form  class="message-form" id="message-form">
-                <input type="text" id="message-input" class="message-input" name="message" placeholder="type your message here ">
-                <div class="v-divider"></div>
-                <button type="submit" class="send-button">
-                    send <span><i class="fas fa-paper-plane"></i></span>
-                </button>
-            </form>
-
-        </div>
+            <div class="ginfo">
+                <div class="members">
+                  <div class="gm">
+                       <h3>Group Members</h3>
+                       <div class="input__container">
+                        <div class="shadow__input"></div>
+                        <button class="input__button__shadow">
+                          <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" height="20px" width="20px">
+                            <path d="M4 9a5 5 0 1110 0A5 5 0 014 9zm5-7a7 7 0 104.2 12.6.999.999 0 00.093.107l3 3a1 1 0 001.414-1.414l-3-3a.999.999 0 00-.107-.093A7 7 0 009 2z" fill-rule="evenodd" fill="#17202A"></path>
+                          </svg>
+                        </button>
+                        <input type="text" name="text" class="input__search" placeholder="Enter username to search !">
+                       </div>
+                  </div>
+                    <ul id="memberp">
+                    <li><p style="color: #414141;">username</p></li>  
+                    <li style="color: #414141;"><p style="color: #414141;">username</p></li>  
+                    </ul>
+                </div>
+                                
+                <div class="actions">
+                    <h3>Considerable Actions</h3>
+                    <ul>
+                        <li><button>Leave Group</button></li>
+                        <li><button>Report Issue</button></li>
+                        <li><button>Red Alert</button></li>                        <!-- Add more list items as needed -->
+                    </ul>
+                </div>
+                <div class="notifications-container">
+                    <h3 id="anounc">Anouncements</h3>
+                    <div class="alert">
+                      <div class="flex">
+                        <div class="flex-shrink-0">
+                          <svg aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 alert-svg">
+                            <path clip-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" fill-rule="evenodd"></path>
+                          </svg>
+                        </div>
+                        <div class="alert-prompt-wrap">
+                          <p class="text-sm text-yellow-700">
+                            To all users we have a meeting saturday location 'Mike Hotel 253' start time 1200 end time 1700 . <br> anounced by --> 
+                            <a class="alert-prompt-link" href="#">xman</a>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="alert">
+                        <div class="flex">
+                          <div class="flex-shrink-0">
+                            <svg aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 alert-svg">
+                              <path clip-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" fill-rule="evenodd"></path>
+                            </svg>
+                          </div>
+                          <div class="alert-prompt-wrap">
+                            <p class="text-sm text-yellow-700">
+                              To all users we have a meeting saturday location 'Mike Hotel 253' start time 1200 end time 1700 <br> anounced by -->
+                              <a class="alert-prompt-link" href="#">xman</a>
+                            </p>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="alert">
+                        <div class="flex">
+                          <div class="flex-shrink-0">
+                            <svg aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 alert-svg">
+                              <path clip-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" fill-rule="evenodd"></path>
+                            </svg>
+                          </div>
+                          <div class="alert-prompt-wrap">
+                            <p class="text-sm text-yellow-700">
+                              To all users we have a meeting saturday location 'Mike Hotel 253' start time 1200 end time 1700 <br> anounced by -->
+                              <a class="alert-prompt-link" href="#">xman</a>
+                            </p>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      </div>
 
         
         

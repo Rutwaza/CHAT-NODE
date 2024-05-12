@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Successful</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .main{
+            background-image: url("str.gif");
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            align-items: center;
+            justify-content: center;
+            height: 99vh;
+            width:80%;
+            margin: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            border-color:2px solid green;
+            margin: auto;
+            border: 2px solid blue;
+        }
+        .success-container {
+            text-align: center;
+            color: black;
+            background-color: #ccc;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 60%;
+            margin: auto;
+            margin-top: 30px;
+        }
+        h1 {
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        .login-btn {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+        .login-btn:hover {
+            background-color: #0056b3;
+        }
+        .glitch {
+        position: relative;
+        font-size: 25px;
+        font-weight: 700;
+        line-height: 1.2;
+        color: #fff;
+        letter-spacing: 5px;
+        z-index: 1;
+        animation: shift 1s ease-in-out infinite alternate;
+        }
+
+        .glitch:before,
+        .glitch:after {
+        display: block;
+        content: attr(data-glitch);
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0.8;
+        }
+
+        .glitch:before {
+        animation: glitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+        color: #8b00ff;
+        z-index: -1;
+        }
+
+        .glitch:after {
+        animation: glitch 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+        color: #00e571;
+        z-index: -2;
+        }
+
+        @keyframes glitch {
+        0% {
+            transform: translate(0);
+        }
+
+        20% {
+            transform: translate(-3px, 3px);
+        }
+
+        40% {
+            transform: translate(-3px, -3px);
+        }
+
+        60% {
+            transform: translate(3px, 3px);
+        }
+
+        80% {
+            transform: translate(3px, -3px);
+        }
+
+        to {
+            transform: translate(0);
+        }
+        }
+
+        @keyframes shift {
+        0%, 40%, 44%, 58%, 61%, 65%, 69%, 73%, 100% {
+            transform: skewX(0deg);
+        }
+
+        41% {
+            transform: skewX(10deg);
+        }
+
+        42% {
+            transform: skewX(-10deg);
+        }
+
+        59% {
+            transform: skewX(40deg) skewY(10deg);
+        }
+
+        60% {
+            transform: skewX(-40deg) skewY(-10deg);
+        }
+
+        63% {
+            transform: skewX(10deg) skewY(-5deg);
+        }
+
+        70% {
+            transform: skewX(-50deg) skewY(-20deg);
+        }
+
+        71% {
+            transform: skewX(10deg) skewY(-10deg);
+        }
+        }
+        .load{
+            width: 30%;
+            margin: auto;
+            height: 20px;
+            margin-top: 140px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="load">
+            <div class="loader">
+                <div data-glitch="...Loading..." class="glitch">...Loading...</div>
+            </div>
+        </div>
+
+        <div class="success-container">
+            <h1>Registration Successful</h1>
+            <p>Your account has been successfully registered.</p>
+            <p>You will be redirected to the login page in <span id="countdown">10</span> seconds...</p>
+            
+            <a href="./login.html" class="login-btn">Go to Login Now</a>
+        </div>
+    </div>
+    
+</body>
+<script>
+    var countdown = 10; // Initial countdown value in seconds
+
+    // Function to update the countdown value and redirect after countdown reaches 0
+    function updateCountdown() {
+        document.getElementById('countdown').textContent = countdown;
+        countdown--;
+
+        if (countdown < 0) {
+            // Redirect to the login page after countdown reaches 0
+            window.location.href = "./login.html";
+        } else {
+            setTimeout(updateCountdown, 1000); // Update countdown every second (1000 milliseconds)
+        }
+    }
+
+    // Start the countdown
+    updateCountdown();
+</script>
+</html>

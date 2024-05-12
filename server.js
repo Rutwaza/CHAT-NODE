@@ -237,6 +237,10 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'Homepage.html'));
 });
 
+app.get('/onemess', (req, res) => {
+    res.sendFile(path.join(__dirname, 'onemess.html'));
+});
+
 // Database connection configuration
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -258,14 +262,15 @@ app.post('/login', (req, res) => {
 
     connection.query('SELECT * FROM users WHERE Email = ?', [email], (err, results) => {
         if (err) {
-            console.error('Error querying database:', err);
-            res.status(500).send('Error logging in. Please try again later.');
-            return;
+            //console.error('Error querying database:', err);
+            //res.status(500).send('Error logging in. Please try again later.');
+            return res.status(500).sendFile(path.join(__dirname, '/public/error_db.html'));
+
         }
 
         if (results.length === 0) {
-            res.status(401).send('Incorrect email or password');
-            return;
+            //res.status(401).send('Incorrect email or password test_again');
+            return res.status(500).sendFile(path.join(__dirname, '/public/error.html'));
         }
 
         const user = results[0];
@@ -277,7 +282,7 @@ app.post('/login', (req, res) => {
                         
             res.redirect('/index.html');
         } else {
-            res.status(401).send('Incorrect email or password');
+            res.status(500).sendFile(path.join(__dirname, '/public/error.html'));
         }
     });
 });
@@ -295,14 +300,37 @@ app.post('/signup', (req, res) => {
     connection.query(sql, [username, email, gender, password], (err, result) => {
         if (err) {
             console.error('Error inserting user:', err);
-            res.status(500).send('Error signing up. Please try again later.');
-            return;
+            // Redirect to the error page
+            //res.status(500).send('Error signing up. Please try again later.');
+            //res.status(500).sendFile(path.join(__dirname, '/public/error_db.html'));
+            //return res.status(500).sendFile(path.join(__dirname, '/public/error_db.html'));
+            return res.redirect('./error_db.html');
         }
 
         console.log('User signed up successfully');
-        res.redirect('./login.html');
+        // Redirect to the success page
+        res.redirect('./success.html');
     });
 });
+
+             
+/////////////////////////////--------------///////////////////////////
+// Store the active socket connections
+const activeSockets = {};
+
+io.use((socket, next) => {
+  // Retrieve the userID from the session
+  const userID = socket.handshake.session.userID;
+  if (!userID) {
+    return next(new Error('User not authenticated'));
+  }
+  
+  // Associate the socket with the user ID
+  activeSockets[userID] = socket;
+  console.log(`User ${userID} authenticated`);
+  return next();
+});
+///////////////////////////////-------------////////////////////////////
 
 // Socket.io connection handler
 function onConnected(socket) {
@@ -310,6 +338,13 @@ function onConnected(socket) {
     let socketsConnected = new Set();
     socketsConnected.add(socket.id);
     io.emit('active-users', socketsConnected.size);
+
+    /*
+    / Add the socket to the userSockets map when a user connects
+    socket.on('user-connect', (userID) => {
+        userSockets[userID] = socket;
+    });
+    */
 
     connection.query('SELECT * FROM messages', (err, results) => {
         if (err) {
@@ -321,17 +356,62 @@ function onConnected(socket) {
         });
     });
 
-//if (socket.handshake.session && socket.handshake.session.userID) {
-//       const userID = socket.handshake.session.userID;
-//       const username = socket.handshake.session.username;
-//       socket.emit('user-id', userID);
-//   }
+    ///////////////////////////////////////////////////////////////////////
+        /* Fetch all unique names from the 'messages' table
+    connection.query('SELECT DISTINCT name FROM messages', (err, results) => {
+        if (err) {
+            console.error('Error retrieving names from database:', err);
+            return;
+        }
 
-if (socket.handshake.session && socket.handshake.session.userID) {
-    const userID = socket.handshake.session.userID;
-    const username = socket.handshake.session.username;
-    socket.emit('user-info', { userID, username });
-}
+        // Iterate through the results and add each name to the members div
+        results.forEach(name => {
+            console.log(name);
+            socket.emit('members',name)
+        });
+    }); */
+    ////////////////////////----testing -------///////////////////////////////
+    connection.query('SELECT DISTINCT name FROM messages', (err, results) => {
+        if (err) {
+            console.error('Error retrieving names from database:', err);
+            return;
+        }
+
+        // Collect all names into an array
+        const names = results.map(result => result.name);
+
+        // Query to retrieve IDs for all names in the array
+        connection.query('SELECT UserID, Username FROM users WHERE Username IN (?)', [names], (err, userResults) => {
+            if (err) {
+                console.error('Error retrieving IDs for names:', err);
+                return;
+            }
+        
+            // Emit userResults directly to the client
+            socket.emit('all-members', userResults);
+        });
+        
+    });
+
+    /////////////////////////////////////////////////////////////////////////
+        // Emit all users to the client
+    connection.query('SELECT UserID, Username FROM users', (err, userResults) => {
+        if (err) {
+            console.error('Error retrieving users from database:', err);
+            return;
+        }
+        // Emit userResults directly to the client
+        socket.emit('all-users', userResults);
+    });
+
+    /////////////////////////////////////////////////////////////////////////
+
+    if (socket.handshake.session && socket.handshake.session.userID) {
+        const userID = socket.handshake.session.userID;
+        const username = socket.handshake.session.username;
+        socket.emit('user-info', { userID, username });
+
+    }
 
     socket.on('disconnect', () => {
         console.log('socket disconnected', socket.id);
@@ -347,6 +427,22 @@ if (socket.handshake.session && socket.handshake.session.userID) {
     socket.on('feedback', (data) => {
         socket.broadcast.emit('feedback', data);
     });
+
+
+    ////////>>>>>>>>>>>>>>>>>>>>>handleling private messages<<<<<<<<<<<<<<<<<<<///////////
+    // Handle private messages
+        socket.on('private-message', (data) => {
+            const { recipientID, message} = data;
+            console.log(data);
+            const senderID = socket.handshake.session.userID;
+
+            if (activeSockets[recipientID]) {
+                activeSockets[recipientID].emit('private-message', { sender: senderID, message });
+                socket.emit('private-message', { sender: senderID, message });
+            } else {
+                socket.emit('private-message-error', { error: `Recipient ${recipientID} is not available` });
+            }
+        });
 }
 
 io.on('connection', onConnected);

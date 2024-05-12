@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Private Chat</title>
+    <style>
+        body{
+            background-color: rgb(0, 0, 0);
+        }
+        h1{
+            margin: auto;
+            color: #ccc;
+        }
+        #chat-box {
+        background-color: rgba(0, 0, 0, 0.39);
+        color: lime;
+        padding: 10px;
+        width: 90%;
+        height: 450px;
+        margin: auto;
+        border-radius: 10px;
+        overflow-y: scroll;
+        font-family: 'Courier New', Courier, monospace;
+        padding-top: 5px;
+    }
+
+    .mine-message {
+        background-color: #000;
+        margin-left: 50%;
+        border-radius: 10px;
+        padding: 4px;
+    }
+
+    .other-message {
+        text-align: left;
+        background-color: #000;
+        margin-right: 50%;
+        border-radius: 10px;
+        padding: 4px;
+    }
+
+    .main{
+        background-color: rgb(34, 34, 34);
+        width: 95%;
+        margin: auto;
+        align-items: center;
+        margin-top: 5px;
+        padding: 5px;
+        border-radius: 10px;
+    }
+    .messageBox {
+        width: fit-content;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #2d2d2d;
+        padding: 0 15px;
+        border-radius: 14px;
+        border: 1px solid rgb(63, 63, 63);
+        margin-left: 8px;
+        }
+        .messageBox:focus-within {
+        border: 2px solid rgba(0, 255, 115, 0.692);
+        }
+        .fileUploadWrapper {
+        width: fit-content;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: Play;
+        }
+
+        #file {
+        display: none;
+        }
+        .fileUploadWrapper label {
+        cursor: pointer;
+        width: fit-content;
+        height: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        }
+        .fileUploadWrapper label svg {
+        height: 20px;
+        }
+        .fileUploadWrapper label svg path {
+        -webkit-transition: all 0.3s ease-out;
+        -moz-transition: all 0.3s ease-out;
+        -o-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out;
+        }
+        .fileUploadWrapper label svg circle {
+        -webkit-transition: all 0.3s ease-out;
+        -moz-transition: all 0.3s ease-out;
+        -o-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out;
+        }
+        .fileUploadWrapper label:hover svg path {
+        stroke: #fff;
+        }
+        .fileUploadWrapper label:hover svg circle {
+        stroke: #fff;
+        fill: #3c3c3c;
+        }
+        .fileUploadWrapper label:hover .tooltip {
+        display: block;
+        opacity: 1;
+        }
+        .tooltip {
+        position: absolute;
+        top: -40px;
+        display: none;
+        opacity: 0;
+        color: white;
+        font-size: 12px;
+        text-wrap: nowrap;
+        background-color: #000;
+        padding: 6px 10px;
+        border: 1px solid #3600b4;
+        border-radius: 8px;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.596);
+        -webkit-transition: all 0.3s ease-out;
+        -moz-transition: all 0.3s ease-out;
+        -o-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out;
+        }
+        #message-input {
+        width: 400px;
+        height: 100%;
+        background-color: transparent;
+        outline: none;
+        border: none;
+        padding-left: 12px;
+        color: white;
+        font-family: Play;
+        font-size: 16px;
+        }
+        #messageInput:focus ~ #send-button svg path,
+        #messageInput:valid ~ #send-button svg path {
+        fill: #3c3c3c;
+        stroke: #00ff6a;
+        }
+
+        #send-button {
+        width: fit-content;
+        height: 100%;
+        background-color: transparent;
+        outline: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        -webkit-transition: all 0.3s ease-out;
+        -moz-transition: all 0.3s ease-out;
+        -o-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out;
+        }
+        #send-button svg {
+        height: 20px;
+        -webkit-transition: all 0.3s ease-out;
+        -moz-transition: all 0.3s ease-out;
+        -o-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out;
+        }
+        #send-button svg path {
+        -webkit-transition: all 0.3s ease-out;
+        -moz-transition: all 0.3s ease-out;
+        -o-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out;
+        }
+        #send-button:hover svg path {
+        fill: #3c3c3c;
+        stroke: #00ff6a;
+        }
+
+        .private {
+        background-color: rgb(31, 27, 27);
+        color: rgb(139, 199, 0);
+        font-family: monospace;
+        width: 95%;
+        margin: auto;
+        text-align: center;
+        border-radius: 10px;
+        }
+
+        .private h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .private p {
+            font-size: 16px;
+            margin-bottom: 0;
+        }
+
+        .private #user {
+            font-weight: bold;
+        }
+        .user-list{
+            background-color: #2d2d2d;
+            width: 95%;
+            height: 200px;
+            overflow-y: scroll;
+            border-radius: 10px;
+            margin: auto;
+            height: 595px;
+        }
+        /* Style for user item container */
+        .user-item {
+            margin-bottom: 10px;
+        }
+
+        /* Style for user buttons */
+        .user-item button {
+            padding: 10px;
+            border: none;
+            background-color:   #0b610b9c  ;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100px;
+        }
+        .user-item button:hover{
+          background-color: #0b610b;
+          border: 2px solid  #9ffa0391 ;
+        }
+        .prof{
+          background-color: #3600b4;
+        }
+
+        /* Style for user ID label */
+        .user-id {
+            margin-left: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .page{
+          display: flex;
+          margin: auto;
+          background-color:   #000000  ;
+          width: 60%;
+          border-radius: 10px;
+        }
+        .chatroom{
+          background-color:  #060629 ;
+          width: 70%;
+          border-radius: 10px;
+
+        }
+        .dealers{
+          background-color:  #060629 ;
+          width: 35%;
+          text-align: center;
+          border-radius: 10px;
+        }
+        /* Style for profile link */
+        .profile-link {
+            margin-left: 10px;
+            font-size: 14px;
+            color: #007bff; /* Blue color */
+            text-decoration: none;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .profile-link:hover {
+            color: #0056b3; /* Darker blue color on hover */
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+  <div class="page">
+      <div class="chatroom">
+        <div class="private">
+          <h1>Private Chat</h1>
+          <p>with <span id="user">id</span></p>
+        </div>
+        <div class="main">
+            <div id="chat-box">
+                <p class="mine-message"> [id]: hii there</p>
+                <p class="other-message">[id]: yes dude</p>
+            </div>
+            <div class="messageBox">
+                <div class="fileUploadWrapper">
+                  <label for="file">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 337 337">
+                      <circle
+                        stroke-width="20"
+                        stroke="#6c6c6c"
+                        fill="none"
+                        r="158.5"
+                        cy="168.5"
+                        cx="168.5"
+                      ></circle>
+                      <path
+                        stroke-linecap="round"
+                        stroke-width="25"
+                        stroke="#6c6c6c"
+                        d="M167.759 79V259"
+                      ></path>
+                      <path
+                        stroke-linecap="round"
+                        stroke-width="25"
+                        stroke="#6c6c6c"
+                        d="M79 167.138H259"
+                      ></path>
+                    </svg>
+                    <span class="tooltip">Add an image</span>
+                  </label>
+                  <input type="file" id="file" name="file" />
+                </div>
+                <input
+                  required=""
+                  placeholder="Write here..."
+                  type="text"
+                  id="message-input"
+                />
+                <button id="send-button">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 664 663">
+                    <path
+                      fill="none"
+                      d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888"
+                    ></path>
+                    <path
+                      stroke-linejoin="round"
+                      stroke-linecap="round"
+                      stroke-width="33.67"
+                      stroke="#6c6c6c"
+                      d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888"
+                    ></path>
+                  </svg>
+                </button>
+            </div>
+        </div>
+      </div> 
+
+      <div class="dealers">
+        <div class="user-list" id="user-list">
+          <h3>Dealers</h3>
+          <!-- <button id="c-user">username <span id="c-id">5</span></button> <br>-->
+        </div>
+      </div>
+ </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
+
+    <script>
+        // Connect to the server
+        const socket = io.connect('http://localhost:8000');
+
+        // Listen for incoming private messages
+        socket.on('private-message', (data) => {
+            const { sender, message } = data;
+            const chatBox = document.getElementById('chat-box');
+            const newMessage = document.createElement('p');
+            const urlParams = new URLSearchParams(window.location.search);
+            const recipientID = urlParams.get('userId');
+            if(sender == recipientID){
+                newMessage.className = "other-message";
+                newMessage.textContent = `[${sender}]: ${message}`;
+            }else{
+                newMessage.className = "mine-message";
+                newMessage.textContent = `[You]: ${message}`;
+           }
+            
+            //newMessage.textContent = `[from ${sender}]: ${message}`;
+            chatBox.appendChild(newMessage);
+        });
+
+        // Parse the URL to get the userId parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const recipientID = urlParams.get('userId');
+        document.getElementById('user').innerHTML =recipientID;
+        console.log(recipientID);
+
+        // Send a private message
+        document.getElementById('send-button').addEventListener('click', () => {
+            const message = document.getElementById('message-input').value;
+            // Emit the private message along with the recipient ID
+            socket.emit('private-message', { recipientID, message });
+            document.getElementById('message-input').value = '';
+        });
+
+        // Listen for all users from the server
+        socket.on('all-users', (users) => {
+            // Assuming you have a container in your HTML with id 'user-list'
+            const userListContainer = document.getElementById('user-list');
+
+            // Clear existing user list
+            //userListContainer.innerHTML = '';
+
+            // Iterate over each user and create a button for them
+            users.forEach(user => {
+                // Create container for user item
+                const container = document.createElement('div');
+                container.classList.add('user-item');
+
+                // Create button for user
+                const button = document.createElement('button');
+                button.textContent = user.Username;
+                
+                // Add click event listener to redirect to new page with user ID
+                button.addEventListener('click', () => {
+                    // Redirect to new page with user ID in the URL
+                    window.location.href = `onemess.html?userId=${user.UserID}`;
+                });
+
+                // Create label for user ID
+                const label = document.createElement('span');
+                label.textContent = `ID: ${user.UserID}`;
+                label.classList.add('user-id');
+
+                // Create profile link
+                const profileLink = document.createElement('a');
+                profileLink.textContent = 'View Profile';
+                profileLink.href = `profile.html?userId=${user.UserID}`;
+                profileLink.classList.add('profile-link');
+
+                // Append elements to container
+                container.appendChild(button);
+                container.appendChild(label);
+                container.appendChild(profileLink);
+
+                // Append container to user list container
+                userListContainer.appendChild(container);
+            });
+        });
+
+    </script>
+</body>
+</html>

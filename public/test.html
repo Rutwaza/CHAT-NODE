@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker Chat Room</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chat-container {
+            display: flex;
+            height: 99vh;
+            border-radius: 10px;
+            
+        }
+
+        .chat-sidebar {
+            flex: 1;
+            padding: 20px;
+            background-color: #111;
+            overflow-y: auto;
+            border-right: 2px solid #0d6300;
+            border-radius: 10px;
+        }
+
+        .chat-main {
+            flex: 4;
+            padding: 20px;
+            background-color: #000;
+            overflow-y: auto;
+        }
+        
+
+        .chat-message {
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #00ff00; /* Green border */
+            display: flex;
+            flex-direction: column;
+            max-width: 70%; /* Adjust the max-width based on your design */
+        }
+
+        .user-message {
+            color: #00ff00;
+        }
+
+        .other-message {
+            color: #ff0000;
+        }
+
+        .input-container {
+            display: flex;
+            margin-top: 260px;
+        }
+
+        input[type="text"] {
+            flex: 3;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #111;
+            color:whitesmoke;
+        }
+
+        button {
+            flex: 1;
+            padding-left: 5px;
+            margin-left:1%;
+            border: none;
+            border-radius: 5px;
+            background-color: #111;
+            color: #0d00ff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0d6300;
+        }
+
+        /* Style for one-to-one chat */
+        .one-to-one-chat {
+            background-color: #111;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .groups{
+            display: flex;
+        }
+        .group1{
+            width: 500px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #111;
+            display: flex;
+            flex-direction: column-reverse; /* Reverse the order of messages */
+            max-height: 515px; /* Adjust the max height as needed */
+            overflow-y: scroll;
+            scrollbar-width:thin;
+            
+        }
+        .group1::-webkit-scrollbar {
+    width: 0.4em; /* Width of the scrollbar */
+}
+
+        .group1::-webkit-scrollbar-track {
+                    background-color:#111; /* Set the color of the scrollbar track */
+                }
+
+        .group1::-webkit-scrollbar-thumb {
+                    background-color: #3e3e3e; /* Set the color of the scrollbar thumb */
+                    border-radius: 2em;
+                }
+.group2{
+            width: 500px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #111;
+            display: flex;
+            flex-direction: column-reverse; /* Reverse the order of messages */
+            max-height: 515px; /* Adjust the max height as needed */
+            overflow-y: scroll;
+            scrollbar-width:thin;
+            
+        }
+        .group2::-webkit-scrollbar {
+    width: 0.4em; /* Width of the scrollbar */
+}
+        .group2::-webkit-scrollbar-track{
+            background-color:#111;
+        }
+        .group2::-webkit-scrollbar-thumb{
+            background-color: #3e3e3e;
+            border-radius: 2em;
+        }
+        
+        .group1 i{
+            margin-left: 60%;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        .group2 i{
+            margin-left: 60%;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        .group2{
+            width: 500px;
+            padding: 20px;
+            border-radius: 10px;
+            margin-left: 1%;
+            height: 570px;
+            background-color: #111;
+        }
+        .chat-message a {
+        color: #00ff00;
+        text-decoration: none;
+        transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+.chat-message a:hover {
+    color: #ff0000; /* Red color on hover */
+}
+
+.chat-message {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #344231; /* Green border */
+}
+
+.chat-message.user-message {
+    background-color: #111; /* Dark background for user messages */
+    color: #00ff00;
+    align-self: flex-end; /* Align user messages to the right */
+    margin-left: 50%;
+}
+
+.chat-message.other-message {
+    background-color: #000; /* Dark background for other messages */
+    color: #00ff00;
+    align-self: flex-start; /* Align other messages to the left */
+    margin-right: 50%;
+}
+
+h2 {
+    color: #00ff00;
+    border-bottom: 1px solid #ff0062; /* Green border under the heading */
+    padding-bottom: 10px;
+}
+.message-content {
+    padding: 10px;
+    word-wrap: break-word; /* Ensure long words don't overflow */
+}
+
+/* Special styling for specific links */
+.chat-message.user-message1 a[href="profile"] {
+    color: #ff00ff; /* Pink color for the "Profile" link */
+}
+.chat-message.user-message1 a[href="profile"]:hover{
+    background-color: #000;
+}
+
+.chat-message.other-message1 a[href="settings"] {
+    color: #00ffff; /* Cyan color for the "Settings" link */
+}
+.chat-message.other-message1 a[href="settings"]:hover{
+    background-color: #000;
+}
+
+.chat-message.user-message1 a[href="find friend"] {
+    color: #ff9900; /* Orange color for the "Find Friend" link */
+}
+.chat-message.user-message1 a[href="find friend"]:hover{
+    background-color: #000;
+}
+
+.chat-message.other-message1 a[href="notifications"] {
+    color: #ffff00; /* Yellow color for the "Notifications" link */
+}
+.chat-message.other-message1 a[href="notifications"]:hover{
+    background-color: #000;
+}
+
+.chat-message.other-message1 a[href="confidential"] {
+    color: #9900ff; /* Purple color for the "Confidential" link */
+}
+.chat-message.other-message1 a[href="confidential"]:hover{
+    background-color: #000;
+}
+
+.chat-message.other-message1 a[href="marketplace"] {
+    color: #ff6600; /* Dark orange color for the "Market Place" link */
+}
+.chat-message.other-message1 a[href="marketplace"]:hover{
+    background-color: #000;
+}
+.ghead{
+    position: fixed;
+    background-color:#000000;
+    width: 400px;
+    height: 50px;
+    border-radius: 10px;
+    margin-left: 1%;
+    padding: 10px;
+    border-bottom: 1px solid #00ff00;
+    justify-content: space-between;
+    display: flex;
+}
+.ghead2{
+    position: fixed;
+    background-color:#000000;
+    width: 400px;
+    height: 50px;
+    border-radius: 10px;
+    margin-left: 38.5%;
+    padding: 10px;
+    border-bottom: 1px solid #00ff00;
+    justify-content: space-between;
+    display: flex;
+}
+.ghead i{
+    margin-left: 60%;
+    cursor: pointer;
+}
+.ghead h3 {
+    color: #9900ff;
+    text-shadow: 1px 1px rgba(255, 0, 0, 0.5);
+    margin-bottom: 10px;
+}
+
+.ghead2 i{
+    margin-left: 60%;
+    cursor: pointer;
+}
+.ghead2 h3{
+    color: #9900ff;
+    text-shadow:1px 1px rgba(red, green, blue, alpha);
+    margin-bottom: 3px;
+    font-size: 1.2em;
+}
+.l-chat{
+    display: flex;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+  background-color: #000000;;
+  width: 50vh;
+  height: 78px;
+  border-radius: 10px;
+  align-items: center;
+  z-index: 1;
+}
+.dropdown i{
+            margin-right: 10%;
+            margin-top: 15px;
+            font-size: 2em;
+        }
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #6cff9b;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 10px;
+
+}
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #34c531;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.heading{
+    display: flex;
+}
+.h{
+    background-color: #000000;;
+    width: 2000px;
+}
+
+.dropdown2 {
+    position: relative;
+    display: inline-block;
+    align-items: center;
+    width: 30px;
+    margin-left: 1%;
+    z-index: 1;
+    
+}
+.dropdown2 i{
+font-size: 1.5em;  
+margin-left: 10%;  
+margin-top: 50%;
+color: #9900ff;
+}
+
+.dropdown-content2 {
+  display: none;
+  position: absolute;
+  background-color: #6cff9b;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 10px;
+}
+
+.dropdown-content2 a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+.dropdown-content2 a:hover {background-color: #34c531;}
+
+.dropdown2:hover .dropdown-content2 {
+    display: block;
+}
+
+#dropdown-icon {
+    margin-right: 10px;
+    font-size: 2em;
+    cursor: pointer;
+    color: #9900ff; /* Color of the three-dot icon */
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-sidebar">
+            <h2>Options</h2>
+            <div class="chat-message user-message1"><a href="profile">Profile</a></div>
+            <div class="chat-message other-message1"><a href="settings">settings</a></div>
+            <div class="chat-message user-message1"><a href="find friend">Find Friend</a></div>
+            <div class="chat-message other-message1"><a href="notifications">Notifications</a></div>
+            <div class="chat-message other-message1"><a href="confidential">Confidential</a></div>
+            <div class="chat-message other-message1"><a href="marketplace">Market Place</a></div>
+        </div>
+
+        <div class="chat-main">
+            <div class="heading">
+                <div class="h"><h></h><h2>Group Chat </i></h2></div>
+                <div class="dropdown">
+                    <i class='bx bxs-plus-circle'></i>
+                    <div class="dropdown-content">
+                        <a href="#">Create group</a>
+                        <a href="#">Join a group</a>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="groups">
+                <div class="ghead">
+                    <div class="title">
+                    <h3>Group Name</h3>
+                    </div>
+                    <div class="dropdown2">
+                    <i class='bx bx-dots-horizontal-rounded'></i>
+                    <div class="dropdown-content2">
+                        <a href="#">Leave Group</a>
+                        <a href="#">Group Info</a>
+                        <a href="#">Contact Admin</a>
+                    </div>
+                    </div>
+                </div>
+                
+                <div class="group1">
+                    
+                     <div>
+                    <div class="chat-message other-message">HackerBot: I'm always here. Ready to chat.</div>
+                    <div class="chat-message user-message">User2: Anyone here?</div>
+                    <div class="chat-message other-message">HackerBot: Not much, just hacking away.</div>
+                    <div class="chat-message user-message">User1: Hey, what's up?</div>
+                    <div class="chat-message user-message">User1: Hey, what's up?</div>
+                    <div class="chat-message user-message">User1: Hey, what's up?</div>
+                    <div class="chat-message user-message">User1: Hey, what's up?</div>
+                    <div class="chat-message user-message">User1: Hey, what's up?</div>
+                    <div class="chat-message other-message">HackerBot: Not much, just hacking away.</div>
+                    <div class="chat-message other-message">HackerBot: Not much, just hacking away.</div>
+
+                    <div class="input-container">
+                        <input type="text" placeholder="Type your message...">
+                        <button><i class='bx bxs-send'></i></button>
+                    </div>
+                    </div>
+                      
+                </div>  
+                <div class="ghead2">
+                    <div class="title">
+                    <h3>Group Name</h3>
+                    </div>
+                    <div class="dropdown2">
+                    <i class='bx bx-dots-horizontal-rounded'></i>
+                    <div class="dropdown-content2">
+                        <a href="#">Leave Group</a>
+                        <a href="#">Group Info</a>
+                        <a href="#">Contact Admin</a>
+                    </div>
+                    </div>
+                </div>
+                <div class="group2">
+                    <div>
+                    <div class="ghead">
+                        <h3>Group Name <i class='bx bx-dots-horizontal-rounded'></i></h3>
+                    </div> 
+                     
+                    <div class="chat-message other-message">HackerBot: I'm always here. Ready to chat.</div>
+                    <div class="chat-message user-message">User2: Anyone here?</div>
+                    <div class="chat-message other-message">HackerBot: Not much, just hacking away.</div>
+                    <div class="chat-message user-message">User1: Hey, what's up?</div>
+                    <div class="chat-message user-message">User1: Hey, what's up?</div>
+                    <div class="chat-message user-message">User1: Hey, what's up?</div>
+                    <div class="chat-message user-message">User1: Hey, what's up?</div>
+                    <div class="chat-message user-message">User1: Hey, what's up?</div>
+                    <div class="chat-message other-message">HackerBot: Not much, just hacking away.</div>
+                    <div class="input-container">
+                        <input type="text" placeholder="Type your message...">
+                        <button><i class='bx bxs-send'></i></button>
+                    </div>
+                    </div>
+                    
+                      
+                </div>
+                
+            </div>
+            
+        </div>
+    </div>
+
+</body>
+</html>

@@ -61,8 +61,6 @@ function sendMessage() {
     messageInput.value = '';
 }
 
-//changes committed separating messages from database to their collect display mine(right) other(left)
-
 socket.on('chat-message', (data) =>{
     messageTone.play()
 
@@ -72,7 +70,66 @@ socket.on('chat-message', (data) =>{
         addMessageToUI(false, data)  
     }
 })
-//////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/* //////////////////////////////////////////////////////////////
+
+socket.on('members',(data)=>{
+    membersui(data);
+})
+
+function membersui(data){
+    const element = `
+                <li>
+                    <p>
+                        ${data.name}
+                    </p>
+                    <button id="inb" class="inbox-btn" data-userid="${data.id}">Inbox</button>
+                </li>`
+                document.getElementById('memberp').innerHTML += element;
+                
+}
+*/
+/////////////////////////////////////////////////////////////
+socket.on('all-members', (userResults) => {
+    // Assuming you want to display the user data in the console
+    console.log('All Members:');
+    console.log(userResults);
+    // Alternatively, you can process and display the user data in the UI
+    userResults.forEach(user => {
+        // Display each user's UserID and Username
+        console.log(`UserID: ${user.UserID}, Username: ${user.Username}`);
+        membersui(user);
+
+        // You can also update the UI with this data if needed
+    });
+});
+
+function membersui(user){
+    const element = `
+                <li>
+                    <p>
+                        ${user.Username}
+                    </p>
+                    <button id="inb" class="inbox-btn" data-userid="${user.UserID}">Inbox</button>
+                </li>`
+                document.getElementById('memberp').innerHTML += element;
+                
+}
+
+//////////////////////////////////////////////////////////////
+
+   //making username button redirect to private chat
+   // Event listener for the "Inbox" button
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('inbox-btn')) {
+        const userId = event.target.dataset.userid;
+        // Redirect the user to the onemess.html page while preserving the session
+        window.location.href = `http://localhost:8000/onemess.html?userId=${userId}`;
+    }
+});
+
+////////////////////////////////////////////////////////////////
 
 
 

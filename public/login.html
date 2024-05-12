@@ -9,30 +9,30 @@
             align-items:center;
         }
         .main{
-            background-image: url("/xampp/htdocs/Ghost.js/public/str.gif");
+            background-image: url("str.gif");
             color: #fff;
             font-family: 'Courier New', monospace;
-            display: flex;
             align-items: center;
             justify-content: center;
-            height: 97vh;
-            width:100%;
-            margin-left:20%;
+            height: 99vh;
+            width:80%;
             margin: 0;
             border-radius: 10px;
             overflow: hidden;
             border-color:2px solid green;
+            margin: auto;
+            border: 2px solid blue;
         }
 
         .form {
             padding: 20px;
             border-radius: 10px;
-            background-color: #14141462;
+            background-color: #141414c0;
             box-shadow: 0 0 10px rgb(61, 60, 60);
             width: 350px;
             z-index: 1;
-            margin-right:20px
-
+            margin-top: 5px;
+            margin: auto;
         }
         .form h3{
             margin-left:18%;
@@ -98,17 +98,6 @@
             margin-left: 36%;
         }
         
-        button1 {
-            background-color: #16a085;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-            margin-left: 22%;
-        }
 
         button:hover {
             background-color: #138971;
@@ -116,86 +105,89 @@
             
         }
 
-        .prag1 {
-            color: rgb(5, 242, 5);
-            font-size: large;
-            overflow: hidden; /* Hide overflow to prevent scrollbar */
-            white-space: nowrap; /* Ensure the text stays on one line */
-            border-right: 2px solid #fff; /* Create a blinking cursor effect */
-            animation: typing 9s steps(40) infinite, blink-caret 0.4s step-end infinite;
-        }
-
-        @keyframes typing {
-            from {
-                width: 0;
-            }
-            to {
-                width: 100%;
-            }
-        }
-
-        @keyframes blink-caret {
-            from, to {
-                border-color: transparent;
-            }
-            50% {
-                border-color: #fff;
-            }
-        }
-        .left{
-            background-color: rgba(0, 0, 0, 0.2);
-            border-radius : 10px;
-            margin-right:15%
-            
-        }
-
-        .left a{
-            text-decoration: none;
-        }
         .logdiv{
-            margin-left:20%
+            margin-left:13%;
+            margin-top: 10px;
         }
-        .conn{
-            color:white;
-            padding-bottom: 200px;
+
+        .logdiv a {
+            text-decoration: none; /* Remove underline */
+            font-family: 'Courier New', Courier, monospace;
+            text-shadow: 1px 1px 2px rgba(0, 255, 242, 0.897); /* Add text shadow */
+            font-size: 1.5em;
+            margin-left: 80px;
         }
-        .connected {
-        font-size: 24px; 
-        color: #00ff00; 
-        text-shadow: 3px 3px 5px rgba(0, 255, 0, 0.8); 
-        margin-left:20%;
+
+        .logdiv a:hover{
+            color: #0091ff;
         }
-        .success{
-            width:420px;
-            height:105px;
-            background:rgba(0,0,0,0.4);
-            color:white;
-            text-align:center;
-            align-items:center;
+        .error{
+            width: 400px;
+            height: 60px;
+            background-color: #0000009f;
+            margin: auto;
+            border-radius: 10px;
+            text-align: center;
         }
-        .success p{
-            color:red;
-       }
-       .success h5{
-        color:cyan;
-       }
+
+        .error_div {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        width: 320px;
+        padding: 12px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: start;
+        background: #77140d;
+        border-radius: 8px;
+        box-shadow: 0px 0px 5px -3px #111;
+        margin: auto;
+        margin-top: 15px;
+        }
+
+        .error__icon {
+        width: 20px;
+        height: 20px;
+        transform: translateY(-2px);
+        margin-right: 8px;
+        }
+
+        .error__icon path {
+        fill: #fff;
+        }
+
+        .error__title {
+        font-weight: 500;
+        font-size: 14px;
+        color: #fff;
+        }
+
+        .error__close {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        margin-left: auto;
+        }
+
+        .error__close path {
+        fill: #fff;
+        }
 
 </style>
 </head>
 <body>
 
     <div class="main">
-        <div class="left">
-            <div class="success">
-            
-            </div>
-        <div class="conn"><p class="connected"></p></div>
-            <div><p class=" prag1">******Join  our hustle-driven community******</p></div>
-            <div class="logdiv"><p>If You Don't Have An Acount <br><br>
-                <a href="./signup.html"><button1>SIGNUP</button></a></p>
-            </div>
-            <div><p class="prag1">**Caring Connections for Every Life Chapter**</p></div>
+
+        <div class="error" id="error">
+           <!-- <div class="error_div">
+                <div class="error__icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none"><path fill="#393a37" d="m13 13h-2v-6h2zm0 4h-2v-2h2zm-1-15c-1.3132 0-2.61358.25866-3.82683.7612-1.21326.50255-2.31565 1.23915-3.24424 2.16773-1.87536 1.87537-2.92893 4.41891-2.92893 7.07107 0 2.6522 1.05357 5.1957 2.92893 7.0711.92859.9286 2.03098 1.6651 3.24424 2.1677 1.21325.5025 2.51363.7612 3.82683.7612 2.6522 0 5.1957-1.0536 7.0711-2.9289 1.8753-1.8754 2.9289-4.4189 2.9289-7.0711 0-1.3132-.2587-2.61358-.7612-3.82683-.5026-1.21326-1.2391-2.31565-2.1677-3.24424-.9286-.92858-2.031-1.66518-3.2443-2.16773-1.2132-.50254-2.5136-.7612-3.8268-.7612z"></path></svg>
+                </div>
+                <div class="error__title">Email or Password is incorrect! Try again</div>
+            </div>-->
         </div>
+        
 
         <div class="form">
             <h3>GhostLine-Login</h3>
@@ -205,8 +197,12 @@
                 <label for="password">Password</label><br>
                 <input type="password" name="password" id="password" required><br>
                 <button type="submit">LOGIN</button><br>
+                <div class="logdiv">
+                <p>If You Don't Have An Acount
+                    <a href="./signup.html">SIGNUP</a>
+                </p>
+                </div>
             </form>
-            
         </div>
     </div>
 
