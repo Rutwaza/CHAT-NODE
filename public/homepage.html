@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsive Page</title>
+<style>
+    /* Reset default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: black;
+    background-image: url("giphy.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+
+header {
+    background-color: #333333d2;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.company-name {
+    margin-bottom: 10px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0 10px;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.delivery-info {
+    background-color: #000000d3;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    width: 70%;
+    margin: auto;
+    margin-top: 5px;
+}
+
+.delivery-info h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #007bff;
+}
+
+.delivery-info p {
+    color: white;
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.delivery-info p strong {
+    color: white;
+    font-weight: bold;
+}
+
+
+
+
+/* Style for cards */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+.card {
+    background-color: #000000e5;
+    color: white;
+    border-radius: 10px;
+    width: 300px;
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    overflow: hidden; /* Ensure the zoom effect does not cause overflow */
+    border: 2px solid blue;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px rgb(4, 255, 234);
+    transform: scale(1.05); /* Zoom effect on hover */
+}
+
+.description {
+    padding: 15px;
+}
+
+.buy-button {
+    background-color: #4CAF50;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    padding: 7px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.buy-button:hover {
+    background-color: #028108;
+}
+
+.description p {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.tot{
+    margin-left: 50%;
+    color: #007bff;
+    font-size: xx-large;
+    font-weight: bolder;
+}
+
+
+.card img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.description {
+    padding: 15px;
+}
+
+/* Style for footer */
+footer {
+    background-color: #333333d2;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.contact-info,
+.social-media {
+    flex: 1;
+}
+
+.contact-info h3,
+.social-media h3 {
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.contact-info p {
+    margin-bottom: 5px;
+}
+
+.social-media ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.social-media ul li {
+    margin-bottom: 5px;
+}
+
+.social-media ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.social-media ul li a:hover {
+    text-decoration: underline;
+}
+
+.copyright {
+    margin-top: 20px;
+}
+
+.sep {
+    background-color: #ffffff93; /* Light gray background */
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 10px; /* Add some space between containers */
+    width: 70%;
+    text-align: center;
+    margin: auto;
+}
+
+.sep p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #000436; /* Dark gray text color */
+}
+
+
+.sep p a {
+    color: #007bff; /* Blue color for links */
+    text-decoration: none;
+}
+
+.sep p a:hover {
+    text-decoration: underline; /* Underline links on hover */
+}
+
+
+</style>
+</head>
+<body>
+
+    <header>
+        <h1 class="company-name">Nadine FootFit Co.</h1>
+        <nav>
+            <ul>
+                <li><a href="#men">Men</a></li>
+                <li><a href="#women">Women</a></li>
+                <li><a href="#kids">Kids</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <div class="delivery-info">
+        <h2>Delivery Information</h2>
+        <p><strong>Delivery Service</strong> <br>We provide delivery to every district of Rwanda for your convenience. <br> A flat fee of <span style="font-weight: 500px;color: #007bff;font-size: 20px;">3$ </span>is charged for delivery services.</p><br>
+        <p><strong>In-Store Purchase</strong> <br>When you visit one of our shops located in <span style="font-weight: 500px;color: #007bff;font-size: 18px;">Kigali-Nyamirambo</span>  or <span style="font-weight: 500px;color: #007bff;font-size: 18px;">Kirehe-Nyakarambi</span> <br>you can purchase our products at the normal price <span style="font-weight: 500px;color: #007bff;font-size: 20px;">2.40$ </span> with no additional delivery fees.</p>
+    </div>
+    
+    
+    
+
+<div class="container">
+    <div class="card">
+        <img src="images.jpeg" alt="Image 1">
+        <div class="description">
+            <a href="produ.html?image=images.jpeg" class="buy-button">Buy</a>
+            <p>Price : 2.40 $</p>
+            <p>Delvery fees : 3.00 $</p>
+            <p class="tot">Total price : 5.40 $</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="she3.jpeg" alt="Image 1">
+        <div class="description">
+            <a href="produ.html?image=she3.jpeg" class="buy-button">Buy</a>
+            <p>Price : 2.40 $</p>
+            <p>Delvery fees : 3.00 $</p>
+            <p class="tot">Total price : 5.40 $</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="shoe2.jpeg" alt="Image 1">
+        <div class="description">
+            <a href="produ.html?image=shoe2.jpeg" class="buy-button">Buy</a>
+            <p>Price : 2.40 $</p>
+            <p>Delvery fees : 3.00 $</p>
+            <p class="tot">Total price : 5.40 $</p>
+        </div>
+    </div>
+</div>
+
+<div class="sep">
+    <p>Discover the perfect blend of style and comfort with our latest sandals collection. <br> Elevate your look for just $2.40 and step into the ultimate footwear experience.</p>
+</div>
+
+<div class="container">
+    <div class="card">
+        <img src="images.jpeg" alt="Image 1">
+        <div class="description">
+            <a href="produ.html?image=images.jpeg" class="buy-button">Buy</a>
+            <p>Price : 2.40 $</p>
+            <p>Delvery fees : 3.00 $</p>
+            <p class="tot">Total price : 5.40 $</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="images.jpeg" alt="Image 1">
+        <div class="description">
+            <a href="produ.html?image=images.jpeg" class="buy-button">Buy</a>
+            <p>Price : 2.40 $</p>
+            <p>Delvery fees : 3.00 $</p>
+            <p class="tot">Total price : 5.40 $</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="images.jpeg" alt="Image 1">
+        <div class="description">
+            <a href="produ.html?image=images.jpeg" class="buy-button">Buy</a>
+            <p>Price : 2.40 $</p>
+            <p>Delvery fees : 3.00 $</p>
+            <p class="tot">Total price : 5.40 $</p>
+        </div>
+    </div>
+</div>
+
+<div class="sep">
+    <p>Experience the epitome of style and comfort with our premium sandals collection. <br> Elevate your footwear game today and step into luxury for just 2.40 $. <br> We consider your financial freedom </p>
+</div>
+
+<div class="container">
+    <div class="card">
+        <img src="images.jpeg" alt="Image 1">
+        <div class="description">
+            <a href="produ.html?image=images.jpeg" class="buy-button">Buy</a>
+            <p>Price : 2.40 $</p>
+            <p>Delvery fees : 3.00 $</p>
+            <p class="tot">Total price : 5.40 $</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="images.jpeg" alt="Image 1">
+        <div class="description">
+            <a href="produ.html?image=images.jpeg" class="buy-button">Buy</a>
+            <p>Price : 2.40 $</p>
+            <p>Delvery fees : 3.00 $</p>
+            <p class="tot">Total price : 5.40 $</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="images.jpeg" alt="Image 1">
+        <div class="description">
+            <a href="produ.html?image=images.jpeg" class="buy-button">Buy</a>
+            <p>Price : 2.40 $</p>
+            <p>Delvery fees : 3.00 $</p>
+            <p class="tot">Total price : 5.40 $</p>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-container">
+        <div class="contact-info">
+            <h3>Contact Us</h3>
+            <p><strong>WhatsApp:</strong> +250 7858584</p>
+            <p><strong>Call:</strong> +250 75833873</p>
+            <p><strong>Email:</strong> skj@gmail.com</p>
+        </div>
+        <div class="social-media">
+            <h3>Follow Us</h3>
+            <ul>
+                <li><a href="https://www.facebook.com/nadine" target="_blank">Facebook</a></li>
+                <li><a href="https://www.instagram.com/nedinee" target="_blank">Instagram</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="copyright">
+        <p>&copy; 2024 Nadine FootFit Co. All rights reserved.</p>
+    </div>
+</footer>
+
+
+</body>
+</html>

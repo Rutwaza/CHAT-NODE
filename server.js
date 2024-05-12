@@ -202,6 +202,8 @@ const mysql = require("mysql")
 const cookieParser = require('cookie-parser');
 const socketIO = require('socket.io');
 const sharedSession = require('express-socket.io-session');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' }); // Specify the destination folder for uploaded files
 
 const PORT = process.env.PORT || 8000;
 const server = app.listen(PORT, () => {
@@ -280,7 +282,7 @@ app.post('/login', (req, res) => {
             console.log('User ID:', req.session.userID);
             console.log('Username:', req.session.username); // Log the username
                         
-            res.redirect('/index.html');
+            res.redirect('/homepage.html');
         } else {
             res.status(500).sendFile(path.join(__dirname, '/public/error.html'));
         }
@@ -292,12 +294,18 @@ app.post('/login', (req, res) => {
 app.post('/signup', (req, res) => {
     console.log('Received signup data:', req.body);
 
-    const { username, email, gender, password } = req.body;
+    const { username, email, gender, password, confirmPassword } = req.body;
 
-    const sql = `INSERT INTO users (Username, Email, Gender, PasswordHash, DateAdded) 
+    if (password !== confirmPassword) {
+                 //res.status(400).send('Passwords do not match');
+                 return res.status(500).sendFile(path.join(__dirname, '/public/error_pass.html'));
+             }
+             
+
+    const sql = `INSERT INTO users (Username, Email, Gender,PasswordHash, DateAdded) 
                  VALUES (?, ?, ?, ?, NOW())`;
     
-    connection.query(sql, [username, email, gender, password], (err, result) => {
+    connection.query(sql, [username, email, gender,password], (err, result) => {
         if (err) {
             console.error('Error inserting user:', err);
             // Redirect to the error page
