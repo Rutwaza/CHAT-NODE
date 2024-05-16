@@ -245,10 +245,15 @@ app.get('/onemess', (req, res) => {
 
 // Database connection configuration
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'chat'
+    //host: 'localhost',
+    //user: 'root',
+    //password: '',
+    //database: 'chat'
+
+    host: 'sql10.freesqldatabase.com',
+    user: 'sql10707028',
+    password: 'hBinfLJ53F',
+    database: 'sql10707028'
 });
 
 connection.connect((err) => {
