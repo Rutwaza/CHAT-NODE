@@ -212,8 +212,7 @@ const server = app.listen(PORT, () => {
 
 const io = socketIO(server);
 
-// Serve your HTML files
-app.use(express.static('public'));
+
 app.use(cookieParser());
 
 // Parse incoming request bodies
@@ -224,7 +223,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const sessionMiddleware = session({
     secret: 'JpV~zQ92F4eK#7$!y@%e&6@8!Dg*m^A',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: {
+        sameSite: 'lax',
+        secure: true // Set to true if using HTTPS
+    }
 });
 
 app.use(sessionMiddleware);
@@ -234,14 +237,9 @@ io.use(sharedSession(sessionMiddleware, {
     autoSave:true
 }));
 
-// Handle root path
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'Homepage.html'));
-});
 
-app.get('/onemess', (req, res) => {
-    res.sendFile(path.join(__dirname, 'onemess.html'));
-});
+  // Serve your HTML files
+app.use(express.static('public'));
 
 // Database connection configuration
 const connection = mysql.createConnection({
@@ -294,6 +292,37 @@ app.post('/login', (req, res) => {
     });
 });
 
+// Global middleware to check if the user is authenticated
+function isAuthenticated(req, res, next) {
+    if (!req.session.userID) {
+        console.log('User not authenticated. Redirecting to login.');
+        return res.redirect('/login.html');
+    }
+    next();
+}
+
+// Apply authentication check middleware to protected routes
+app.use(['/onemess', '/homepage','/xman'], isAuthenticated);
+
+// Handle root path
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Route to serve the protected HTML file
+app.get('/onemess', (req, res) => {
+    res.sendFile(path.join(__dirname, 'onemess.html'));
+});
+
+// Route to serve the protected HTML file
+app.get('/xman', (req, res) => {
+    res.sendFile(path.join(__dirname, 'xman.html'));
+});
+
+// Serve homepage page
+app.get('/homepage', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'homepage.html'));
+});
 
 // Handle signup endpoint
 app.post('/signup', (req, res) => {

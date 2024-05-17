@@ -25,12 +25,6 @@ socket.on('active-users', (data) => {
     clientsTotal.textContent = `${data}`;
 });
 
-// Listen for user ID from the server
-//socket.on('user-id', (userID) => {
-//   console.log('Received user ID:', userID);
-//   document.getElementById('user-id').innerText = userID;
-//});
-
 // Listen for the 'user-info' event emitted by the server
 socket.on('user-info', (userInfo) => {
     console.log('Received user info:', userInfo);
@@ -38,6 +32,8 @@ socket.on('user-info', (userInfo) => {
     document.getElementById('user-id').innerText = userInfo.userID;
     document.getElementById('username').innerText = userInfo.username;
 });
+
+
 
 socket.on('email exist', () => {
     alert('this email has already registered.');
@@ -71,26 +67,6 @@ socket.on('chat-message', (data) =>{
     }
 })
 
-
-/* //////////////////////////////////////////////////////////////
-
-socket.on('members',(data)=>{
-    membersui(data);
-})
-
-function membersui(data){
-    const element = `
-                <li>
-                    <p>
-                        ${data.name}
-                    </p>
-                    <button id="inb" class="inbox-btn" data-userid="${data.id}">Inbox</button>
-                </li>`
-                document.getElementById('memberp').innerHTML += element;
-                
-}
-*/
-/////////////////////////////////////////////////////////////
 socket.on('all-members', (userResults) => {
     // Assuming you want to display the user data in the console
     console.log('All Members:');
@@ -194,16 +170,4 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('message-time').textContent = currentTime;
 });
 
-
-/*
-document.addEventListener('DOMContentLoaded', function () {
-    const isSignedUp = true; 
-
-    if (isSignedUp) {
-        window.location.href = './login.html'; 
-    } else {
-        window.location.href = '/signup.html'; 
-    }
-});
-*/
 
