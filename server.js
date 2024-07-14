@@ -367,6 +367,25 @@ app.post('/signup', (req, res) => {
     });
 });
 
+             
+/////////////////////////////--------------///////////////////////////
+// Store the active socket connections
+const activeSockets = {};
+
+io.use((socket, next) => {
+  // Retrieve the userID from the session
+  const userID = socket.handshake.session.userID;
+  if (!userID) {
+    return next(new Error('User not authenticated'));
+  }
+  
+  // Associate the socket with the user ID
+  activeSockets[userID] = socket;
+  console.log(`User ${userID} authenticated`);
+  return next();
+});
+///////////////////////////////-------------////////////////////////////
+
 // Socket.io connection handler
 function onConnected(socket) {
     console.log(socket.id);
