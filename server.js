@@ -263,6 +263,9 @@ io.use(sharedSession(sessionMiddleware, {
 
 // Serve your HTML files
 app.use(express.static('public'));
+// Serve static files from the 'uploads' directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 // Debugging middleware
 app.use((req, res, next) => {
@@ -309,6 +312,11 @@ app.get('/xman', (req, res) => {
 // Serve homepage page
 app.get('/homepage', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'homepage.html'));
+});
+
+// Serve the goods posting page
+app.get('/post-good', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'post-good.html'));
 });
 
 // Handle login endpoint
@@ -366,6 +374,52 @@ app.post('/signup', (req, res) => {
         res.redirect('./success.html');
     });
 });
+
+
+// Route to handle goods posting
+app.post('/post-good', upload.single('image'), (req, res) => {
+    const { name, description, sellerID } = req.body;
+    const imagePath = req.file.path;
+
+    const sql = 'INSERT INTO goods (name, description, imagePath, sellerID) VALUES (?, ?, ?, ?)';
+    connection.query(sql, [name, description, imagePath, sellerID], (err, result) => {
+        if (err) {
+            console.error('Error posting good:', err);
+            res.status(500).send('Error posting good');
+            return;
+        }
+        res.send('Good posted successfully');
+    });
+});
+
+
+// Route to get all goods
+app.get('/goods', (req, res) => {
+    const sql = 'SELECT * FROM goods';
+    connection.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching goods:', err);
+            res.status(500).send('Error fetching goods');
+            return;
+        }
+        res.json(results);
+    });
+});
+
+// Route to search for goods
+app.get('/search', (req, res) => {
+    const { query } = req.query;
+    const sql = 'SELECT * FROM goods WHERE name LIKE ? OR description LIKE ?';
+    connection.query(sql, [`%${query}%`, `%${query}%`], (err, results) => {
+        if (err) {
+            console.error('Error searching goods:', err);
+            res.status(500).send('Error searching goods');
+            return;
+        }
+        res.json(results);
+    });
+});
+
 
              
 /////////////////////////////--------------///////////////////////////

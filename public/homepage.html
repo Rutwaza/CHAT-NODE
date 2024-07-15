@@ -3,241 +3,283 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Responsive Page</title>
+<title>Hacker-Themed Page</title>
 <style>
     /* Reset default margin and padding */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Courier New', Courier, monospace;
+    }
 
-body {
-    background-color: black;
-    background-image: url("giphy.gif");
-    background-repeat: no-repeat;
-    background-size: cover;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-}
+    body {
+        background-color: black;
+        background-image: url("giphy.gif");
+        background-repeat: no-repeat;
+        background-size: cover;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        color: #33ff33;
+    }
 
+    header {
+        background-color: #111;
+        color: #33ff33;
+        padding: 20px;
+        text-align: center;
+        border-bottom: 2px solid #33ff33;
+    }
 
-header {
-    background-color: #333333d2;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-}
+    .company-name {
+        margin-bottom: 10px;
+        font-size: 2em;
+    }
 
-.company-name {
-    margin-bottom: 10px;
-}
+    nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
 
-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
+    nav ul li {
+        display: inline;
+        margin: 0 10px;
+    }
 
-nav ul li {
-    display: inline;
-}
+    nav ul li a {
+        color: #33ff33;
+        text-decoration: none;
+        padding: 0 10px;
+        border-bottom: 2px solid transparent;
+    }
 
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    padding: 0 10px;
-}
+    nav ul li a:hover {
+        border-bottom: 2px solid #33ff33;
+    }
 
-nav ul li a:hover {
-    text-decoration: underline;
-}
+    #user-info {
+        background-color: #222;
+        color: #33ff33;
+        padding: 10px;
+        border: 1px solid #33ff33;
+        border-radius: 5px;
+        text-align: center;
+        margin-top: 10px;
+    }
 
-.delivery-info {
-    background-color: #000000d3;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    width: 70%;
-    margin: auto;
-    margin-top: 5px;
-}
+    .delivery-info {
+        background-color: #111;
+        border: 2px solid #33ff33;
+        border-radius: 8px;
+        padding: 20px;
+        width: 70%;
+        margin: auto;
+        margin-top: 20px;
+    }
 
-.delivery-info h2 {
-    color: #333;
-    font-size: 24px;
-    margin-bottom: 10px;
-    text-align: center;
-    color: #007bff;
-}
+    .delivery-info h2 {
+        color: #33ff33;
+        font-size: 24px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
 
-.delivery-info p {
-    color: white;
-    font-size: 16px;
-    line-height: 1.6;
-    text-align: center;
-}
+    .delivery-info p {
+        color: #33ff33;
+        font-size: 16px;
+        line-height: 1.6;
+        text-align: center;
+    }
 
-.delivery-info p strong {
-    color: white;
-    font-weight: bold;
-}
+    .delivery-info p strong {
+        font-weight: bold;
+    }
 
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 20px auto;
+    }
 
+    .card {
+        background-color: #111;
+        color: #33ff33;
+        border-radius: 10px;
+        width: 300px;
+        margin: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+        overflow: hidden;
+        border: 2px solid #33ff33;
+    }
 
+    .card:hover {
+        box-shadow: 0 8px 16px #33ff33;
+        transform: scale(1.05);
+    }
 
-/* Style for cards */
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 20px auto;
-}
+    .description {
+        padding: 15px;
+    }
 
-.card {
-    background-color: #000000e5;
-    color: white;
-    border-radius: 10px;
-    width: 300px;
-    margin: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
-    overflow: hidden; /* Ensure the zoom effect does not cause overflow */
-    border: 2px solid blue;
-}
+    .buy-button {
+        background-color: #111;
+        border: 2px solid #33ff33;
+        border-radius: 10px;
+        color: #33ff33;
+        padding: 7px 15px;
+        text-align: center;
+        display: inline-block;
+        font-size: 16px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
 
-.card:hover {
-    box-shadow: 0 8px 16px rgb(4, 255, 234);
-    transform: scale(1.05); /* Zoom effect on hover */
-}
+    .buy-button:hover {
+        background-color: #33ff33;
+        color: black;
+    }
 
-.description {
-    padding: 15px;
-}
+    .description p {
+        font-size: 14px;
+        line-height: 1.5;
+    }
 
-.buy-button {
-    background-color: #4CAF50;
-    border-radius: 10px;
-    border: none;
-    color: white;
-    padding: 7px 15px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin-bottom: 10px;
-    cursor: pointer;
-}
+    .tot {
+        margin-left: 50%;
+        color: #33ff33;
+        font-size: xx-large;
+        font-weight: bolder;
+    }
 
-.buy-button:hover {
-    background-color: #028108;
-}
+    .card img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
 
-.description p {
-    font-size: 14px;
-    line-height: 1.5;
-}
+    .description {
+        padding: 15px;
+    }
 
-.tot{
-    margin-left: 50%;
-    color: #007bff;
-    font-size: xx-large;
-    font-weight: bolder;
-}
+    footer {
+        background-color: #111;
+        color: #33ff33;
+        padding: 20px 0;
+        text-align: center;
+        border-top: 2px solid #33ff33;
+    }
 
+    .footer-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-start;
+    }
 
-.card img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-}
+    .contact-info, .social-media {
+        flex: 1;
+    }
 
-.description {
-    padding: 15px;
-}
+    .contact-info h3, .social-media h3 {
+        color: #33ff33;
+        margin-bottom: 10px;
+    }
 
-/* Style for footer */
-footer {
-    background-color: #333333d2;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-}
+    .contact-info p {
+        margin-bottom: 5px;
+    }
 
-.footer-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-}
+    .social-media ul {
+        list-style-type: none;
+        padding: 0;
+    }
 
-.contact-info,
-.social-media {
-    flex: 1;
-}
+    .social-media ul li {
+        margin-bottom: 5px;
+    }
 
-.contact-info h3,
-.social-media h3 {
-    color: #fff;
-    margin-bottom: 10px;
-}
+    .social-media ul li a {
+        color: #33ff33;
+        text-decoration: none;
+    }
 
-.contact-info p {
-    margin-bottom: 5px;
-}
+    .social-media ul li a:hover {
+        text-decoration: underline;
+    }
 
-.social-media ul {
-    list-style-type: none;
-    padding: 0;
-}
+    .copyright {
+        margin-top: 20px;
+    }
 
-.social-media ul li {
-    margin-bottom: 5px;
-}
+    .sep {
+        background-color: #222;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 10px;
+        width: 70%;
+        text-align: center;
+        margin: auto;
+        border: 1px solid #33ff33;
+    }
 
-.social-media ul li a {
-    color: #fff;
-    text-decoration: none;
-}
+    .sep p {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #33ff33;
+    }
 
-.social-media ul li a:hover {
-    text-decoration: underline;
-}
+    .sep p a {
+        color: #33ff33;
+        text-decoration: none;
+    }
 
-.copyright {
-    margin-top: 20px;
-}
+    .sep p a:hover {
+        text-decoration: underline;
+    }
 
-.sep {
-    background-color: #ffffff93; /* Light gray background */
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 10px; /* Add some space between containers */
-    width: 70%;
-    text-align: center;
-    margin: auto;
-}
+    .goods-item {
+        border: 1px solid #33ff33;
+        padding: 10px;
+        margin: 10px;
+        background-color: #111;
+        color: #33ff33;
+    }
 
-.sep p {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #000436; /* Dark gray text color */
-}
+    .goods-item img {
+        max-width: 100px;
+        max-height: 100px;
+        border: 1px solid #33ff33;
+    }
 
+    #search-input {
+        background-color: #111;
+        color: #33ff33;
+        border: 1px solid #33ff33;
+        padding: 5px;
+        margin: 10px 0;
+    }
 
-.sep p a {
-    color: #007bff; /* Blue color for links */
-    text-decoration: none;
-}
+    #search-input::placeholder {
+        color: #33ff33;
+    }
 
-.sep p a:hover {
-    text-decoration: underline; /* Underline links on hover */
-}
-#user-info{
-    background-color: #028108;
-}
+    button {
+        background-color: #111;
+        color: #33ff33;
+        border: 1px solid #33ff33;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
 
+    button:hover {
+        background-color: #33ff33;
+        color: black;
+    }
 </style>
 </head>
 <body>
@@ -254,159 +296,91 @@ footer {
         <div id="user-info">
             <span id="username"></span>
             <span id="userID"></span>
-            <a href="/xman">Group Chat</a>
+            <a href="/xman" style="color: #33ff33;">Group Chat</a>
         </div>
     </header>
 
-
     <div class="delivery-info">
         <h2>Delivery Information</h2>
-        <p><strong>Delivery Service</strong> <br>We provide delivery to every district of Rwanda for your convenience. <br> A flat fee of <span style="font-weight: 500px;color: #007bff;font-size: 20px;">3$ </span>is charged for delivery services.</p><br>
-        <p><strong>In-Store Purchase</strong> <br>When you visit one of our shops located in <span style="font-weight: 500px;color: #007bff;font-size: 18px;">Kigali-Nyamirambo</span>  or <span style="font-weight: 500px;color: #007bff;font-size: 18px;">Kirehe-Nyakarambi</span> <br>you can purchase our products at the normal price <span style="font-weight: 500px;color: #007bff;font-size: 20px;">2.40$ </span> with no additional delivery fees.</p>
+        <p><strong>Delivery Service</strong> <br>We provide delivery to every district of Rwanda for your convenience. <br> A flat fee of <span style="font-weight: bold;color: #33ff33;font-size: 20px;">3$</span> is charged for delivery services.</p><br>
+        <p><strong>In-Store Purchase</strong> <br>When you visit one of our shops located in <span style="font-weight: bold;color: #33ff33;font-size: 18px;">Kigali-Nyamirambo</span> or <span style="font-weight: bold;color: #33ff33;font-size: 18px;">Kirehe-Nyakarambi</span> <br>you can purchase our products at the normal price <span style="font-weight: bold;color: #33ff33;font-size: 20px;">2.40$</span> with no additional delivery fees.</p>
     </div>
     
-    
-    
-<!--
-<div class="container">
-    <div class="card">
-        <img src="images.jpeg" alt="Image 1">
-        <div class="description">
-            <a href="produ.html?image=images.jpeg" class="buy-button">Buy</a>
-            <p>Price : 2.40 $</p>
-            <p>Delvery fees : 3.00 $</p>
-            <p class="tot">Total price : 5.40 $</p>
-        </div>
+    <h1 style="text-align: center; margin: 20px 0; font-size: 2em; color: #33ff33;">Goods Marketplace</h1>
+    <div style="text-align: center;">
+        <a href="/post-good" style="color: #33ff33;">Post a New Good</a>
     </div>
-
-    <div class="card">
-        <img src="she3.jpeg" alt="Image 1">
-        <div class="description">
-            <a href="produ.html?image=she3.jpeg" class="buy-button">Buy</a>
-            <p>Price : 2.40 $</p>
-            <p>Delvery fees : 3.00 $</p>
-            <p class="tot">Total price : 5.40 $</p>
-        </div>
+    <div style="text-align: center; margin: 20px 0;">
+        <input type="text" id="search-input" placeholder="Search for goods...">
+        <button onclick="searchGoods()">Search</button>
     </div>
+    <div id="goods-container"></div>
 
-    <div class="card">
-        <img src="shoe2.jpeg" alt="Image 1">
-        <div class="description">
-            <a href="produ.html?image=shoe2.jpeg" class="buy-button">Buy</a>
-            <p>Price : 2.40 $</p>
-            <p>Delvery fees : 3.00 $</p>
-            <p class="tot">Total price : 5.40 $</p>
+    <script>
+        document.addEventListener('DOMContentLoaded', fetchGoods);
+
+        function fetchGoods() {
+            fetch('/goods')
+                .then(response => response.json())
+                .then(data => displayGoods(data));
+        }
+
+        function searchGoods() {
+            const query = document.getElementById('search-input').value;
+            fetch(`/search?query=${query}`)
+                .then(response => response.json())
+                .then(data => displayGoods(data));
+        }
+
+        function displayGoods(goods) {
+            const container = document.getElementById('goods-container');
+            container.innerHTML = '';
+            goods.forEach(good => {
+                const item = document.createElement('div');
+                item.className = 'goods-item';
+                item.innerHTML = `
+                    <img src="/${good.imagePath}" alt="${good.name}">
+                    <h2>${good.name}</h2>
+                    <p>${good.description}</p>
+                `;
+                container.appendChild(item);
+            });
+        }
+    </script>
+
+    <footer>
+        <div class="footer-container">
+            <div class="contact-info">
+                <h3>Contact Us</h3>
+                <p><strong>WhatsApp:</strong> +250 7858584</p>
+                <p><strong>Call:</strong> +250 75833873</p>
+                <p><strong>Email:</strong> skj@gmail.com</p>
+            </div>
+            <div class="social-media">
+                <h3>Follow Us</h3>
+                <ul>
+                    <li><a href="https://www.facebook.com/nadine" target="_blank">Facebook</a></li>
+                    <li><a href="https://www.instagram.com/nedinee" target="_blank">Instagram</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
-</div>
-
-<div class="sep">
-    <p>Discover the perfect blend of style and comfort with our latest sandals collection. <br> Elevate your look for just $2.40 and step into the ultimate footwear experience.</p>
-</div>
-
-<div class="container">
-    <div class="card">
-        <img src="images.jpeg" alt="Image 1">
-        <div class="description">
-            <a href="produ.html?image=images.jpeg" class="buy-button">Buy</a>
-            <p>Price : 2.40 $</p>
-            <p>Delvery fees : 3.00 $</p>
-            <p class="tot">Total price : 5.40 $</p>
+        <div class="copyright">
+            <p>&copy; 2024 Nadine FootFit Co. All rights reserved.</p>
         </div>
-    </div>
+    </footer>
 
-    <div class="card">
-        <img src="images.jpeg" alt="Image 1">
-        <div class="description">
-            <a href="produ.html?image=images.jpeg" class="buy-button">Buy</a>
-            <p>Price : 2.40 $</p>
-            <p>Delvery fees : 3.00 $</p>
-            <p class="tot">Total price : 5.40 $</p>
-        </div>
-    </div>
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js" integrity="sha512-Q1f3TS3vSt1jQ8AwP2OuenztnLU6LwxgyyYOG1jgMW/cbEMHps/3wjvnl1P3WTrF3chJUWEoxDUEjMxDV8pujg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <div class="card">
-        <img src="images.jpeg" alt="Image 1">
-        <div class="description">
-            <a href="produ.html?image=images.jpeg" class="buy-button">Buy</a>
-            <p>Price : 2.40 $</p>
-            <p>Delvery fees : 3.00 $</p>
-            <p class="tot">Total price : 5.40 $</p>
-        </div>
-    </div>
-</div>
+    <script>
+        const socket = io.connect('http://localhost:8000');
 
-<div class="sep">
-    <p>Experience the epitome of style and comfort with our premium sandals collection. <br> Elevate your footwear game today and step into luxury for just 2.40 $. <br> We consider your financial freedom </p>
-</div>
-
-<div class="container">
-    <div class="card">
-        <img src="images.jpeg" alt="Image 1">
-        <div class="description">
-            <a href="produ.html?image=images.jpeg" class="buy-button">Buy</a>
-            <p>Price : 2.40 $</p>
-            <p>Delvery fees : 3.00 $</p>
-            <p class="tot">Total price : 5.40 $</p>
-        </div>
-    </div>
-
-    <div class="card">
-        <img src="images.jpeg" alt="Image 1">
-        <div class="description">
-            <a href="produ.html?image=images.jpeg" class="buy-button">Buy</a>
-            <p>Price : 2.40 $</p>
-            <p>Delvery fees : 3.00 $</p>
-            <p class="tot">Total price : 5.40 $</p>
-        </div>
-    </div>
-
-    <div class="card">
-        <img src="images.jpeg" alt="Image 1">
-        <div class="description">
-            <a href="produ.html?image=images.jpeg" class="buy-button">Buy</a>
-            <p>Price : 2.40 $</p>
-            <p>Delvery fees : 3.00 $</p>
-            <p class="tot">Total price : 5.40 $</p>
-        </div>
-    </div>
-</div>
--->
-<footer>
-    <div class="footer-container">
-        <div class="contact-info">
-            <h3>Contact Us</h3>
-            <p><strong>WhatsApp:</strong> +250 7858584</p>
-            <p><strong>Call:</strong> +250 75833873</p>
-            <p><strong>Email:</strong> skj@gmail.com</p>
-        </div>
-        <div class="social-media">
-            <h3>Follow Us</h3>
-            <ul>
-                <li><a href="https://www.facebook.com/nadine" target="_blank">Facebook</a></li>
-                <li><a href="https://www.instagram.com/nedinee" target="_blank">Instagram</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="copyright">
-        <p>&copy; 2024 Nadine FootFit Co. All rights reserved.</p>
-    </div>
-</footer>
-
-
+        socket.on('user-info', (data) => {
+            console.log(data);
+            document.getElementById('username').textContent = `Username: ${data.username}`;
+            document.getElementById('userID').textContent = `UserID: ${data.userID}`;
+        });
+    </script>
 </body>
-
-<script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js" integrity="sha512-Q1f3TS3vSt1jQ8AwP2OuenztnLU6LwxgyyYOG1jgMW/cbEMHps/3wjvnl1P3WTrF3chJUWEoxDUEjMxDV8pujg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<script>
-    const socket = io.connect('http://localhost:8000');
-
-    socket.on('user-info', (data) => {
-        console.log(data);
-        document.getElementById('username').textContent = `Username: ${data.username}`;
-        document.getElementById('userID').textContent = `UserID: ${data.userID}`;
-    });
-</script>
 </html>
