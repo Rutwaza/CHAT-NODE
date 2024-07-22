@@ -263,9 +263,8 @@ io.use(sharedSession(sessionMiddleware, {
 
 // Serve your HTML files
 app.use(express.static('public'));
-// Serve static files from the 'uploads' directory
+// Middleware to serve static files from the "uploads" directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
 
 // Debugging middleware
 app.use((req, res, next) => {
@@ -317,6 +316,10 @@ app.get('/homepage', (req, res) => {
 // Serve the goods posting page
 app.get('/post-good', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'post-good.html'));
+});
+
+app.get('/uploads', (req, res) => {
+    res.send(path.join(__dirname, 'uploads'));
 });
 
 // Handle login endpoint
@@ -395,7 +398,11 @@ app.post('/post-good', upload.single('image'), (req, res) => {
 
 // Route to get all goods
 app.get('/goods', (req, res) => {
-    const sql = 'SELECT * FROM goods';
+    const sql = `
+        SELECT g.id, g.name, g.description, g.imagePath, g.likes, u.Username, u.UserID 
+        FROM goods g 
+        JOIN users u ON g.sellerID = u.UserID
+    `;
     connection.query(sql, (err, results) => {
         if (err) {
             console.error('Error fetching goods:', err);
@@ -403,8 +410,11 @@ app.get('/goods', (req, res) => {
             return;
         }
         res.json(results);
+        console.log(results);
     });
 });
+
+
 
 // Route to search for goods
 app.get('/search', (req, res) => {
@@ -420,8 +430,42 @@ app.get('/search', (req, res) => {
     });
 });
 
-
+// Endpoint to check if items are liked
+app.get('/check-likes', (req, res) => {
+    const userId = req.session.userID; // Assuming user ID is available
+    connection.query('SELECT goodId FROM likes WHERE userId = ?', [userId], (error, results) => {
+        if (error) return res.status(500).json({ error });
+        res.json(results);
+    });
+});
              
+// Endpoint to handle like
+app.post('/like', (req, res) => {
+    const userId = req.session.userID; // Assuming user ID is available
+    const { goodId } = req.body;
+
+    // Add like to the database
+    connection.query('INSERT INTO likes (userId, goodId) VALUES (?, ?)', [userId, goodId], (error, results) => {
+        if (error) return res.status(500).json({ error });
+
+        // Increment the like count in the goods table
+        connection.query('UPDATE goods SET likes = likes + 1 WHERE id = ?', [goodId], (error, results) => {
+            if (error) return res.status(500).json({ error });
+            res.json({ success: true });
+        });
+    });
+});
+
+app.post('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).json({ error: 'Logout failed' });
+        }
+        res.clearCookie('connect.sid'); // Name of the session cookie
+        res.status(200).json({ message: 'Logged out successfully' });
+    });
+});
+
 /////////////////////////////--------------///////////////////////////
 // Store the active socket connections
 const activeSockets = {};
