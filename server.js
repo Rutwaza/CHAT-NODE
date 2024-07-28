@@ -456,6 +456,63 @@ app.post('/like', (req, res) => {
     });
 });
 
+
+////-----------Create endpoints to retrieve the chat list and messages------------/////
+app.get('/chats', (req, res) => {
+    const userID = req.session.userID;
+
+    const query = `
+        SELECT DISTINCT
+            CASE
+                WHEN senderID = ? THEN recipientID
+                WHEN recipientID = ? THEN senderID
+            END AS chatUserID
+        FROM inbox
+        WHERE senderID = ? OR recipientID = ?`;
+
+    connection.query(query, [userID, userID, userID, userID], (err, results) => {
+        if (err) {
+            console.error('Error retrieving chat list:', err);
+            res.status(500).send('Server error');
+            return;
+        }
+
+        // Assuming you have a users table to get usernames
+        const userIDs = results.map(row => row.chatUserID);
+        const userQuery = 'SELECT UserID, Username FROM users WHERE UserID IN (?)';
+        connection.query(userQuery, [userIDs], (userErr, userResults) => {
+            if (userErr) {
+                console.error('Error retrieving user info:', userErr);
+                res.status(500).send('Server error');
+                return;
+            }
+            res.json(userResults);
+        });
+    });
+});
+
+app.get('/messages/:chatUserID', (req, res) => {
+    const userID = req.session.userID;
+    const chatUserID = req.params.chatUserID;
+
+    const query = `
+        SELECT *
+        FROM inbox
+        WHERE (senderID = ? AND recipientID = ?)
+        OR (senderID = ? AND recipientID = ?)
+        ORDER BY timestamp`;
+
+    connection.query(query, [userID, chatUserID, chatUserID, userID], (err, results) => {
+        if (err) {
+            console.error('Error retrieving messages:', err);
+            res.status(500).send('Server error');
+            return;
+        }
+        res.json(results);
+    });
+});
+///////---------------------------------------------------------///////////////////
+
 app.post('/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) {
@@ -552,6 +609,17 @@ function onConnected(socket) {
         const { recipientID, message } = data;
         console.log(data);
         const senderID = socket.handshake.session.userID;
+        /////==================///////
+        // Save the message to the database
+        const query = 'INSERT INTO inbox (senderID, recipientID, message) VALUES (?, ?, ?)';
+        connection.query(query, [senderID, recipientID, message], (err, results) => {
+            if (err) {
+                console.error('Error saving message to the database:', err);
+                socket.emit('private-message-error', { error: 'Failed to save message' });
+                return;
+            }
+        })
+        /////////==============////////
 
         if (activeSockets[recipientID]) {
             activeSockets[recipientID].emit('private-message', { sender: senderID, message });

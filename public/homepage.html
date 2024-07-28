@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hacker-Themed Page</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <style>
     /* Reset default margin and padding */
     * {
@@ -61,36 +62,88 @@
     }
 
     #user-info {
-        background-color: #222;
-        color: #33ff33;
-        padding: 10px;
-        border: 1px solid #33ff33;
-        border-radius: 5px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 10px;
-    }
+            background-color: #222;
+            color: #33ff33;
+            padding: 10px;
+            border: 1px solid #33ff33;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            position: relative;
+        }
 
-    #user-info span {
-        background-color: #111;
-        padding: 5px 10px;
-        border-radius: 5px;
-        margin-right: 10px;
-    }
+        .left {
+            display: flex;
+            flex-direction: column;
+        }
 
-    #user-info a {
-        background-color: #033e5a;
-        color: black;
-        padding: 5px 10px;
-        border-radius: 5px;
-        text-decoration: none;
-    }
+        .right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
 
-    #user-info a:hover {
-        background-color: #ff66ff;
-    }
+        #user-info span {
+            background-color: #111;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
 
+        #user-info button,
+        #user-info a {
+            background-color: #033e5a;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        #user-info button:hover,
+        #user-info a:hover {
+            background-color: #ff66ff;
+        }
+
+        #user-list {
+            display: none;
+            background-color: #111;
+            border: 1px solid #33ff33;
+            color: #33ff33;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        #user-list h3 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+       
+
+        #user-list .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #ff3333;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
     .delivery-info {
         background-color: #111;
         border: 2px solid #33ff33;
@@ -125,6 +178,7 @@
     }
 
     .footer-shape {
+    position: fixed;
     background: rgba(26, 25, 25, 0.459);
     padding: 20px;
     text-align: center;
@@ -186,11 +240,11 @@
 
 
     #goods-container {
-    max-height: 90vh; /* Adjust based on your layout */
+    max-height: 1000vh; /* Adjust based on your layout */
     overflow-y: auto;
     padding: 20px;
-    border: 2px solid #9c0000;
     border-radius: 10px;
+    border: 2px solid rebeccapurple;
     width: 90%;
     margin: auto;
 }
@@ -403,6 +457,60 @@ button:active {
     right: 30px; /* Adjust as necessary */
 }
 
+#top {
+    position: fixed;
+    bottom: 80px; /* Adjust to place it above the footer */
+    right: 10px; /* Adjust as needed for your design */
+    background-color: #ff000094; /* Red background */
+    color: white; /* White text */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px; /* Makes the button rounded */
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+    z-index: 1000; /* Ensures it stays above other elements */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#top:hover {
+    background-color: #ff6666; /* Lighter red on hover */
+    transform: scale(1.1); /* Slightly larger on hover */
+}
+
+.namebutton{
+    background-color: #198bc050;
+    border-radius: 10px;
+    width: 90%;
+    margin: 2px;
+    padding: 1%;
+}
+
+.namebutton a{
+    color: wheat;
+    text-decoration: none;
+    background-color: #0f0908;
+    padding: 0.5em 1em;
+    text-transform: uppercase;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+.namebutton a:hover{
+    background-color: #222;
+}
+#overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
 </style>
 </head>
 <body>
@@ -417,9 +525,20 @@ button:active {
             </ul>
         </nav>
         <div id="user-info">
-            <span id="username"></span>
-            <span id="userID"></span>
-            <a href="/xman" style="color: #33ff33;">Group Chat</a>
+            <div class="left">
+                <span id="username">Username: JohnDoe</span>
+                <span id="userID">UserID: 12345</span>
+            </div>
+            <div class="right">
+                <a href="/xman">Group Chat</a>
+                <button id="inbox-btn">INBOX</button>
+            </div>
+        </div>
+    
+        <div id="user-list">
+            <button class="close-btn">&times;</button>
+            <h3>User List</h3>
+
         </div>
     </header>
 
@@ -437,7 +556,8 @@ button:active {
         <input type="text" id="search-input" placeholder="Search for goods...">
         <button onclick="searchGoods()">Search</button>
     </div>
-    <div id="goods-container"></div>
+    <div id="goods-container">
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', fetchGoods);
@@ -613,6 +733,7 @@ button:active {
 
     <div class="footer-shape">
         <div class="copyright">
+            <button id="top"><i class="fas fa-arrow-up"></i></button>
             <button id="logout">
                 <svg class="exit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
                     <path d="M13 3h-9v18h9v-2h-7v-14h7v-2zm5.707 12.293l-1.414 1.414-4.293-4.293 4.293-4.293 1.414 1.414-2.586 2.586h6.586v2h-6.586l2.586 2.586z"/>
@@ -651,7 +772,7 @@ button:active {
             .then(response => {
                 if (response.ok) {
                     // Redirect to login page after successful logout
-                    window.location.href = '/login.html';
+                    window.location.href = '/login';
                 } else {
                     console.error('Logout failed');
                 }
@@ -659,5 +780,94 @@ button:active {
             .catch(error => console.error('Error:', error));
         });
     </script>
+    <script>
+        window.addEventListener('scroll', function() {
+            const topButton = document.getElementById('top');
+            if (window.scrollY > 500) { // Adjust this value as needed
+                topButton.style.display = 'block';
+            } else {
+                topButton.style.display = 'none';
+            }
+        });
+
+        document.getElementById('top').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+    </script>
+    <script>
+        document.getElementById('inbox-btn').addEventListener('click', function() {
+            fetch('/chats')
+                .then(response => response.json())
+                .then(data => {
+                    const userListContainer = document.getElementById('user-list');
+                    userListContainer.innerHTML = '';
+                    // Append close button and header
+                    const closeButton = document.createElement('button');
+                    closeButton.classList.add('close-btn');
+                    closeButton.innerHTML = '&times;';
+                    closeButton.addEventListener('click', function() {
+                        document.getElementById('user-list').style.display = 'none';
+                    });
+
+                    const header = document.createElement('h3');
+                    header.textContent = 'User List';
+    
+                    userListContainer.appendChild(closeButton);
+                    userListContainer.appendChild(header);
+
+                    data.forEach(user => {
+                        const container = document.createElement('div');
+                        container.classList.add('user-item');
+                        const namebutton = document.createElement("div");
+                        namebutton.innerHTML = '';
+                        namebutton.classList.add('namebutton');
+    
+                        const button = document.createElement('button');
+                        button.textContent = user.Username + user.UserID +"[SEE CHAT]";
+    
+                        button.addEventListener('click', () => {
+                            window.location.href = `onemess.html?userId=${user.UserID}`;
+                        });
+    
+                        const label = document.createElement('span');
+                        label.textContent = `ID: ${user.UserID}`;
+                        label.classList.add('user-id');
+    
+                        const profileLink = document.createElement('a');
+                        profileLink.textContent = 'View Profile';
+                        profileLink.href = `profile.html?userId=${user.UserID}`;
+                        profileLink.classList.add('profile-link');
+                        
+                        namebutton.innerHTML = '';
+                        namebutton.appendChild(button);
+                       // container.appendChild(label);
+                        namebutton.appendChild(profileLink);
+                        container.append(namebutton);
+    
+                        userListContainer.appendChild(container);
+                    });
+                });
+        });
+    </script>
+    <script>
+        document.getElementById('inbox-btn').addEventListener('click', function() {
+            document.getElementById('user-list').style.display = 'block';
+        });
+
+        document.querySelector('.close-btn').addEventListener('click', function() {
+            document.getElementById('user-list').style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target == document.getElementById('user-list')) {
+                document.getElementById('user-list').style.display = 'none';
+            }
+        });
+    </script>
+    
 </body>
 </html>

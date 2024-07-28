@@ -363,6 +363,7 @@
             const newMessage = document.createElement('p');
             const urlParams = new URLSearchParams(window.location.search);
             const recipientID = urlParams.get('userId');
+
             if(sender == recipientID){
                 newMessage.className = "other-message";
                 newMessage.textContent = `[${sender}]: ${message}`;
@@ -380,6 +381,25 @@
         const recipientID = urlParams.get('userId');
         document.getElementById('user').innerHTML =recipientID;
         console.log(recipientID);
+
+        ///////--------------------------------------///////////////
+              // Load previous messages
+          fetch(`/messages/${recipientID}`)
+              .then(response => response.json())
+              .then(messages => {
+                  const chatBox = document.getElementById('chat-box');
+                  messages.forEach(message => {
+                      const newMessage = document.createElement('p');
+                      if (message.senderID == recipientID) {
+                          newMessage.className = 'other-message';
+                          newMessage.textContent = `[${message.senderID}]: ${message.message}`;
+                      } else {
+                          newMessage.className = 'mine-message';
+                          newMessage.textContent = `[You]: ${message.message}`;
+                      }
+                      chatBox.appendChild(newMessage);
+                  });
+              });
 
         // Send a private message
         document.getElementById('send-button').addEventListener('click', () => {
