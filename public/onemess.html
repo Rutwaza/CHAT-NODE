@@ -247,13 +247,13 @@
           border-radius: 10px;
         }
         .chatroom{
-          background-color:  #060629 ;
+          background-color:  #010107 ;
           width: 70%;
           border-radius: 10px;
 
         }
         .dealers{
-          background-color:  #060629 ;
+          background-color:  #010105 ;
           width: 35%;
           text-align: center;
           border-radius: 10px;
@@ -281,12 +281,11 @@
       <div class="chatroom">
         <div class="private">
           <h1>Private Chat</h1>
-          <p>with <span id="user">id</span></p>
+          <p><span id="user">recipient</span></p>
         </div>
         <div class="main">
             <div id="chat-box">
-                <p class="mine-message"> [id]: hii there</p>
-                <p class="other-message">[id]: yes dude</p>
+                
             </div>
             <div class="messageBox">
                 <div class="fileUploadWrapper">
@@ -379,7 +378,7 @@
         // Parse the URL to get the userId parameter
         const urlParams = new URLSearchParams(window.location.search);
         const recipientID = urlParams.get('userId');
-        document.getElementById('user').innerHTML =recipientID;
+        //document.getElementById('user').innerHTML =recipientID;
         console.log(recipientID);
 
         ///////--------------------------------------///////////////
@@ -413,7 +412,7 @@
         socket.on('all-users', (users) => {
             // Assuming you have a container in your HTML with id 'user-list'
             const userListContainer = document.getElementById('user-list');
-
+            const uname = document.getElementById('user');
             // Clear existing user list
             //userListContainer.innerHTML = '';
 
@@ -422,6 +421,8 @@
                 // Create container for user item
                 const container = document.createElement('div');
                 container.classList.add('user-item');
+
+                uname.innerHTML =user.Username;
 
                 // Create button for user
                 const button = document.createElement('button');
