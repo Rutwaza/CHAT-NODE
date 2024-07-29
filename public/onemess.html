@@ -4,24 +4,24 @@
     <title>Private Chat</title>
     <style>
         body{
-            background-color: rgb(0, 0, 0);
+            background-color: #111;
+            color: #33ff33;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            justify-content: center;
+            align-items: center;
         }
         h1{
             margin: auto;
             color: #ccc;
         }
         #chat-box {
-        background-color: rgba(0, 0, 0, 0.39);
-        color: lime;
-        padding: 10px;
-        width: 90%;
-        height: 450px;
-        margin: auto;
-        border-radius: 10px;
-        overflow-y: scroll;
-        font-family: 'Courier New', Courier, monospace;
-        padding-top: 5px;
-    }
+            display: flex;
+            flex-direction: column;
+        }
+        
+    
+
 
     .mine-message {
         background-color: #000;
@@ -39,52 +39,77 @@
     }
 
     .main{
-        background-color: rgb(34, 34, 34);
-        width: 95%;
-        margin: auto;
-        align-items: center;
-        margin-top: 5px;
-        padding: 5px;
-        border-radius: 10px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #333;
+            border: 2px solid #33ff33;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-y: auto;
     }
     .messageBox {
-        width: fit-content;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #2d2d2d;
-        padding: 0 15px;
-        border-radius: 14px;
-        border: 1px solid rgb(63, 63, 63);
-        margin-left: 8px;
+            display: flex;
+            align-items: center;
+            background-color: #222;
+            border: 2px solid #33ff33;
+            border-radius: 10px;
+            padding: 10px;
         }
+
+        #chat-box {
+            flex: 1;
+            margin-bottom: 10px;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #222;
+            border: 2px solid #33ff33;
+            border-radius: 10px;
+            max-height: 60vh;
+        }
+
         .messageBox:focus-within {
         border: 2px solid rgba(0, 255, 115, 0.692);
         }
         .fileUploadWrapper {
-        width: fit-content;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: Play;
+            position: relative;
+            margin-right: 10px;
+        }
+        .fileUploadWrapper input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
         }
 
         #file {
         display: none;
         }
         .fileUploadWrapper label {
-        cursor: pointer;
-        width: fit-content;
-        height: fit-content;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
         }
         .fileUploadWrapper label svg {
-        height: 20px;
+            width: 30px;
+            height: 30px;
+            fill: #33ff33;
+        }
+        .fileUploadWrapper .tooltip {
+            display: none;
+            position: absolute;
+            background-color: #222;
+            color: #33ff33;
+            padding: 5px;
+            border-radius: 5px;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+        }
+        .fileUploadWrapper label:hover .tooltip {
+            display: block;
         }
         .fileUploadWrapper label svg path {
         -webkit-transition: all 0.3s ease-out;
@@ -128,15 +153,12 @@
         transition: all 0.3s ease-out;
         }
         #message-input {
-        width: 400px;
-        height: 100%;
-        background-color: transparent;
-        outline: none;
-        border: none;
-        padding-left: 12px;
-        color: white;
-        font-family: Play;
-        font-size: 16px;
+            flex: 1;
+            padding: 10px;
+            background-color: #222;
+            color: #33ff33;
+            border: 2px solid #33ff33;
+            border-radius: 10px;
         }
         #messageInput:focus ~ #send-button svg path,
         #messageInput:valid ~ #send-button svg path {
@@ -145,26 +167,17 @@
         }
 
         #send-button {
-        width: fit-content;
-        height: 100%;
-        background-color: transparent;
-        outline: none;
-        border: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        -webkit-transition: all 0.3s ease-out;
-        -moz-transition: all 0.3s ease-out;
-        -o-transition: all 0.3s ease-out;
-        transition: all 0.3s ease-out;
+            background: none;
+            border: 2px solid #33ff33;
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
         }
         #send-button svg {
-        height: 20px;
-        -webkit-transition: all 0.3s ease-out;
-        -moz-transition: all 0.3s ease-out;
-        -o-transition: all 0.3s ease-out;
-        transition: all 0.3s ease-out;
+            width: 30px;
+            height: 30px;
+            fill: #33ff33;
         }
         #send-button svg path {
         -webkit-transition: all 0.3s ease-out;
@@ -178,13 +191,12 @@
         }
 
         .private {
-        background-color: rgb(31, 27, 27);
-        color: rgb(139, 199, 0);
-        font-family: monospace;
-        width: 95%;
-        margin: auto;
-        text-align: center;
-        border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #33ff33;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
         }
 
         .private h1 {
@@ -239,16 +251,20 @@
             color: #666;
         }
 
-        .page{
-          display: flex;
-          margin: auto;
-          background-color:   #000000  ;
-          width: 60%;
-          border-radius: 10px;
+        .page {
+            width: 90%;
+            max-width: 1200px;
+            background-color: #222;
+            border: 2px solid #33ff33;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            margin: auto;
         }
         .chatroom{
           background-color:  #010107 ;
-          width: 70%;
+          width: 100%;
           border-radius: 10px;
 
         }
@@ -271,7 +287,28 @@
             color: #0056b3; /* Darker blue color on hover */
         }
 
-
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .navigation button, .navigation a {
+            background: none;
+            border: 2px solid #33ff33;
+            color: #33ff33;
+            padding: 5px 10px;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        .navigation a:hover, .navigation button:hover {
+            background-color: #33ff33;
+            color: #111;
+        }
+        .wrap{
+          display: flex;
+        }
 
     </style>
 </head>
@@ -283,6 +320,7 @@
           <h1>Private Chat</h1>
           <p><span id="user">recipient</span></p>
         </div>
+        <div class="wrap">
         <div class="main">
             <div id="chat-box">
                 
@@ -339,15 +377,25 @@
                 </button>
             </div>
         </div>
-      </div> 
-
-      <div class="dealers">
-        <div class="user-list" id="user-list">
-          <h3>Dealers</h3>
-          <!-- <button id="c-user">username <span id="c-id">5</span></button> <br>-->
+        <div class="dealers">
+          <div class="user-list" id="user-list">
+            <h3>Dealers</h3>
+            <!-- <button id="c-user">username <span id="c-id">5</span></button> <br>-->
+          </div>
         </div>
       </div>
+      </div> 
+
+      <div class="navigation">
+        <button onclick="window.history.back();">Back</button>
+        <a href="/profile">Profile</a>
+        <a href="/settings">Settings</a>
+        <a href="/help">Help</a>
+        <button onclick="window.location.href='/logout';">Logout</button>
+      </div>
+      
  </div>
+ 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
 
