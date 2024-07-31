@@ -410,7 +410,6 @@
             const newMessage = document.createElement('p');
             const urlParams = new URLSearchParams(window.location.search);
             const recipientID = urlParams.get('userId');
-
             if(sender == recipientID){
                 newMessage.className = "other-message";
                 newMessage.textContent = `[${sender}]: ${message}`;
