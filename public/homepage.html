@@ -178,7 +178,6 @@
     }
 
     .footer-shape {
-    position: fixed;
     background: rgba(26, 25, 25, 0.459);
     padding: 20px;
     text-align: center;
@@ -187,6 +186,7 @@
     border-top-left-radius: 50px;
     border-top-right-radius: 50px;
     margin: auto;
+    height: 115px;
 }
 
 .footer-shape .copyright {
@@ -202,35 +202,7 @@
     
 }
 
-.footer-shape #logout {
-    background: rgb(94, 0, 0);
-    color: lime;
-    border: 2px solid rgb(255, 8, 0);
-    padding: 10px 20px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    margin-top: 4px;
-}
 
-.footer-shape #logout:hover {
-    background: lime;
-    color: black;
-}
-
-.footer-shape #logout svg {
-    fill: lime;
-    margin-right: 8px;
-    transition: all 0.3s ease;
-}
-
-.footer-shape #logout:hover svg {
-    fill: black;
-}
 
 .footer-shape p {
     color: rgb(39, 231, 0);
@@ -511,6 +483,26 @@ button:active {
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 999;
         }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .navigation button, .navigation a {
+            background: none;
+            border: 2px solid #33ff33;
+            color: #33ff33;
+            padding: 5px 10px;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        .navigation a:hover, .navigation button:hover {
+            background-color: #33ff33;
+            color: #111;
+        }
+        
 
 </style>
 </head>
@@ -546,6 +538,13 @@ button:active {
     <div class="delivery-info">
         <h2>Considerable Information</h2>
         <p><strong>How it Works</strong> <br>Search whatever item - Hit [Deal It] to Contact seller - Payment and Delivery can be done by help of  <br><span style="font-weight: bold;color: #ff3333;font-size: 20px;">G-Dealer</span> or self arrangement between dealers.</p><br>
+        <div class="navigation">
+            <button>Notications</button>
+            <a href="/profile">Profile</a>
+            <a href="/settings">Settings</a>
+            <a href="/help">Help</a>
+            <button id="logout">Logout</button>
+          </div>
     </div>
     
     <h1 style="text-align: center; margin: 20px 0; font-size: 2em; color: #33ff33;">Goods Marketplace</h1>
@@ -727,24 +726,19 @@ button:active {
     </script>
     <div class="push">
         <img src="profile-logo.jpg" class="left-image" alt="Left Image">
+        <div class="footer-shape">
+            <div class="copyright">
+                <button id="top"><i class="fas fa-arrow-up"></i></button>
+                
+                <p>&copy; 2024 GhostLine X-5 ** All rights reserved.</p>
+            </div>
+        </div>
         <img src="profile-logo.jpg" class="right-image" alt="Right Image">
     </div>
     
 
 
-    <div class="footer-shape">
-        <div class="copyright">
-            <button id="top"><i class="fas fa-arrow-up"></i></button>
-            <button id="logout">
-                <svg class="exit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
-                    <path d="M13 3h-9v18h9v-2h-7v-14h7v-2zm5.707 12.293l-1.414 1.414-4.293-4.293 4.293-4.293 1.414 1.414-2.586 2.586h6.586v2h-6.586l2.586 2.586z"/>
-                </svg>
-                Logout
-            </button>
-            
-            <p>&copy; 2024 GhostLine X-5 ** All rights reserved.</p>
-        </div>
-    </div>
+    
 
 
     <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
