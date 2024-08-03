@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notifications</title>
+    <style>
+        body{
+            background-color: rgb(70, 70, 65);
+        }
+        .notification {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            color: green;
+            background-color: rgb(71, 6, 6);
+        }
+    </style>
+</head>
+<body>
+    <h1>Notifications</h1>
+    <div id="notifications-container">
+        <!-- Notifications will be inserted here -->
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.min.js"></script>
+    <script>
+        // Connect to the socket server
+        const socket = io.connect('http://localhost:8000');
+
+        // Debugging: Log when connected to socket server
+        socket.on('connect', () => {
+            console.log('Connected to socket server');
+        });
+
+        // Fetch initial notifications when page loads
+        document.addEventListener('DOMContentLoaded', fetchNotifications);
+
+        function fetchNotifications() {
+    console.log('Fetching notifications...');
+
+    fetch('/notifications')
+        .then(response => {
+            // Check if response is not JSON
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            // Try to parse response as JSON
+            return response.json().catch(() => {
+                throw new Error('Failed to parse JSON response');
+            });
+        })
+        .then(notifications => {
+            console.log('Notifications fetched:', notifications);
+            const container = document.getElementById('notifications-container');
+            container.innerHTML = ''; // Clear existing content
+
+            notifications.forEach(notification => {
+                const div = document.createElement('div');
+                div.className = 'notification';
+                div.textContent = notification.message;
+                container.appendChild(div);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching notifications:', error);
+        });
+}
+
+
+        // Listen for real-time notification updates
+        socket.on('new-notification', (data) => {
+            console.log('New notification received:', data);
+            const { message } = data;
+            const container = document.getElementById('notifications-container');
+
+            // Create and append new notification
+            const div = document.createElement('div');
+            div.className = 'notification';
+            div.textContent = message;
+            container.appendChild(div);
+        });
+
+        // Debugging: Log when disconnected from socket server
+        socket.on('disconnect', () => {
+            console.log('Disconnected from socket server');
+        });
+    </script>
+</body>
+</html>

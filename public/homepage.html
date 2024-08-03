@@ -524,7 +524,7 @@ button:active {
             </div>
             <div class="right">
                 <a href="/xman">Group Chat</a>
-                <button id="inbox-btn">INBOX</button>
+                <button id="inbox-btn">INBOX (<span id="unread-count">0</span>)</button>
             </div>
         </div>
     
@@ -539,7 +539,9 @@ button:active {
         <h2>Considerable Information</h2>
         <p><strong>How it Works</strong> <br>Search whatever item - Hit [Deal It] to Contact seller - Payment and Delivery can be done by help of  <br><span style="font-weight: bold;color: #ff3333;font-size: 20px;">G-Dealer</span> or self arrangement between dealers.</p><br>
         <div class="navigation">
-            <button>Notications</button>
+            <button id="notificationBtn">
+                Notifications (<span id="unread">0</span>)
+            </button>
             <a href="/profile">Profile</a>
             <a href="/settings">Settings</a>
             <a href="/help">Help</a>
@@ -753,6 +755,82 @@ button:active {
             document.getElementById('username').textContent = `Username: ${data.username}`;
             document.getElementById('userID').textContent = `UserID: ${data.userID}`;
         });
+        // Listen for unread message count updates
+        socket.on('unread-message-count', (data) => {
+            const { unreadCount } = data;
+            document.getElementById('unread-count').textContent = unreadCount;
+        });
+
+        // Fetch unread message count when the page loads
+    function fetchUnreadCount() {
+        fetch('/unread-message-count')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('unread-count').textContent = data.unreadCount;
+            })
+            .catch(error => {
+                console.error('Error fetching unread message count:', error);
+            });
+    }
+
+    // Mark messages as read when opening the chat
+    function markMessagesAsRead(recipientID) {
+        fetch(`/mark-messages-as-read/${recipientID}`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('unread-count').textContent = 0;
+                }
+            });
+    }
+
+    // Fetch unread count on page load
+    document.addEventListener('DOMContentLoaded', fetchUnreadCount);
+
+    // Mark messages as read when opening the chat
+    function markMessagesAsRead(recipientID) {
+        fetch(`/mark-messages-as-read/${recipientID}`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('unread-count').textContent = 0;
+                }
+            });
+    }
+
+    // Debugging: Check if recipientID is defined
+    const recipientID = document.getElementById('userID').value; // or however you plan to define it
+    if (recipientID) {
+        markMessagesAsRead(recipientID);
+    }
+
+
+
+        document.addEventListener('DOMContentLoaded', fetchUnreadNotificationsCount);
+
+        function fetchUnreadNotificationsCount() {
+            fetch('/unread-notifications-count')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('unread').textContent = data.unreadCount;
+                })
+                .catch(error => console.error('Error fetching unread notifications count:', error));
+        }
+
+        // Listen for new notifications in real-time
+        socket.on('new-notification', (data) => {
+            fetchUnreadNotificationsCount(); // Update the unread notifications count
+        });
+
+        // Redirect to notifications page on button click
+        document.getElementById('notificationBtn').addEventListener('click', () => {
+            window.location.href = '/notifications';
+        });
     </script>
 
     <script>
@@ -863,6 +941,7 @@ button:active {
             }
         });
     </script>
+
     
 </body>
 </html>

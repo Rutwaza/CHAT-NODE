@@ -313,6 +313,13 @@ app.get('/homepage', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'homepage.html'));
 });
 
+
+// Serve notifications page
+app.get('/notifications', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'notifications.html'));
+});
+
+
 // Serve the goods posting page
 app.get('/post-good', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'post-good.html'));
@@ -438,20 +445,44 @@ app.get('/check-likes', (req, res) => {
         res.json(results);
     });
 });
-             
+         
 // Endpoint to handle like
 app.post('/like', (req, res) => {
     const userId = req.session.userID; // Assuming user ID is available
     const { goodId } = req.body;
 
-    // Add like to the database
-    connection.query('INSERT INTO likes (userId, goodId) VALUES (?, ?)', [userId, goodId], (error, results) => {
+    // Fetch the good owner's userID and username for the notification
+    connection.query('SELECT sellerID FROM goods WHERE id = ?', [goodId], (error, results) => {
         if (error) return res.status(500).json({ error });
 
-        // Increment the like count in the goods table
-        connection.query('UPDATE goods SET likes = likes + 1 WHERE id = ?', [goodId], (error, results) => {
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Good not found' });
+        }
+
+        const goodOwnerID = results[0].sellerID;
+        const likerUsername = req.session.username; // Assuming username is stored in session
+
+        // Add like to the database
+        connection.query('INSERT INTO likes (userId, goodId) VALUES (?, ?)', [userId, goodId], (error, results) => {
             if (error) return res.status(500).json({ error });
-            res.json({ success: true });
+
+            // Increment the like count in the goods table
+            connection.query('UPDATE goods SET likes = likes + 1 WHERE id = ?', [goodId], (error, results) => {
+                if (error) return res.status(500).json({ error });
+
+                // Save a notification for the good owner
+                const notificationMessage = `${likerUsername} has liked your good`;
+                connection.query('INSERT INTO notifications (userID, type, message) VALUES (?, ?, ?)', [goodOwnerID, 'like', notificationMessage], (error, results) => {
+                    if (error) return res.status(500).json({ error });
+
+                    // Emit the new-notification event to the specific user
+                    if (activeSockets[goodOwnerID]) {
+                        activeSockets[goodOwnerID].emit('new-notification', { message: notificationMessage });
+                    }
+
+                    res.json({ success: true });
+                });
+            });
         });
     });
 });
@@ -522,6 +553,81 @@ app.post('/logout', (req, res) => {
         res.status(200).json({ message: 'Logged out successfully' });
     });
 });
+
+//---------------------------------------->>>
+app.get('/unread-message-count', (req, res) => {
+    const userID = req.session.userID;
+    //console.log("userrrr notif" + userID);
+
+    const query = 'SELECT COUNT(*) AS unreadCount FROM inbox WHERE recipientID = ? AND isRead = FALSE';
+    connection.query(query, [userID], (err, results) => {
+        if (err) {
+            console.error('Error counting unread messages:', err);
+            res.status(500).json({ success: false, error: 'Server error' });
+            return;
+        }
+        const unreadCount = results[0].unreadCount;
+        res.json({ unreadCount });
+    });
+});
+
+app.post('/mark-messages-as-read/:recipientID', (req, res) => {
+    const userID = req.session.userID;
+    const recipientID = req.params.recipientID;
+
+    const query = `
+        UPDATE inbox
+        SET isRead = TRUE
+        WHERE recipientID = ? AND senderID = ? AND isRead = FALSE`;
+
+    connection.query(query, [userID, recipientID], (err, results) => {
+        if (err) {
+            console.error('Error marking messages as read:', err);
+            res.status(500).json({ success: false, error: 'Server error' });
+            return;
+        }
+        res.json({ success: true });
+    });
+});
+
+
+
+// Endpoint to fetch notifications
+app.get('/notifications', (req, res) => {
+    const userId = req.session.userID; // Assuming user ID is available
+
+    // Fetch notifications from the database
+    connection.query('SELECT * FROM notifications WHERE userId = ?', [userId], (error, results) => {
+        if (error) {
+            console.error('Error fetching notifications:', error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+
+        // Send notifications as JSON
+        res.json(results.map(notification => ({
+            message: notification.message,
+            timestamp: notification.timestamp
+        })));
+    });
+});
+
+
+// Endpoint to fetch unread notifications count
+app.get('/unread-notifications-count', (req, res) => {
+    const userId = req.session.userID;
+    if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const query = 'SELECT COUNT(*) AS unreadCount FROM notifications WHERE userID = ? AND isRead = 0';
+    connection.query(query, [userId], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error });
+        }
+        res.json({ unreadCount: results[0].unreadCount });
+    });
+});
+
 
 /////////////////////////////--------------///////////////////////////
 // Store the active socket connections
@@ -611,7 +717,7 @@ function onConnected(socket) {
         const senderID = socket.handshake.session.userID;
         /////==================///////
         // Save the message to the database
-        const query = 'INSERT INTO inbox (senderID, recipientID, message) VALUES (?, ?, ?)';
+        const query = 'INSERT INTO inbox (senderID, recipientID, message, isRead) VALUES (?, ?, ?, FALSE)';
         connection.query(query, [senderID, recipientID, message], (err, results) => {
             if (err) {
                 console.error('Error saving message to the database:', err);
@@ -627,10 +733,28 @@ function onConnected(socket) {
         } else {
             socket.emit('private-message-error', { error: `Recipient ${recipientID} is not available` });
         }
+        // Update the unread message count for the recipient
+        updateUnreadMessageCount(recipientID);
     });
 }
 
 io.on('connection', onConnected);
+
+//---------------------------->>
+
+function updateUnreadMessageCount(userID) {
+    const query = 'SELECT COUNT(*) AS unreadCount FROM inbox WHERE recipientID = ? AND isRead = FALSE';
+    connection.query(query, [userID], (err, results) => {
+        if (err) {
+            console.error('Error counting unread messages:', err);
+            return;
+        }
+        const unreadCount = results[0].unreadCount;
+        if (activeSockets[userID]) {
+            activeSockets[userID].emit('unread-message-count', { unreadCount });
+        }
+    });
+}
 
 // Function to convert JavaScript date to MySQL format
 function toMysqlFormat(date) {

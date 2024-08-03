@@ -428,6 +428,21 @@
         //document.getElementById('user').innerHTML =recipientID;
         console.log(recipientID);
 
+        // Mark messages as read when opening the chat
+        function markMessagesAsRead(recipientID) {
+            fetch(`/mark-messages-as-read/${recipientID}`, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('unread-count').textContent = 0;
+                    }
+                });
+        };
+        // Mark messages as read when opening the chat
+        if (recipientID) {
+            markMessagesAsRead(recipientID);
+        }
+
         ///////--------------------------------------///////////////
               // Load previous messages
           fetch(`/messages/${recipientID}`)
