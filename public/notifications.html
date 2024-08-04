@@ -5,14 +5,39 @@
     <title>Notifications</title>
     <style>
         body {
-            background-color: rgb(70, 70, 65);
+            background-color: #1e1e1e;
+            color: #33ff33;
+            font-family: 'Roboto Mono', monospace;
+            margin: 0;
+            padding: 0;
         }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 1px solid #33ff33;
+            margin: 0;
+        }
+
+        #notifications-container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
         .notification {
-            border-bottom: 1px solid #ddd;
-            padding: 10px;
-            margin-bottom: 10px;
-            color: green;
-            background-color: rgb(71, 6, 6);
+            border: 2px solid #33ff33;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(0, 0, 0, 0.85);
+            box-shadow: 0 0 5px #33ff33;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .notification:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px #33ff33;
         }
     </style>
 </head>

@@ -16,7 +16,7 @@
 
     body {
         background-color: black;
-        background-image: url("giphy.gif");
+        background-image: url("str.gif");
         background-repeat: no-repeat;
         background-size: cover;
         align-items: center;
@@ -62,7 +62,7 @@
     }
 
     #user-info {
-            background-color: #222;
+            background-color: #3d1e04c0;
             color: #33ff33;
             padding: 10px;
             border: 1px solid #33ff33;
@@ -145,7 +145,7 @@
         }
         
     .delivery-info {
-        background-color: #111;
+        background-color: #111111d7;
         border: 2px solid #33ff33;
         border-radius: 8px;
         padding: 20px;
@@ -502,6 +502,40 @@ button:active {
             background-color: #33ff33;
             color: #111;
         }
+        .marquee {
+            width: 40%;
+            background-color: #381e08;
+            padding: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        .marquee marquee {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ff0000;
+            text-transform: uppercase;
+        }
+        .marquee::before, .marquee::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 10%;
+            background: linear-gradient(to right, #222, transparent);
+            z-index: 1;
+        }
+        .marquee::after {
+            right: 0;
+            transform: rotate(180deg);
+        }
+        .marquee::before {
+            left: 0;
+        }
+        .marquee marquee {
+            animation: scroll-left 50s linear infinite;
+        }
+        
         
 
 </style>
@@ -509,7 +543,7 @@ button:active {
 <body>
 
     <header>
-        <h1 class="company-name">GhostLine X-5</h1>
+        <h1 class="company-name">VeilChat X-5</h1>
         <nav>
             <ul>
                 <li><a href="#">***</a></li>
@@ -521,6 +555,9 @@ button:active {
             <div class="left">
                 <span id="username">Username: JohnDoe</span>
                 <span id="userID">UserID: 12345</span>
+            </div>
+            <div class="marquee">
+                <marquee behavior="scroll" direction="left">Welcome to the Secret and Secured Black Market</marquee>
             </div>
             <div class="right">
                 <a href="/xman">Group Chat</a>
