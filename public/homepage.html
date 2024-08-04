@@ -778,16 +778,6 @@ button:active {
             });
     }
 
-    // Mark messages as read when opening the chat
-    function markMessagesAsRead(recipientID) {
-        fetch(`/mark-messages-as-read/${recipientID}`, { method: 'POST' })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById('unread-count').textContent = 0;
-                }
-            });
-    }
 
     // Fetch unread count on page load
     document.addEventListener('DOMContentLoaded', fetchUnreadCount);

@@ -591,9 +591,8 @@ app.post('/mark-messages-as-read/:recipientID', (req, res) => {
 });
 
 
-
 // Endpoint to fetch notifications
-app.get('/notifications', (req, res) => {
+app.get('/api/notifications', (req, res) => {
     const userId = req.session.userID; // Assuming user ID is available
 
     // Fetch notifications from the database
@@ -610,6 +609,25 @@ app.get('/notifications', (req, res) => {
         })));
     });
 });
+
+// Endpoint to mark notifications as read
+app.post('/api/mark-notifications-as-read', (req, res) => {
+    const userId = req.session.userID; // Assuming user ID is available
+
+    // Update notifications to mark them as read
+    connection.query('UPDATE notifications SET isRead = 1 WHERE userId = ?', [userId], (error, results) => {
+        if (error) {
+            console.error('Error marking notifications as read:', error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+
+        // Emit event to update unread count on the client side
+        io.to(userId).emit('unread-notes-count', { unreadCount: 0 });
+
+        res.json({ success: true });
+    });
+});
+
 
 
 // Endpoint to fetch unread notifications count
@@ -713,9 +731,9 @@ function onConnected(socket) {
 
     socket.on('private-message', (data) => {
         const { recipientID, message } = data;
-        console.log(data);
         const senderID = socket.handshake.session.userID;
-        /////==================///////
+        const senderUsername = socket.handshake.session.username; // Assuming you have the sender's username in the session
+    
         // Save the message to the database
         const query = 'INSERT INTO inbox (senderID, recipientID, message, isRead) VALUES (?, ?, ?, FALSE)';
         connection.query(query, [senderID, recipientID, message], (err, results) => {
@@ -724,17 +742,29 @@ function onConnected(socket) {
                 socket.emit('private-message-error', { error: 'Failed to save message' });
                 return;
             }
-        })
-        /////////==============////////
-
-        if (activeSockets[recipientID]) {
-            activeSockets[recipientID].emit('private-message', { sender: senderID, message });
-            socket.emit('private-message', { sender: senderID, message });
-        } else {
-            socket.emit('private-message-error', { error: `Recipient ${recipientID} is not available` });
-        }
-        // Update the unread message count for the recipient
-        updateUnreadMessageCount(recipientID);
+    
+            // Create a notification for the recipient
+            const notificationMessage = `${senderUsername} sent you a message: "${message}"`;
+            const notificationQuery = 'INSERT INTO notifications (userID, type, message) VALUES (?, ?, ?)';
+            connection.query(notificationQuery,[recipientID, 'inbox', notificationMessage], (err, results) => {
+                if (err) {
+                    console.error('Error creating notification:', err);
+                    return;
+                }
+    
+                // Emit a new notification event if the recipient is online
+                if (activeSockets[recipientID]) {
+                    activeSockets[recipientID].emit('new-notification', { message: notificationMessage });
+                    activeSockets[recipientID].emit('private-message', { sender: senderID, message });
+                }
+    
+                // Update the unread message count for the recipient
+                updateUnreadMessageCount(recipientID);
+            });
+        });
+    
+        // Notify the sender that the message was sent successfully
+        socket.emit('private-message', { sender: senderID, message });
     });
 }
 
