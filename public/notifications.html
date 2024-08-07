@@ -4,40 +4,78 @@
     <meta charset="UTF-8">
     <title>Notifications</title>
     <style>
-        body {
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+
+body {
+    background-color: #1e1e1e;
+    color: #33ff33;
+    font-family: 'Roboto Mono', monospace;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    padding: 20px;
+    border-bottom: 1px solid #33ff33;
+    margin: 0;
+}
+
+#notifications-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.notification {
+    border: 2px solid #33ff33;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: rgba(0, 0, 0, 0.85);
+    box-shadow: 0 0 15px #33ff33;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.notification:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px #33ff33;
+}
+
+.message {
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.date {
+    font-size: 0.9em;
+    color: #999;
+}
+
+.view-button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: #33ff33;
+    color: #1e1e1e;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.view-button:hover {
+    background-color: #1e1e1e;
+    color: #33ff33;
+}
+.delete-button {
+            background-color: #ff3333;
+            border-radius: 5px;
+            text-align: right;
+        }
+
+.delete-button:hover {
             background-color: #1e1e1e;
-            color: #33ff33;
-            font-family: 'Roboto Mono', monospace;
-            margin: 0;
-            padding: 0;
-        }
-
-        h1 {
-            text-align: center;
-            padding: 20px;
-            border-bottom: 1px solid #33ff33;
-            margin: 0;
-        }
-
-        #notifications-container {
-            padding: 20px;
-            max-width: 800px;
-            margin: 20px auto;
-        }
-
-        .notification {
-            border: 2px solid #33ff33;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            background: rgba(0, 0, 0, 0.85);
-            box-shadow: 0 0 5px #33ff33;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .notification:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px #33ff33;
+            color: #ff3333;
         }
     </style>
 </head>
@@ -76,7 +114,35 @@
                     notifications.forEach(notification => {
                         const div = document.createElement('div');
                         div.className = 'notification';
-                        div.textContent = `${notification.message} - ${new Date(notification.timestamp).toLocaleString()}`;
+                        
+                        const formattedTimestamp = new Date(notification.createdAt).toLocaleString();
+                        const messageDiv = document.createElement('div');
+                        messageDiv.className = 'message';
+                        messageDiv.textContent = notification.message;
+                        
+                        const dateDiv = document.createElement('div');
+                        dateDiv.className = 'date';
+                        dateDiv.textContent = formattedTimestamp;
+
+                        div.appendChild(messageDiv);
+                        div.appendChild(dateDiv);
+
+                        if (notification.type === 'message') {
+                            const viewButton = document.createElement('button');
+                            viewButton.className = 'view-button';
+                            viewButton.textContent = 'View';
+                            viewButton.onclick = () => alert('View button clicked');
+                            div.appendChild(viewButton);
+                        }
+                        const deleteButton = document.createElement('button');
+                        deleteButton.className = 'delete-button';
+                        deleteButton.textContent = 'Delete';
+                        deleteButton.onclick = () => {
+                            // Handle deletion logic here
+                            alert('Delete button clicked');
+                        };
+                        div.appendChild(deleteButton);
+
                         container.appendChild(div);
                     });
                 })
@@ -102,13 +168,33 @@
         // Listen for real-time notification updates
         socket.on('new-notification', (data) => {
             console.log('New notification received:', data);
-            const { message } = data;
+            const { message, createdAt, type } = data;
             const container = document.getElementById('notifications-container');
 
             // Create and append new notification
             const div = document.createElement('div');
             div.className = 'notification';
-            div.textContent = message;
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+            messageDiv.textContent = message;
+
+            const formattedTimestamp = new Date(createdAt).toLocaleString();
+            const dateDiv = document.createElement('div');
+            dateDiv.className = 'date';
+            dateDiv.textContent = formattedTimestamp;
+
+            div.appendChild(messageDiv);
+            div.appendChild(dateDiv);
+
+            if (type === 'message') {
+                const viewButton = document.createElement('button');
+                viewButton.className = 'view-button';
+                viewButton.textContent = 'View';
+                viewButton.onclick = () => alert('View button clicked');
+                div.appendChild(viewButton);
+            }
+
             container.appendChild(div);
         });
 

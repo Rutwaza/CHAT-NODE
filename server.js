@@ -605,7 +605,7 @@ app.get('/api/notifications', (req, res) => {
         // Send notifications as JSON
         res.json(results.map(notification => ({
             message: notification.message,
-            timestamp: notification.timestamp
+            createdAt: notification.createdAt
         })));
     });
 });
