@@ -203,6 +203,7 @@ const cookieParser = require('cookie-parser');
 const socketIO = require('socket.io');
 const sharedSession = require('express-socket.io-session');
 const multer = require('multer');
+const { type } = require('os');
 const upload = multer({ dest: 'uploads/' });
 
 const PORT = process.env.PORT || 8000;
@@ -605,7 +606,8 @@ app.get('/api/notifications', (req, res) => {
         // Send notifications as JSON
         res.json(results.map(notification => ({
             message: notification.message,
-            createdAt: notification.createdAt
+            createdAt: notification.createdAt,
+            type: notification.type
         })));
     });
 });

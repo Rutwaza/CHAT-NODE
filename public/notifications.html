@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Notifications</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
 
 body {
+    background-image: url("str.gif");
     background-color: #1e1e1e;
     color: #33ff33;
     font-family: 'Roboto Mono', monospace;
@@ -18,7 +20,7 @@ h1 {
     text-align: center;
     padding: 20px;
     border-bottom: 1px solid #33ff33;
-    margin: 0;
+    margin: auto;
 }
 
 #notifications-container {
@@ -28,18 +30,19 @@ h1 {
 }
 
 .notification {
+    position: relative;
     border: 2px solid #33ff33;
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 15px;
     background: rgba(0, 0, 0, 0.85);
-    box-shadow: 0 0 15px #33ff33;
+    box-shadow: 0 0 15px #020b41;
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .notification:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 25px #33ff33;
+    box-shadow: 0 0 25px #132261;
 }
 
 .message {
@@ -53,14 +56,14 @@ h1 {
 }
 
 .view-button {
-    padding: 10px 20px;
-    margin-top: 10px;
-    background-color: #33ff33;
-    color: #1e1e1e;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
+    background-color: #451d69;
+            border-radius: 5px;
+            text-align: right;
+            position: absolute;
+            top: 50%;
+            right: 80px;
+            transform: translateY(-50%);
+            font-weight: bold;
 }
 
 .view-button:hover {
@@ -71,16 +74,38 @@ h1 {
             background-color: #ff3333;
             border-radius: 5px;
             text-align: right;
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
         }
 
 .delete-button:hover {
             background-color: #1e1e1e;
             color: #ff3333;
         }
+.header-container {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgb(0, 185, 0);
+
+}
+
+.back-arrow {
+    font-size: 24px;
+    margin-right: 10px;
+    cursor: pointer;
+    color: #33ff33;
+}
+
     </style>
 </head>
 <body>
-    <h1>Notifications</h1>
+    
+    <div class="header-container">
+        <i class="fas fa-arrow-left back-arrow"></i>
+        <h1>Notifications</h1>
+    </div>
     <div id="notifications-container">
         <!-- Notifications will be inserted here -->
     </div>
@@ -127,7 +152,7 @@ h1 {
                         div.appendChild(messageDiv);
                         div.appendChild(dateDiv);
 
-                        if (notification.type === 'message') {
+                        if (notification.type === 'inbox') {
                             const viewButton = document.createElement('button');
                             viewButton.className = 'view-button';
                             viewButton.textContent = 'View';
