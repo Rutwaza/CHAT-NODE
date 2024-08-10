@@ -156,7 +156,10 @@ h1 {
                             const viewButton = document.createElement('button');
                             viewButton.className = 'view-button';
                             viewButton.textContent = 'View';
-                            viewButton.onclick = () => alert('View button clicked');
+                            viewButton.onclick = () => {
+                                // Redirect to the chatroom with the recipientID
+                                window.location.href = `/onemess?userId=${notification.senderID}`;
+                            };
                             div.appendChild(viewButton);
                         }
                         const deleteButton = document.createElement('button');
@@ -164,7 +167,7 @@ h1 {
                         deleteButton.textContent = 'Delete';
                         deleteButton.onclick = () => {
                             // Handle deletion logic here
-                            alert('Delete button clicked');
+                            deleteNotification(notification.id, div);
                         };
                         div.appendChild(deleteButton);
 
@@ -175,6 +178,28 @@ h1 {
                     console.error('Error fetching notifications:', error);
                 });
         }
+
+        // Function to delete a notification
+function deleteNotification(notificationId, notificationElement) {
+    fetch(`/api/notifications/${notificationId}`, { method: 'DELETE' })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(result => {
+            if (result.success) {
+                // Remove the notification element from the DOM
+                notificationElement.remove();
+            } else {
+                console.error('Failed to delete notification:', result.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting notification:', error);
+        });
+}
 
         function markNotificationsAsRead() {
             fetch('/api/mark-notifications-as-read', { method: 'POST' })

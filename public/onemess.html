@@ -2,9 +2,11 @@
 <html>
 <head>
     <title>Private Chat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body{
             background-color: #111;
+            background-image: url("str.gif");
             color: #33ff33;
             font-family: 'Courier New', Courier, monospace;
             margin: 0;
@@ -42,7 +44,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            background-color: #333;
+            background-color: #333333ab;
             border: 2px solid #33ff33;
             border-radius: 10px;
             padding: 20px;
@@ -51,8 +53,8 @@
     .messageBox {
             display: flex;
             align-items: center;
-            background-color: #222;
-            border: 2px solid #33ff33;
+            background-color: #1d1b33d7;
+            border: 1px solid #007e00;
             border-radius: 10px;
             padding: 10px;
         }
@@ -62,10 +64,9 @@
             margin-bottom: 10px;
             overflow-y: auto;
             padding: 10px;
-            background-color: #222;
-            border: 2px solid #33ff33;
+            border: 2px solid #0b6b0b;
             border-radius: 10px;
-            max-height: 60vh;
+            max-height: 70vh;
         }
 
         .messageBox:focus-within {
@@ -75,27 +76,21 @@
             position: relative;
             margin-right: 10px;
         }
-        .fileUploadWrapper input[type="file"] {
-            position: absolute;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            cursor: pointer;
-        }
-
+        
         #file {
         display: none;
         }
         .fileUploadWrapper label {
-            cursor: pointer;
             display: flex;
             align-items: center;
-        }
-        .fileUploadWrapper label svg {
-            width: 30px;
-            height: 30px;
-            fill: #33ff33;
-        }
+            cursor: pointer;
+            color: #33ff33; /* Adjust color to match your design */
+                }
+        .fileUploadWrapper label i {
+            margin-right: 5px; /* Space between icon and text */
+            font-size: 18px; /* Adjust icon size */
+            color: #33ff33; /* Icon color */
+                }
         .fileUploadWrapper .tooltip {
             display: none;
             position: absolute;
@@ -111,26 +106,8 @@
         .fileUploadWrapper label:hover .tooltip {
             display: block;
         }
-        .fileUploadWrapper label svg path {
-        -webkit-transition: all 0.3s ease-out;
-        -moz-transition: all 0.3s ease-out;
-        -o-transition: all 0.3s ease-out;
-        transition: all 0.3s ease-out;
-        }
-        .fileUploadWrapper label svg circle {
-        -webkit-transition: all 0.3s ease-out;
-        -moz-transition: all 0.3s ease-out;
-        -o-transition: all 0.3s ease-out;
-        transition: all 0.3s ease-out;
-        }
-        .fileUploadWrapper label:hover svg path {
-        stroke: #fff;
-        }
-        .fileUploadWrapper label:hover svg circle {
-        stroke: #fff;
-        fill: #3c3c3c;
-        }
-        .fileUploadWrapper label:hover .tooltip {
+       
+       .fileUploadWrapper label:hover .tooltip {
         display: block;
         opacity: 1;
         }
@@ -157,39 +134,23 @@
             padding: 10px;
             background-color: #222;
             color: #33ff33;
-            border: 2px solid #33ff33;
+            border: 1px solid #232c55;
             border-radius: 10px;
         }
-        #messageInput:focus ~ #send-button svg path,
-        #messageInput:valid ~ #send-button svg path {
-        fill: #3c3c3c;
-        stroke: #00ff6a;
-        }
+       
 
         #send-button {
             background: none;
-            border: 2px solid #33ff33;
+            border: 1px solid #422bc9;
             padding: 10px;
             cursor: pointer;
             display: flex;
             align-items: center;
+            font-size: 30px; /* Adjust icon size */
+            border-radius: 5px;
+            color: #008ce9;
         }
-        #send-button svg {
-            width: 30px;
-            height: 30px;
-            fill: #33ff33;
-        }
-        #send-button svg path {
-        -webkit-transition: all 0.3s ease-out;
-        -moz-transition: all 0.3s ease-out;
-        -o-transition: all 0.3s ease-out;
-        transition: all 0.3s ease-out;
-        }
-        #send-button:hover svg path {
-        fill: #3c3c3c;
-        stroke: #00ff6a;
-        }
-
+        
         .private {
             display: flex;
             justify-content: space-between;
@@ -240,10 +201,7 @@
           background-color: #0b610b;
           border: 2px solid  #9ffa0391 ;
         }
-        .prof{
-          background-color: #3600b4;
-        }
-
+        
         /* Style for user ID label */
         .user-id {
             margin-left: 10px;
@@ -254,7 +212,7 @@
         .page {
             width: 90%;
             max-width: 1200px;
-            background-color: #222;
+            background-color: #22222200;
             border: 2px solid #33ff33;
             padding: 20px;
             border-radius: 10px;
@@ -263,13 +221,13 @@
             margin: auto;
         }
         .chatroom{
-          background-color:  #010107 ;
+          background-color:  #07071600 ;
           width: 100%;
           border-radius: 10px;
 
         }
         .dealers{
-          background-color:  #010105 ;
+          background-color:  #01010500 ;
           width: 35%;
           text-align: center;
           border-radius: 10px;
@@ -309,6 +267,38 @@
         .wrap{
           display: flex;
         }
+        .file-preview {
+            margin-top: 10px;
+        }
+
+        .file-preview img {
+            max-width: 80px;
+            max-height: 80px;
+            display: block;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        .file-preview p {
+            font-size: 14px;
+            margin: 0;
+        }
+        .file-preview .close-icon {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
 
     </style>
 </head>
@@ -318,7 +308,7 @@
       <div class="chatroom">
         <div class="private">
           <h1>Private Chat</h1>
-          <p><span id="user">recipient</span></p>
+          <p><span id="user_name">My Name</span></p>
         </div>
         <div class="wrap">
         <div class="main">
@@ -327,53 +317,16 @@
             </div>
             <div class="messageBox">
                 <div class="fileUploadWrapper">
-                  <label for="file">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 337 337">
-                      <circle
-                        stroke-width="20"
-                        stroke="#6c6c6c"
-                        fill="none"
-                        r="158.5"
-                        cy="168.5"
-                        cx="168.5"
-                      ></circle>
-                      <path
-                        stroke-linecap="round"
-                        stroke-width="25"
-                        stroke="#6c6c6c"
-                        d="M167.759 79V259"
-                      ></path>
-                      <path
-                        stroke-linecap="round"
-                        stroke-width="25"
-                        stroke="#6c6c6c"
-                        d="M79 167.138H259"
-                      ></path>
-                    </svg>
+                  <label for="file-input">
+                    <i class="fas fa-upload"></i>
                     <span class="tooltip">Add an image</span>
                   </label>
-                  <input type="file" id="file" name="file" />
+                  <input type="file" id="file-input" accept="image/*,video/*" hidden/>
+                  <div id="file-preview" class="file-preview"></div> <!-- Preview area -->
                 </div>
-                <input
-                  required=""
-                  placeholder="Write here..."
-                  type="text"
-                  id="message-input"
-                />
+                <input required="" placeholder="Write here..." type="text" id="message-input" />
                 <button id="send-button">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 664 663">
-                    <path
-                      fill="none"
-                      d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888"
-                    ></path>
-                    <path
-                      stroke-linejoin="round"
-                      stroke-linecap="round"
-                      stroke-width="33.67"
-                      stroke="#6c6c6c"
-                      d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888"
-                    ></path>
-                  </svg>
+                    <i class="fas fa-paper-plane"></i>
                 </button>
             </div>
         </div>
@@ -403,16 +356,22 @@
         // Connect to the server
         const socket = io.connect('http://localhost:8000');
 
+        socket.on('user-info', (data) => {
+            console.log(data);
+            document.getElementById('user_name').textContent = `I am ${data.username}`;
+            //document.getElementById('userID').textContent = `UserID: ${data.userID}`;
+        });
+
         // Listen for incoming private messages
         socket.on('private-message', (data) => {
-            const { sender, message } = data;
+            const { sender, senderUsername, message } = data;
             const chatBox = document.getElementById('chat-box');
             const newMessage = document.createElement('p');
             const urlParams = new URLSearchParams(window.location.search);
             const recipientID = urlParams.get('userId');
             if(sender == recipientID){
                 newMessage.className = "other-message";
-                newMessage.textContent = `[${sender}]: ${message}`;
+                newMessage.textContent = `[${senderUsername}]: ${message}`;
             }else{
                 newMessage.className = "mine-message";
                 newMessage.textContent = `[You]: ${message}`;
@@ -449,11 +408,12 @@
               .then(response => response.json())
               .then(messages => {
                   const chatBox = document.getElementById('chat-box');
+    
                   messages.forEach(message => {
                       const newMessage = document.createElement('p');
                       if (message.senderID == recipientID) {
                           newMessage.className = 'other-message';
-                          newMessage.textContent = `[${message.senderID}]: ${message.message}`;
+                          newMessage.textContent = `[${message.senderUsername}]: ${message.message}`;
                       } else {
                           newMessage.className = 'mine-message';
                           newMessage.textContent = `[You]: ${message.message}`;
@@ -474,7 +434,6 @@
         socket.on('all-users', (users) => {
             // Assuming you have a container in your HTML with id 'user-list'
             const userListContainer = document.getElementById('user-list');
-            const uname = document.getElementById('user');
             // Clear existing user list
             //userListContainer.innerHTML = '';
 
@@ -484,7 +443,7 @@
                 const container = document.createElement('div');
                 container.classList.add('user-item');
 
-                uname.innerHTML =user.Username;
+                //uname.innerHTML =user.Username;
 
                 // Create button for user
                 const button = document.createElement('button');
@@ -516,6 +475,41 @@
                 userListContainer.appendChild(container);
             });
         });
+
+    </script>
+
+    <script>
+        //preview a file selected 
+        document.getElementById('file-input').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const previewContainer = document.getElementById('file-preview');
+            previewContainer.innerHTML = ''; // Clear previous preview
+
+            if (file) {
+                if (file.type.startsWith('image/')) {
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(file);
+                    previewContainer.appendChild(img);
+                }
+
+                const fileName = document.createElement('p');
+                fileName.textContent = `${file.name}`;
+                previewContainer.appendChild(fileName);
+
+                // Add close icon
+                const closeIcon = document.createElement('button');
+                closeIcon.className = 'close-icon';
+                closeIcon.innerHTML = '&times;';
+                closeIcon.onclick = () => {
+                    previewContainer.innerHTML = ''; // Clear preview
+                    document.getElementById('file').value = ''; // Clear file input
+                };
+                previewContainer.appendChild(closeIcon);
+            } else {
+                previewContainer.innerHTML = '<p>No file selected</p>';
+            }
+        });
+
 
     </script>
 </body>

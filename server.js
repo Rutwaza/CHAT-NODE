@@ -607,7 +607,10 @@ app.get('/api/notifications', (req, res) => {
         res.json(results.map(notification => ({
             message: notification.message,
             createdAt: notification.createdAt,
-            type: notification.type
+            type: notification.type,
+            id: notification.id,
+            userID: notification.userID,
+            senderID: notification.senderID
         })));
     });
 });
@@ -645,6 +648,25 @@ app.get('/unread-notifications-count', (req, res) => {
             return res.status(500).json({ error });
         }
         res.json({ unreadCount: results[0].unreadCount });
+    });
+});
+
+
+// Endpoint to delete a notification
+app.delete('/api/notifications/:id', (req, res) => {
+    const notificationId = req.params.id;
+
+    connection.query('DELETE FROM notifications WHERE id = ?', [notificationId], (error, results) => {
+        if (error) {
+            console.error('Error deleting notification:', error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ error: 'Notification not found' });
+        }
+
+        res.json({ success: true });
     });
 });
 
@@ -734,40 +756,54 @@ function onConnected(socket) {
     socket.on('private-message', (data) => {
         const { recipientID, message } = data;
         const senderID = socket.handshake.session.userID;
-        const senderUsername = socket.handshake.session.username; // Assuming you have the sender's username in the session
     
-        // Save the message to the database
-        const query = 'INSERT INTO inbox (senderID, recipientID, message, isRead) VALUES (?, ?, ?, FALSE)';
-        connection.query(query, [senderID, recipientID, message], (err, results) => {
+        // Query to get the sender's username from the database
+        const usernameQuery = 'SELECT Username FROM users WHERE UserID = ?';
+        connection.query(usernameQuery, [senderID], (err, results) => {
             if (err) {
-                console.error('Error saving message to the database:', err);
-                socket.emit('private-message-error', { error: 'Failed to save message' });
+                console.error('Error fetching sender username from the database:', err);
+                socket.emit('private-message-error', { error: 'Failed to fetch sender username' });
                 return;
             }
     
-            // Create a notification for the recipient
-            const notificationMessage = `${senderUsername} sent you a message: "${message}"`;
-            const notificationQuery = 'INSERT INTO notifications (userID, type, message) VALUES (?, ?, ?)';
-            connection.query(notificationQuery,[recipientID, 'inbox', notificationMessage], (err, results) => {
+            // Extract the username from the results
+            const senderUsername = results[0].Username;
+            //console.log(senderUsername +" this badass")
+    
+            // Save the message to the database
+            const query = 'INSERT INTO inbox (senderID, recipientID, message, isRead, senderUsername) VALUES (?, ?, ?, FALSE, ?)';
+            connection.query(query, [senderID, recipientID, message, senderUsername], (err, results) => {
                 if (err) {
-                    console.error('Error creating notification:', err);
+                    console.error('Error saving message to the database:', err);
+                    socket.emit('private-message-error', { error: 'Failed to save message' });
                     return;
                 }
     
-                // Emit a new notification event if the recipient is online
-                if (activeSockets[recipientID]) {
-                    activeSockets[recipientID].emit('new-notification', { message: notificationMessage });
-                    activeSockets[recipientID].emit('private-message', { sender: senderID, message });
-                }
+                // Create a notification for the recipient
+                const notificationMessage = `${senderUsername} sent you a message: "${message}"`;
+                const notificationQuery = 'INSERT INTO notifications (userID, type, message, senderID) VALUES (?, ?, ?, ?)';
+                connection.query(notificationQuery, [recipientID, 'inbox', notificationMessage, senderID], (err, results) => {
+                    if (err) {
+                        console.error('Error creating notification:', err);
+                        return;
+                    }
     
-                // Update the unread message count for the recipient
-                updateUnreadMessageCount(recipientID);
+                    // Emit a new notification event if the recipient is online
+                    if (activeSockets[recipientID]) {
+                        activeSockets[recipientID].emit('new-notification', { message: notificationMessage });
+                        activeSockets[recipientID].emit('private-message', { sender: senderID, senderUsername, message });
+                    }
+    
+                    // Update the unread message count for the recipient
+                    updateUnreadMessageCount(recipientID);
+                });
             });
-        });
     
-        // Notify the sender that the message was sent successfully
-        socket.emit('private-message', { sender: senderID, message });
+            // Notify the sender that the message was sent successfully
+            socket.emit('private-message', { sender: senderID, senderUsername, message });
+        });
     });
+    
 }
 
 io.on('connection', onConnected);
