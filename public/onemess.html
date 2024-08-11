@@ -45,7 +45,7 @@
             display: flex;
             flex-direction: column;
             background-color: #333333ab;
-            border: 2px solid #33ff33;
+            border: 2px solid #422579;
             border-radius: 10px;
             padding: 20px;
             overflow-y: auto;
@@ -64,7 +64,7 @@
             margin-bottom: 10px;
             overflow-y: auto;
             padding: 10px;
-            border: 2px solid #0b6b0b;
+            border: 2px solid #124419c5;
             border-radius: 10px;
             max-height: 70vh;
         }
@@ -174,7 +174,7 @@
             font-weight: bold;
         }
         .user-list{
-            background-color: #2d2d2d;
+            background-color: #23182e9a;
             width: 95%;
             height: 200px;
             overflow-y: scroll;
@@ -298,7 +298,12 @@
             align-items: center;
             justify-content: center;
         }
-
+        #search{
+            background-color: #3b3737;
+            border-radius: 4px;
+            color: #07eeff;
+            margin-bottom: 8px;
+        }
 
     </style>
 </head>
@@ -313,7 +318,6 @@
         <div class="wrap">
         <div class="main">
             <div id="chat-box">
-                
             </div>
             <div class="messageBox">
                 <div class="fileUploadWrapper">
@@ -333,6 +337,7 @@
         <div class="dealers">
           <div class="user-list" id="user-list">
             <h3>Dealers</h3>
+            <input type="search" id="search" placeholder="Find Dealer"><i class="fas fa-paper-plane"></i>
             <!-- <button id="c-user">username <span id="c-id">5</span></button> <br>-->
           </div>
         </div>
@@ -379,7 +384,13 @@
             
             //newMessage.textContent = `[from ${sender}]: ${message}`;
             chatBox.appendChild(newMessage);
+            scrollToBottom();
         });
+
+        function scrollToBottom() {
+           const chatBox = document.getElementById('chat-box');
+           chatBox.scrollTo(0, chatBox.scrollHeight);
+        };
 
         // Parse the URL to get the userId parameter
         const urlParams = new URLSearchParams(window.location.search);
@@ -419,6 +430,7 @@
                           newMessage.textContent = `[You]: ${message.message}`;
                       }
                       chatBox.appendChild(newMessage);
+                      scrollToBottom();
                   });
               });
 

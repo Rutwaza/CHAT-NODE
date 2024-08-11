@@ -113,7 +113,7 @@
         #user-list {
             display: none;
             background-color: #111;
-            border: 1px solid #33ff33;
+            border: 1px solid #06576b;
             color: #33ff33;
             position: fixed;
             top: 50%;
@@ -124,6 +124,7 @@
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             z-index: 1000;
+            
         }
 
         #user-list h3 {
@@ -535,8 +536,66 @@ button:active {
         .marquee marquee {
             animation: scroll-left 50s linear infinite;
         }
-        
-        
+        #unread-count{
+            background-color: #033e5a;
+            color: #ff0707;
+        }
+        #notificationBtn{
+            background-color: #321f5fc5;
+            border: 1px solid rgb(69, 1, 179);
+            font-weight: bold;
+            font-size: 1em;
+        }
+        #notificationBtn:hover{
+            color: #01ff0e;
+        }
+        #logout{
+            background-color: #a80000;
+            font-size: 1em;          
+            border: 1px solid rgb(80, 3, 3);
+
+
+        }#logout:hover{
+            color: #01ff0e;
+        }
+
+        /* HTML: <div class="loader"></div> */
+.loader {
+  --R: 30px;
+  --g1: #514b82 96%, #0000;
+  --g2: #eeeeee 96%, #0000;
+  width: calc(2*var(--R));
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  -webkit-mask: linear-gradient(#000 0 0);
+  animation: l30 2s infinite linear;
+}
+.loader::before,
+.loader::after{
+  content:"";
+  grid-area: 1/1;
+  width: 50%;
+  background:
+    radial-gradient(farthest-side,var(--g1)) calc(var(--R) + 0.866*var(--R) - var(--R)) calc(var(--R) - 0.5*var(--R)   - var(--R)),
+    radial-gradient(farthest-side,var(--g1)) calc(var(--R) + 0.866*var(--R) - var(--R)) calc(var(--R) - 0.5*var(--R)   - var(--R)),
+    radial-gradient(farthest-side,var(--g2)) calc(var(--R) + 0.5*var(--R)   - var(--R)) calc(var(--R) - 0.866*var(--R) - var(--R)),
+    radial-gradient(farthest-side,var(--g1)) 0 calc(-1*var(--R)),
+    radial-gradient(farthest-side,var(--g2)) calc(var(--R) - 0.5*var(--R)   - var(--R)) calc(var(--R) - 0.866*var(--R) - var(--R)),
+    radial-gradient(farthest-side,var(--g1)) calc(var(--R) - 0.866*var(--R) - var(--R)) calc(var(--R) - 0.5*var(--R)   - var(--R)),
+    radial-gradient(farthest-side,var(--g2)) calc(-1*var(--R))  0,
+    radial-gradient(farthest-side,var(--g1)) calc(var(--R) - 0.866*var(--R) - var(--R)) calc(var(--R) + 0.5*var(--R)   - var(--R));
+   background-size: calc(2*var(--R)) calc(2*var(--R));
+   background-repeat :no-repeat;
+}
+.loader::after {
+ transform: rotate(180deg);
+ transform-origin: right;
+}
+
+@keyframes l30 {
+  100% {transform: rotate(-1turn)}
+}
 
 </style>
 </head>
@@ -561,14 +620,14 @@ button:active {
             </div>
             <div class="right">
                 <a href="/xman">Group Chat</a>
-                <button id="inbox-btn">INBOX (<span id="unread-count">0</span>)</button>
+                <button id="inbox-btn">INBOX📩 <span id="unread-count">0</span></button>
             </div>
         </div>
     
         <div id="user-list">
             <button class="close-btn">&times;</button>
             <h3>User List</h3>
-
+            <div class="loader"></div> 
         </div>
     </header>
 
@@ -775,11 +834,6 @@ button:active {
         <img src="profile-logo.jpg" class="right-image" alt="Right Image">
     </div>
     
-
-
-    
-
-
     <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js" integrity="sha512-Q1f3TS3vSt1jQ8AwP2OuenztnLU6LwxgyyYOG1jgMW/cbEMHps/3wjvnl1P3WTrF3chJUWEoxDUEjMxDV8pujg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -789,8 +843,8 @@ button:active {
 
         socket.on('user-info', (data) => {
             console.log(data);
-            document.getElementById('username').textContent = `Username: ${data.username}`;
-            document.getElementById('userID').textContent = `UserID: ${data.userID}`;
+            document.getElementById('username').textContent = ` ${data.username}`;
+            document.getElementById('userID').textContent = `${data.userID}`;
         });
         // Listen for unread message count updates
         socket.on('unread-message-count', (data) => {
