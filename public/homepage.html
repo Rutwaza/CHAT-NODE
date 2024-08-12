@@ -839,6 +839,15 @@ button:active {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js" integrity="sha512-Q1f3TS3vSt1jQ8AwP2OuenztnLU6LwxgyyYOG1jgMW/cbEMHps/3wjvnl1P3WTrF3chJUWEoxDUEjMxDV8pujg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
+        window.addEventListener('load', () => {
+            if (localStorage.getItem('refresh') === 'true') {
+                localStorage.removeItem('refresh'); // Remove the flag
+                location.reload(); // Refresh the page
+            }
+    });
+
+    </script>
+    <script>
         const socket = io.connect('http://localhost:8000');
 
         socket.on('user-info', (data) => {

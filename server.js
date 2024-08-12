@@ -671,6 +671,29 @@ app.delete('/api/notifications/:id', (req, res) => {
 });
 
 
+// Endpoint to delete all notifications for the user
+app.delete('/api/notifications_delete_all', (req, res) => {
+    const userId = req.session.userID;
+    console.log("nots id ud " + userId);
+
+    if (!userId) {
+        return res.status(403).json({ success: false, error: 'User not authenticated' });
+    }
+
+    // Delete all notifications for the user
+    const deleteQuery = 'DELETE FROM notifications WHERE userID = ?';
+    connection.query(deleteQuery, [userId], (err, results) => {
+        if (err) {
+            console.error('Error deleting notifications--:', err);
+            return res.status(500).json({ success: false, error: 'Failed to delete notifications' });
+        }
+
+        res.json({ success: true });
+    });
+});
+
+
+
 /////////////////////////////--------------///////////////////////////
 // Store the active socket connections
 const activeSockets = {};

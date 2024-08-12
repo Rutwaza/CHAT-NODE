@@ -91,23 +91,94 @@ h1 {
 
 }
 
-.back-arrow {
-    font-size: 24px;
-    margin-right: 10px;
-    cursor: pointer;
-    color: #33ff33;
+#nav-buts {
+    display: flex;
+    justify-content: space-between; /* Space out the buttons */
+    align-items: center;
+    padding: 10px;
+    background-color: #1c1c1c96; /* Dark background */
+    border-radius: 10px; /* Rounded corners for the container */
 }
+
+.nav-btn {
+    background-color: #333; /* Dark background for the buttons */
+    color: #fff; /* White text color */
+    border: none; /* Remove default border */
+    padding: 10px 20px; /* Padding for the button */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Increase font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+.nav-btn i {
+    margin-right: 8px; /* Space between icon and text */
+    font-size: 18px; /* Adjust icon size */
+}
+
+.nav-btn:hover {
+    background-color: #555; /* Slightly lighter background on hover */
+}
+
+.delete-btn {
+    background-color: #aa0000; /* Red background for the delete button */
+}
+
+.delete-btn:hover {
+    background-color: #cc0000; /* Slightly lighter red on hover */
+}
+
+#no-notifications {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.5em;
+    color: #070707;
+    opacity: 0;
+    animation: fadeIn 2s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#no-notifications p {
+    background: #db7d01;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    margin: 0;
+}
+
+
 
     </style>
 </head>
 <body>
     
     <div class="header-container">
-        <i class="fas fa-arrow-left back-arrow"></i>
         <h1>Notifications</h1>
     </div>
+    <div id="nav-buts">
+        <button class="nav-btn" id="back-btn"><i class="fas fa-arrow-left back-arrow"></i> Back</button>
+        <button class="nav-btn delete-btn" id="delete-all-btn">Delete All</button>
+    </div>
+    
+    
     <div id="notifications-container">
         <!-- Notifications will be inserted here -->
+    </div>
+    <div id="no-notifications" style="display: none;">
+        <p>No notifications yet!</p>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.min.js"></script>
@@ -134,9 +205,13 @@ h1 {
                 .then(notifications => {
                     console.log('Notifications fetched:', notifications);
                     const container = document.getElementById('notifications-container');
+                    const noNotificationsDiv = document.getElementById('no-notifications');
                     container.innerHTML = ''; // Clear existing content
-
-                    notifications.forEach(notification => {
+                    if (notifications.length === 0) {
+                        noNotificationsDiv.style.display = 'block'; // Show "No Notifications" message
+                    } else {
+                        noNotificationsDiv.style.display = 'none'; // Hide "No Notifications" message
+                        notifications.forEach(notification => {
                         const div = document.createElement('div');
                         div.className = 'notification';
                         
@@ -173,6 +248,8 @@ h1 {
 
                         container.appendChild(div);
                     });
+                    }
+            
                 })
                 .catch(error => {
                     console.error('Error fetching notifications:', error);
@@ -256,6 +333,44 @@ function deleteNotification(notificationId, notificationElement) {
         socket.on('disconnect', () => {
             console.log('Disconnected from socket server');
         });
+
+        // Handle the "Back" button click
+        document.getElementById('back-btn').addEventListener('click', () => {
+            localStorage.setItem('refresh', 'true'); // Set a flag in localStorage
+            history.back(); // Go back to the previous page
+        });
+
+
+// Handle the "Delete All" button click
+document.getElementById('delete-all-btn').addEventListener('click', () => {
+    if (confirm('Are you sure you want to delete all notifications?')) {
+        fetch('/api/notifications_delete_all', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                // Clear the notifications container
+                document.getElementById('notifications-container').innerHTML = '<p>No notifications available.</p>';
+                alert('All notifications have been deleted.');
+            } else {
+                alert('Failed to delete notifications.');
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting notifications:', error);
+        });
+    }
+});
+
     </script>
 </body>
 </html>

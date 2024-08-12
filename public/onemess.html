@@ -298,12 +298,62 @@
             align-items: center;
             justify-content: center;
         }
-        #search{
-            background-color: #3b3737;
-            border-radius: 4px;
-            color: #07eeff;
-            margin-bottom: 8px;
-        }
+        .user-list {
+    background-color: #1c1c1c;
+    padding: 20px;
+    border-radius: 10px;
+    color: #fff;
+    width: 300px;
+}
+
+h3 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #33ff33;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.search-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+#search {
+    width: 100%;
+    padding: 10px 40px 10px 15px; /* Padding to make space for the icon */
+    border-radius: 5px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    font-size: 16px;
+    outline: none; /* Remove default outline */
+    transition: background-color 0.3s ease;
+    margin-bottom: 5px;
+}
+
+#search::placeholder {
+    color: #aaa; /* Placeholder color */
+}
+
+#search:focus {
+    background-color: #444; /* Darker background on focus */
+}
+
+.search-wrapper i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 18px;
+    pointer-events: none; /* Prevent the icon from being clickable */
+}
+
+.search-wrapper i:hover {
+    color: #fff; /* Change icon color on hover */
+}
+
 
     </style>
 </head>
@@ -335,11 +385,14 @@
             </div>
         </div>
         <div class="dealers">
-          <div class="user-list" id="user-list">
-            <h3>Dealers</h3>
-            <input type="search" id="search" placeholder="Find Dealer"><i class="fas fa-paper-plane"></i>
-            <!-- <button id="c-user">username <span id="c-id">5</span></button> <br>-->
-          </div>
+            <div class="user-list" id="user-list">
+                <h3>Dealers</h3>
+                <div class="search-wrapper">
+                    <input type="search" id="search" placeholder="Find Dealer">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+            
         </div>
       </div>
       </div> 
