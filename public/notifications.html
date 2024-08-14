@@ -359,7 +359,7 @@ document.getElementById('delete-all-btn').addEventListener('click', () => {
         .then(data => {
             if (data.success) {
                 // Clear the notifications container
-                document.getElementById('notifications-container').innerHTML = '<p>No notifications available.</p>';
+                document.getElementById('notifications-container').innerHTML = '<p>All notifications have been deleted successfully.</p>';
                 alert('All notifications have been deleted.');
             } else {
                 alert('Failed to delete notifications.');
