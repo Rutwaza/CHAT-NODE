@@ -632,6 +632,27 @@ button:active {
     </header>
 
     <div class="delivery-info">
+        <h1>Create or Join a Group</h1>
+
+
+        <div>
+            <h2>Create Group</h2>
+            <form id="create-group-form">
+                <input type="text" id="group-name" placeholder="Group Name" required>
+                <input type="password" id="group-passcode" placeholder="Group Passcode" required>
+                <input type="number" id="max-members" placeholder="Max Members" required>
+                <button type="submit">Create Group</button>
+            </form>
+        </div>
+
+        <div>
+            <h2>Search Groups</h2>
+            <input type="text" id="search-group" placeholder="Search Group by Name or ID">
+            <button id="search-btn">Search</button>
+            <div id="search-results"></div>
+        </div>
+
+
         <h2>Considerable Information</h2>
         <p><strong>How it Works</strong> <br>Search whatever item - Hit [Deal It] to Contact seller - Payment and Delivery can be done by help of  <br><span style="font-weight: bold;color: #ff3333;font-size: 20px;">G-Dealer</span> or self arrangement between dealers.</p><br>
         <div class="navigation">
@@ -839,12 +860,121 @@ button:active {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js" integrity="sha512-Q1f3TS3vSt1jQ8AwP2OuenztnLU6LwxgyyYOG1jgMW/cbEMHps/3wjvnl1P3WTrF3chJUWEoxDUEjMxDV8pujg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
+////////// groups and back refresh auto//////////////////
         window.addEventListener('load', () => {
             if (localStorage.getItem('refresh') === 'true') {
                 localStorage.removeItem('refresh'); // Remove the flag
                 location.reload(); // Refresh the page
             }
     });
+
+//////////=========================//////////////////
+document.getElementById('create-group-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const groupName = document.getElementById('group-name').value;
+    const passcode = document.getElementById('group-passcode').value;
+    const maxMembers = document.getElementById('max-members').value;
+
+    fetch('/api/groups/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ group_name: groupName, passcode: passcode, max_members: maxMembers })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = `/groups.html?group_id=${data.group_id}`;
+        } else {
+            alert('Failed to create group');
+        }
+    });
+});
+
+document.getElementById('search-btn').addEventListener('click', () => {
+    const searchQuery = document.getElementById('search-group').value;
+
+    fetch(`/api/groups/search?query=${searchQuery}`)
+        .then(response => response.json())
+        .then(data => {
+            const resultsContainer = document.getElementById('search-results');
+            resultsContainer.innerHTML = ''; // Clear previous results
+
+            if (data.success && data.groups.length > 0) {
+                data.groups.forEach(group => {
+                    const groupElement = document.createElement('div');
+                    groupElement.innerHTML = `
+                        <p>${group.groupName}</p>
+                        <button onclick="joinGroup(${group.groupID})">Join</button>
+                        <button onclick="CheckIn(${group.groupID})">Check In</button>`;
+                    resultsContainer.appendChild(groupElement);
+                });
+            } else {
+                resultsContainer.innerHTML = '<p>No groups found</p>';
+            }
+        });
+});
+
+function CheckIn(group_id) {
+    fetch(`/api/groups/${group_id}/checkMembership`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.isMember) {
+                window.location.href = `/groups.html?groupID=${group_id}`;
+            } else {
+                alert('You are not a member of this group. Please join the group first.');
+            }
+        })
+        .catch(error => {
+            console.error('Error checking membership status:', error);
+            alert('An error occurred. Please try again.');
+        });
+}
+
+
+function joinGroup(group_id) {
+    // First, check if the user is already a member of the group
+    fetch(`/api/groups/${group_id}/checkMembership`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.isMember) {
+                alert('You are already a member of this group.');
+                window.location.href = `/groups.html?groupID=${group_id}`; // Redirect to group chat page
+            } else {
+                // If the user is not a member, proceed to ask for the passcode and join the group
+                const passcode = prompt('Enter the group passcode:');
+
+                // Ensure passcode is not null or empty
+                if (passcode === null || passcode.trim() === "") {
+                    alert('Passcode cannot be empty');
+                    return;
+                }
+
+                fetch('/api/groups/join', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ group_id, passcode })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Successfully joined the group!');
+                        window.location.href = `/groups.html?groupID=${group_id}`;
+                    } else {
+                        alert('Failed to join the group: ' + data.error);
+                    }
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error checking membership status:', error);
+            alert('An error occurred. Please try again.');
+        });
+}
 
     </script>
     <script>

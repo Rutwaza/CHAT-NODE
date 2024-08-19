@@ -269,8 +269,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Debugging middleware
 app.use((req, res, next) => {
-    console.log('Cookies:', req.cookies); // Log cookies
-    console.log('Session:', req.session); // Log session data
+    //console.log('Cookies:', req.cookies); // Log cookies
+    //console.log('Session:', req.session); // Log session data
     next();
 });
 
@@ -325,6 +325,10 @@ app.get('/notifications', (req, res) => {
 app.get('/post-good', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'post-good.html'));
 });
+
+app.get('/groups',(req,res) =>{
+    res.sendFile(path.join(__dirname,'public', 'groups.html'));
+})
 
 app.get('/uploads', (req, res) => {
     res.send(path.join(__dirname, 'uploads'));
@@ -418,7 +422,7 @@ app.get('/goods', (req, res) => {
             return;
         }
         res.json(results);
-        console.log(results);
+        //console.log(results);
     });
 });
 
@@ -693,6 +697,258 @@ app.delete('/api/notifications_delete_all', (req, res) => {
 });
 
 
+// Endpoint to create a new group
+app.post('/api/groups/create', (req, res) => {
+    const { group_name, passcode, max_members } = req.body;
+    const created_by = req.session.userID;
+
+    if (!created_by) {
+        return res.status(403).json({ success: false, error: 'User not authenticated' });
+    }
+
+    const query = 'INSERT INTO groups (groupName, groupPasscode, createdBy, memberLimit, createdAt) VALUES (?, ?, ?, ?, NOW())';
+    connection.query(query, [group_name, passcode, created_by, max_members], (err, result) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: 'Failed to create group' });
+        }
+        const group_id = result.insertId;
+        // Automatically add the creator as a member of the group
+        const membershipQuery = 'INSERT INTO group_members (groupID, userID, joinedAt) VALUES (?, ?, NOW())';
+        connection.query(membershipQuery, [group_id, created_by], (err, result) => {
+            if (err) {
+                return res.status(500).json({ success: false, error: 'Failed to add creator to group' });
+            }
+            res.json({ success: true, group_id });
+        });
+    });
+});
+
+// Endpoint to join an existing group
+app.post('/api/groups/join', (req, res) => {
+    const { group_id, passcode } = req.body;
+    const user_id = req.session.userID;
+
+    if (!user_id) {
+        return res.status(403).json({ success: false, error: 'User not authenticated' });
+    }
+
+    console.log('Received group_id:', group_id);
+    console.log('Received passcode:', passcode);
+
+    const query = 'SELECT groupPasscode FROM groups WHERE groupID = ?';
+    connection.query(query, [group_id], (err, results) => {
+        if (err || results.length === 0) {
+            return res.status(404).json({ success: false, error: 'Group not found' });
+        }
+
+        console.log('Stored passcode:', results[0].groupPasscode);
+
+        if (results[0].groupPasscode !== passcode) {
+            return res.status(403).json({ success: false, error: 'Incorrect passcode' });
+        }
+
+        // Add user to the group
+        const membershipQuery = 'INSERT INTO group_members (groupID, userID) VALUES (?, ?)';
+        connection.query(membershipQuery, [group_id, user_id], (err, result) => {
+            if (err) {
+                return res.status(500).json({ success: false, error: 'Failed to join group' });
+            }
+            res.json({ success: true });
+        });
+    });
+});
+
+
+// Endpoint to search for groups by name
+app.get('/api/groups/search', (req, res) => {
+    const searchQuery = req.query.query;
+
+    if (!searchQuery) {
+        return res.status(400).json({ success: false, error: 'Search query is required' });
+    }
+
+    const query = 'SELECT groupID, groupName FROM groups WHERE groupName LIKE ?';
+    connection.query(query, [`%${searchQuery}%`], (err, results) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: 'Failed to search for groups' });
+        }
+
+        res.json({ success: true, groups: results });
+    });
+});
+
+// Endpoint to get all members of a group
+app.get('/api/groups/:group_id/members', (req, res) => {
+    const group_id = req.params.group_id;
+    console.log("th fk ID" + group_id);
+
+    const query = `
+        SELECT users.UserID, users.Username  
+        FROM group_members 
+        JOIN users ON group_members.UserID = users.UserID 
+        WHERE group_members.groupID = ?
+    `;
+    connection.query(query, [group_id], (err, results) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: 'Failed to retrieve group members' });
+        }
+        res.json({ success: true, members: results });
+        console.log(results+ "check in");
+    });
+});
+
+// Example Express route to check group ownership
+app.get('/api/groups/:groupID/isOwner', (req, res) => {
+    const groupID = req.params.groupID;
+    const userID = parseInt(req.query.userID, 10);
+
+    const query = 'SELECT createdBy FROM groups WHERE groupID = ?';
+    connection.query(query, [groupID], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.json({ success: false, message: 'Database query failed' });
+        }
+
+        if (result.length > 0) {
+            const createdBy = result[0].createdBy;
+            const isOwner = createdBy === userID;
+            console.log(`GroupID: ${groupID}, CreatedBy: ${createdBy}, UserID: ${userID}, IsOwner: ${isOwner}`);
+            res.json({ success: true, isOwner });
+        } else {
+            res.json({ success: false, message: 'Group not found' });
+        }
+    });
+});
+
+// Endpoint to remove a member from the group
+app.post('/api/groups/:group_id/members/remove', (req, res) => {
+    const group_id = req.params.group_id;
+    const member_id = req.body.member_id;
+    const user_id = req.session.userID;
+
+
+    if (!user_id) {
+        return res.status(403).json({ success: false, error: 'User not authenticated' });
+    }
+
+    // Check if the user is the owner of the group
+    const ownerQuery = 'SELECT createdBy FROM groups WHERE groupID = ?';
+    connection.query(ownerQuery, [group_id], (err, results) => {
+        if (err || results.length === 0 || results[0].createdBy !== user_id) {
+            return res.status(403).json({ success: false, error: 'Only the group owner can remove members' });
+        }
+
+        // Remove the member from the group
+        const removeQuery = 'DELETE FROM group_members WHERE groupID = ? AND userID = ?';
+        connection.query(removeQuery, [group_id, member_id], (err, result) => {
+            if (err) {
+                return res.status(500).json({ success: false, error: 'Failed to remove member from group' });
+            }
+            res.json({ success: true });
+        });
+    });
+});
+
+// Endpoint to leave a group
+app.post('/api/groups/leave', (req, res) => {
+    const { groupID, userID } = req.body;
+
+    if (!userID) {
+        return res.status(403).json({ success: false, error: 'User not authenticated' });
+    }
+
+    // Check if the user is the group owner
+    const checkOwnerQuery = 'SELECT createdBy FROM groups WHERE groupID = ?';
+    connection.query(checkOwnerQuery, [groupID], (err, results) => {
+        if (err || results.length === 0) {
+            return res.status(404).json({ success: false, error: 'Group not found' });
+        }
+
+        const createdBy = results[0].createdBy;
+
+        if (userID === createdBy) {
+            return res.status(403).json({ success: false, error: 'Owner cannot leave the group, consider deleting the group instead' });
+        }
+
+        // Remove the user from the group
+        const removeMemberQuery = 'DELETE FROM group_members WHERE groupID = ? AND userID = ?';
+        connection.query(removeMemberQuery, [groupID, userID], (err, result) => {
+            if (err) {
+                return res.status(500).json({ success: false, error: 'Failed to leave the group' });
+            }
+
+            res.json({ success: true });
+        });
+    });
+});
+
+// Endpoint to check if the user is a member of a group
+app.get('/api/groups/:group_id/checkMembership', (req, res) => {
+    const group_id = req.params.group_id;
+    const user_id = req.session.userID;
+
+    if (!user_id) {
+        return res.status(403).json({ success: false, error: 'User not authenticated' });
+    }
+
+    const query = 'SELECT * FROM group_members WHERE groupID = ? AND userID = ?';
+    connection.query(query, [group_id, user_id], (err, results) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: 'Failed to check membership' });
+        }
+
+        if (results.length > 0) {
+            res.json({ success: true, isMember: true });
+        } else {
+            res.json({ success: true, isMember: false });
+        }
+    });
+});
+
+
+// Endpoint to get group details
+// Endpoint to get group details including the creator's name
+app.get('/api/groups/:group_id/details', (req, res) => {
+    const group_id = req.params.group_id;
+
+    const query = `
+       SELECT groups.groupName, users.Username AS creator_name
+        FROM groups
+        JOIN users ON groups.createdBy = users.UserID
+        WHERE groups.groupID = ?;
+    `;
+    connection.query(query, [group_id], (err, results) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: 'Failed to retrieve group details' });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ success: false, error: 'Group not found' });
+        }
+        res.json({ success: true, group: results[0] });
+    });
+});
+
+// Endpoint to get all messages from a group
+app.get('/api/groups/:group_id/messages', (req, res) => {
+    const group_id = req.params.group_id;
+
+    const query = `
+        SELECT users.Username, group_messages.message, group_messages.sentAt
+        FROM group_messages
+        JOIN users ON group_messages.userID = users.UserID
+        WHERE group_messages.groupID = ?
+        ORDER BY group_messages.sentAt ASC
+    `;
+
+    connection.query(query, [group_id], (err, results) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: 'Failed to retrieve messages' });
+        }
+        res.json({ success: true, messages: results });
+    });
+});
+
+
 
 /////////////////////////////--------------///////////////////////////
 // Store the active socket connections
@@ -718,6 +974,43 @@ function onConnected(socket) {
     let socketsConnected = new Set();
     socketsConnected.add(socket.id);
     io.emit('active-users', socketsConnected.size);
+
+    // Join the group room
+    socket.on('joinGroup', ({ groupID }) => {
+        socket.join(groupID);
+        console.log(`User ${socket.id} joined group ${groupID}`);
+    });
+
+    // Handle sending a message
+    socket.on('sendMessage', ({ groupID, userID, message }) => {
+        // First, fetch the username from the database using the userID
+        const userQuery = 'SELECT Username FROM users WHERE UserID = ?';
+        connection.query(userQuery, [userID], (err, userResults) => {
+            if (err || userResults.length === 0) {
+                console.error('Failed to retrieve username:', err);
+                return;
+            }
+
+            const username = userResults[0].Username;
+
+            // Now, insert the message into the database
+            const query = 'INSERT INTO group_messages (groupID, userID, message) VALUES (?, ?, ?)';
+            connection.query(query, [groupID, userID, message], (err, result) => {
+                if (err) {
+                    console.error('Failed to send message:', err);
+                    return;
+                }
+
+                // Broadcast the message to all members of the group, including the username
+                io.to(groupID).emit('receiveMessage', {
+                    username,  // Send the username instead of the userID
+                    message,
+                    timestamp: new Date()
+                });
+            });
+        });
+    });
+
 
     connection.query('SELECT * FROM messages', (err, results) => {
         if (err) {
