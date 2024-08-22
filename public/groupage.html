@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groups</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #121212;
+            color: #00ff00;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #1e1e1e;
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #00ff00;
+        }
+
+        h1 {
+            text-align: center;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .search-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-section input[type="search"] {
+            width: 93%;
+            padding: 10px;
+            border: 2px solid #00ff00;
+            border-radius: 5px;
+            background-color: #000;
+            color: #00ff00;
+        }
+
+        .search-section button {
+            padding: 10px;
+            background-color: #00ff00;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 0 5px #00ff00;
+        }
+
+        .user-groups,
+        .group-results {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .user-groups,
+        #search-results {
+            padding: 10px;
+            border: 2px solid #00ff00;
+            border-radius: 5px;
+            background-color: #000;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .group-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #1c1c1c;
+            border-radius: 5px;
+            border: 1px solid #333;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+        }
+
+        .group-item p {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #00ff00;
+        }
+
+        .group-item button {
+            padding: 5px 10px;
+            margin-left: 10px;
+            background-color: #111;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .group-item button:hover {
+            background-color: #00ff00;
+            color: #111;
+        }
+
+        button#create-group-button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background-color: #220081;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            box-shadow: 0 0 5px #00ff00;
+        }
+
+        /* Overlay to cover the entire screen */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .overlay.hidden {
+            display: none;
+        }
+
+        /* Styles for the Create Group Popup Form */
+        #create-group-form {
+            background-color: #1c1c1c;
+            border-radius: 10px;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            z-index: 1001; /* Ensure the form is above the overlay */
+        }
+
+        .form-content {
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            color: #00ff00;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #ff0000;
+        }
+
+        h2 {
+            color: #00ff00;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            background-color: #111;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        form input::placeholder {
+            color: #00ff00;
+        }
+
+        form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #111;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        form button:hover {
+            background-color: #00ff00;
+            color: #111;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Groups</h1>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <input type="search" id="search-btn" placeholder="Find Groups">
+            <button id="search-button"><i class="fas fa-search"></i></button>
+        </div>
+
+        <!-- Group Search Results -->
+        <div class="group-results">
+            <h2>Search Results</h2>
+            <div id="search-results">
+                <!-- Search results will be dynamically added here -->
+            </div>
+        </div>
+
+        <!-- Groups User is a Member of -->
+        <div class="user-groups">
+            <h2>Your Groups</h2>
+            <div class="group-item">
+                <p>HackersDen</p>
+                <button onclick="joinGroup(1)">Join</button>
+                <button onclick="CheckIn(1)">Check In</button>
+            </div>
+            
+            <div class="group-item">
+                <p>Group Beta</p>
+                <button onclick="joinGroup(2)">Join</button>
+                <button onclick="CheckIn(2)">Check In</button>
+            </div>
+            
+            <div class="group-item">
+                <p>Group Gamma</p>
+                <button onclick="joinGroup(3)">Join</button>
+                <button onclick="CheckIn(3)">Check In</button>
+            </div>
+            <div class="group-item">
+                <p>Group Gamma Ray</p>
+                <button onclick="joinGroup(3)">Join</button>
+                <button onclick="CheckIn(3)">Check In</button>
+            </div>
+            
+        </div>
+
+        <!-- Create Group Button -->
+        <button id="create-group-button">Create A Group</button>
+
+        <!-- Create Group Popup Form -->
+        <div id="create-group-overlay" class="overlay hidden">
+            <div id="create-group-form" class="form-content">
+                <span class="close-btn">&times;</span>
+                <h2>Create Group</h2>
+                <form>
+                    <input type="text" id="group-name" placeholder="Group Name" required>
+                    <input type="password" id="group-passcode" placeholder="Group Passcode" required>
+                    <input type="number" id="max-members" placeholder="Max Members" required>
+                    <button type="submit">Create Group</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('create-group-button').addEventListener('click', function() {
+            document.getElementById('create-group-overlay').classList.remove('hidden');
+        });
+
+        document.querySelector('.close-btn').addEventListener('click', function() {
+            document.getElementById('create-group-overlay').classList.add('hidden');
+        });
+    </script>
+</body>
+</html>

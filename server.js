@@ -330,6 +330,10 @@ app.get('/groups',(req,res) =>{
     res.sendFile(path.join(__dirname,'public', 'groups.html'));
 })
 
+app.get('/groupage',(req,res) => {
+    res.sendFile(path.join(__dirname,'public', 'groupage.html'));
+})
+
 app.get('/uploads', (req, res) => {
     res.send(path.join(__dirname, 'uploads'));
 });
