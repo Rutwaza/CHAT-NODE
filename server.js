@@ -937,7 +937,7 @@ app.get('/api/groups/:group_id/messages', (req, res) => {
     const group_id = req.params.group_id;
 
     const query = `
-        SELECT users.Username, group_messages.message, group_messages.sentAt
+        SELECT group_messages.messageID, users.Username, group_messages.message, group_messages.sentAt, group_messages.userID
         FROM group_messages
         JOIN users ON group_messages.userID = users.UserID
         WHERE group_messages.groupID = ?
@@ -949,6 +949,53 @@ app.get('/api/groups/:group_id/messages', (req, res) => {
             return res.status(500).json({ success: false, error: 'Failed to retrieve messages' });
         }
         res.json({ success: true, messages: results });
+    });
+});
+
+// Endpoint to delete a message
+app.post('/api/groups/:group_id/messages/:message_id/delete', (req, res) => {
+    const { group_id, message_id } = req.params;
+    const user_id = req.session.userID;
+
+    const query = 'DELETE FROM group_messages WHERE messageID = ? AND userID = ? AND groupID = ?';
+    connection.query(query, [message_id, user_id, group_id], (err, result) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: 'Failed to delete message' });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(403).json({ success: false, error: 'You are not authorized to delete this message' });
+        }
+        res.json({ success: true });
+    });
+})
+
+// Endpoint to get groups created by the user
+app.get('/api/user/:userID/createdGroups', (req, res) => {
+    const userID = req.params.userID;
+
+    const query = `
+        SELECT groupID, groupName
+        FROM groups
+        WHERE createdBy = ?
+    `;
+
+    connection.query(query, [userID], (err, results) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: 'Failed to retrieve groups' });
+        }
+        res.json({ success: true, groups: results });
+    });
+});
+
+// Endpoint to get all groups
+app.get('/api/all_groups', (req, res) => {
+    const query = 'SELECT groupID, groupName FROM groups';
+
+    connection.query(query, (err, results) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: 'Failed to retrieve groups' });
+        }
+        res.json({ success: true, groups: results });
     });
 });
 
@@ -1005,15 +1052,20 @@ function onConnected(socket) {
                     return;
                 }
 
-                // Broadcast the message to all members of the group, including the username
+                const messageID = result.insertId;  // Get the ID of the inserted message
+
+                // Broadcast the message to all members of the group, including the username and messageID
                 io.to(groupID).emit('receiveMessage', {
                     username,  // Send the username instead of the userID
                     message,
+                    messageID, // Send the messageID
+                    userID,    // Send the userID to check for the delete button
                     timestamp: new Date()
                 });
             });
         });
     });
+
 
 
     connection.query('SELECT * FROM messages', (err, results) => {

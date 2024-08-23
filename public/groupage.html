@@ -16,16 +16,19 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            background-image: url("str.gif");
         }
 
         .container {
             width: 100%;
             max-width: 600px;
             padding: 20px;
-            background-color: #1e1e1e;
+            background-color: #1e1e1e7c;
             border: 2px solid #00ff00;
             border-radius: 10px;
-            box-shadow: 0 0 15px #00ff00;
+            box-shadow: 0 0 10px #00ff00;
+            max-height: 100vh;
+            overflow-y: auto;
         }
 
         h1 {
@@ -44,7 +47,7 @@
         .search-section input[type="search"] {
             width: 93%;
             padding: 10px;
-            border: 2px solid #00ff00;
+            border: 1px solid #076607;
             border-radius: 5px;
             background-color: #000;
             color: #00ff00;
@@ -52,7 +55,7 @@
 
         .search-section button {
             padding: 10px;
-            background-color: #00ff00;
+            background-color: #029b02;
             color: #000;
             border: none;
             border-radius: 5px;
@@ -65,19 +68,43 @@
             margin-bottom: 20px;
         }
 
-        h2 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-
-        .user-groups,
         #search-results {
             padding: 10px;
-            border: 2px solid #00ff00;
+            border: 2px solid #06663e;
             border-radius: 5px;
+            max-height: 300px;
             background-color: #000;
-            max-height: 150px;
             overflow-y: auto;
+        }
+        .user-groups{
+            display: flex;
+            padding: 10px;
+            border: 2px solid #06663e;
+            border-radius: 5px;
+            max-height: 200px;
+            background-color: #000;
+            overflow-y: auto;
+        }
+
+        .allgroups{
+            background-color: #34296e42;
+            border: 1px solid grey;
+            border-radius: 5px;
+            overflow-y: auto;
+            max-height: 200px;
+            padding: auto;
+            width: 49%;
+
+        }
+
+        .minegroups{
+            background-color: #06663e36;
+            width: 49%;
+            border: 1px solid grey;
+            border-radius: 5px;
+            margin-left: auto;
+            overflow-y: auto;
+            max-height: 250px;
         }
 
         .group-item {
@@ -91,6 +118,8 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+            width: 90%;
+            margin-left: 2px;
         }
 
         .group-item p {
@@ -101,13 +130,14 @@
         }
 
         .group-item button {
-            padding: 5px 10px;
-            margin-left: 10px;
-            background-color: #111;
-            border: 1px solid #00ff00;
-            color: #00ff00;
+            padding: 4px 8px;
+            margin-left: 5px;
+            background-color: #0b2e06b4;
+            border: 1px solid #0d7026;
+            color: #00ffff;
             cursor: pointer;
             transition: background-color 0.3s, color 0.3s;
+            border-radius: 5px;
         }
 
         .group-item button:hover {
@@ -116,7 +146,8 @@
         }
 
         button#create-group-button {
-            width: 100%;
+            width: 40%;
+            margin-left: 30%;
             padding: 15px;
             margin-top: 20px;
             background-color: #220081;
@@ -152,10 +183,10 @@
         #create-group-form {
             background-color: #1c1c1c;
             border-radius: 10px;
-            border: 2px solid #00ff00;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+            border: 2px solid #2b1253;
+            box-shadow: 0 0 10px rgba(12, 47, 243, 0.7);
             width: 90%;
-            max-width: 400px;
+            max-width: 350px;
             padding: 20px;
             z-index: 1001; /* Ensure the form is above the overlay */
         }
@@ -179,18 +210,18 @@
         }
 
         h2 {
-            color: #00ff00;
+            color: #1900ff;
             text-align: center;
             margin-bottom: 20px;
         }
 
         form input {
-            width: 100%;
+            width: 95%;
             padding: 10px;
             margin-bottom: 15px;
             background-color: #111;
             border: 1px solid #00ff00;
-            color: #00ff00;
+            color: #12dd00;
             border-radius: 5px;
             font-size: 16px;
         }
@@ -200,7 +231,7 @@
         }
 
         form button {
-            width: 100%;
+            width:40%;
             padding: 10px;
             background-color: #111;
             border: 1px solid #00ff00;
@@ -209,12 +240,59 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s, color 0.3s;
+            margin-left: 30%;
         }
 
         form button:hover {
             background-color: #00ff00;
             color: #111;
         }
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #1c1c1c4d;
+            border-bottom: 2px solid #333;
+            border-radius: 4px;
+        }
+
+        .nav button {
+            padding: 8px 15px;
+            background-color: #020d3b;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+
+        .nav button:hover {
+            background-color: #054e05;
+            color: #111;
+        }
+
+        .alert {
+            display: flex;
+            align-items: center;
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 70%;
+            margin: auto;
+        }
+
+        .alert-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+
 
     </style>
 </head>
@@ -224,13 +302,12 @@
 
         <!-- Search Section -->
         <div class="search-section">
-            <input type="search" id="search-btn" placeholder="Find Groups">
-            <button id="search-button"><i class="fas fa-search"></i></button>
+            <input type="search" id="search-group" placeholder="Find Groups">
+            <button id="search-btn"><i class="fas fa-search"></i></button>
         </div>
 
         <!-- Group Search Results -->
         <div class="group-results">
-            <h2>Search Results</h2>
             <div id="search-results">
                 <!-- Search results will be dynamically added here -->
             </div>
@@ -238,34 +315,47 @@
 
         <!-- Groups User is a Member of -->
         <div class="user-groups">
-            <h2>Your Groups</h2>
-            <div class="group-item">
-                <p>HackersDen</p>
-                <button onclick="joinGroup(1)">Join</button>
-                <button onclick="CheckIn(1)">Check In</button>
+            <div class="allgroups">
+                <h2>All Groups</h2>
+                <div class="group-item">
+                    <p>HackersDen</p>
+                    <button onclick="joinGroup(1)">Join</button>
+                    <button onclick="CheckIn(1)">Check In</button>
+                </div>
+                
+                <div class="group-item">
+                    <p>Group Beta</p>
+                    <button onclick="joinGroup(2)">Join</button>
+                    <button onclick="CheckIn(2)">Check In</button>
+                </div>
+                <div class="group-item">
+                    <p>Group Beta</p>
+                    <button onclick="joinGroup(2)">Join</button>
+                    <button onclick="CheckIn(2)">Check In</button>
+                </div>
             </div>
-            
-            <div class="group-item">
-                <p>Group Beta</p>
-                <button onclick="joinGroup(2)">Join</button>
-                <button onclick="CheckIn(2)">Check In</button>
-            </div>
-            
-            <div class="group-item">
-                <p>Group Gamma</p>
-                <button onclick="joinGroup(3)">Join</button>
-                <button onclick="CheckIn(3)">Check In</button>
-            </div>
-            <div class="group-item">
-                <p>Group Gamma Ray</p>
-                <button onclick="joinGroup(3)">Join</button>
-                <button onclick="CheckIn(3)">Check In</button>
+            <div class="minegroups">
+                <h2>My Groups</h2>
+                <div class="group-item">
+                    <p>Group Beta</p>
+                    <button onclick="joinGroup(2)">Join</button>
+                    <button onclick="CheckIn(2)">Check In</button>
+                </div>
+
             </div>
             
         </div>
 
         <!-- Create Group Button -->
-        <button id="create-group-button">Create A Group</button>
+        <button id="create-group-button">Create A Group</button> <br>
+        <div class="nav">
+            <button onclick="window.history.back()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <button onclick="window.location.href='/homepage'">
+                <i class="fas fa-home"></i>
+            </button>
+        </div>
 
         <!-- Create Group Popup Form -->
         <div id="create-group-overlay" class="overlay hidden">
@@ -276,13 +366,109 @@
                     <input type="text" id="group-name" placeholder="Group Name" required>
                     <input type="password" id="group-passcode" placeholder="Group Passcode" required>
                     <input type="number" id="max-members" placeholder="Max Members" required>
-                    <button type="submit">Create Group</button>
+                    <button type="submit">Create</button>
                 </form>
             </div>
         </div>
     </div>
-
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
     <script>
+
+        const socket = io.connect('http://localhost:8000');
+
+        // Function to load all groups and update the UI
+function loadAllGroups() {
+    fetch('/api/all_groups')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const groups = data.groups;
+                const allGroupsContainer = document.querySelector('.allgroups');
+
+                // Clear any existing content
+                allGroupsContainer.innerHTML = '<h2>All Groups</h2>';
+
+                groups.forEach(group => {
+                    const groupElement = document.createElement('div');
+                    groupElement.classList.add('group-item');
+
+                    groupElement.innerHTML = `
+                        <p>${group.groupName}</p>
+                        <button onclick="joinGroup(${group.groupID})">Join</button>
+                        <button onclick="CheckIn(${group.groupID})">Check In</button>
+                    `;
+
+                    allGroupsContainer.appendChild(groupElement);
+                });
+            } else {
+                console.error('Failed to load groups:', data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching groups:', error);
+        });
+}
+
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', loadAllGroups);
+
+
+        socket.on('user-info', (data) => {
+            console.log(data);
+            const userID = data.userID; // Fetch or define the logged-in user's ID
+            console.log('UserID:', userID);
+            const mineGroupsContainer = document.querySelector('.minegroups');
+
+            fetch(`/api/user/${userID}/createdGroups`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const groups = data.groups;
+                        
+                        // Clear the existing content
+                        mineGroupsContainer.innerHTML = `
+                            <h2>My Groups</h2>
+                        `;
+
+                        if (groups.length === 0) {
+                            // If the user hasn't created any groups, show an alert message
+                            const noGroupsMessage = document.createElement('div');
+                            noGroupsMessage.classList.add('alert');
+
+                            noGroupsMessage.innerHTML = `
+                                <span class="alert-icon">⚠️</span>
+                                <span>You haven't created any groups yet.</span>
+                            `;
+                            mineGroupsContainer.appendChild(noGroupsMessage);
+                        }
+                        else {
+                            // Otherwise, display the list of groups
+                            groups.forEach(group => {
+                                const groupElement = document.createElement('div');
+                                groupElement.classList.add('group-item');
+
+                                groupElement.innerHTML = `
+                                    <p>${group.groupName}</p>
+                                    <button onclick="CheckIn(${group.groupID})">Check In</button>
+                                `;
+
+                                mineGroupsContainer.appendChild(groupElement);
+                            });
+                        }
+                    } else {
+                        console.error('Failed to load groups:', data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching groups:', error);
+                });
+        });
+
+
+        /////////////////////////////////////////////////////////////
+
         document.getElementById('create-group-button').addEventListener('click', function() {
             document.getElementById('create-group-overlay').classList.remove('hidden');
         });
@@ -290,6 +476,114 @@
         document.querySelector('.close-btn').addEventListener('click', function() {
             document.getElementById('create-group-overlay').classList.add('hidden');
         });
+
+        ///////////////////////////////////////////////
+        document.getElementById('create-group-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const groupName = document.getElementById('group-name').value;
+            const passcode = document.getElementById('group-passcode').value;
+            const maxMembers = document.getElementById('max-members').value;
+
+            fetch('/api/groups/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ group_name: groupName, passcode: passcode, max_members: maxMembers })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = `/groups.html?group_id=${data.group_id}`;
+                } else {
+                    alert('Failed to create group');
+                }
+            });
+        });
+
+        document.getElementById('search-btn').addEventListener('click', () => {
+            const searchQuery = document.getElementById('search-group').value;
+
+            fetch(`/api/groups/search?query=${searchQuery}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultsContainer = document.getElementById('search-results');
+                    resultsContainer.innerHTML = ''; // Clear previous results
+
+                    if (data.success && data.groups.length > 0) {
+                        data.groups.forEach(group => {
+                            const groupElement = document.createElement('div');
+                            groupElement.classList.add('group-item')
+                            groupElement.innerHTML = `
+                                <p>${group.groupName}</p>
+                                <button onclick="joinGroup(${group.groupID})">Join</button>
+                                <button onclick="CheckIn(${group.groupID})">Check In</button>`;
+                            resultsContainer.appendChild(groupElement);
+                        });
+                    } else {
+                        resultsContainer.innerHTML = '<p>No groups found</p>';
+                    }
+                });
+        });
+
+        function CheckIn(group_id) {
+            fetch(`/api/groups/${group_id}/checkMembership`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.isMember) {
+                        window.location.href = `/groups.html?groupID=${group_id}`;
+                    } else {
+                        alert('You are not a member of this group. Please join the group first.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking membership status:', error);
+                    alert('An error occurred. Please try again.');
+                });
+        }
+
+        function joinGroup(group_id) {
+            // First, check if the user is already a member of the group
+            fetch(`/api/groups/${group_id}/checkMembership`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.isMember) {
+                        alert('You are already a member of this group.');
+                        window.location.href = `/groups.html?groupID=${group_id}`; // Redirect to group chat page
+                    } else {
+                        // If the user is not a member, proceed to ask for the passcode and join the group
+                        const passcode = prompt('Enter the group passcode:');
+
+                        // Ensure passcode is not null or empty
+                        if (passcode === null || passcode.trim() === "") {
+                            alert('Passcode cannot be empty');
+                            return;
+                        }
+
+                        fetch('/api/groups/join', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ group_id, passcode })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Successfully joined the group!');
+                                window.location.href = `/groups.html?groupID=${group_id}`;
+                            } else {
+                                alert('Failed to join the group: ' + data.error);
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking membership status:', error);
+                    alert('An error occurred. Please try again.');
+                });
+        }
     </script>
 </body>
 </html>
