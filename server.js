@@ -551,6 +551,25 @@ app.get('/messages/:chatUserID', (req, res) => {
         res.json(results);
     });
 });
+
+app.post('/api/private/deleteMessage', (req, res) => {
+    const { messageID, userID } = req.body;
+
+    //console.log('fovvvvv' + messageID);
+
+    // Check if the user is the sender of the message
+    const query = 'DELETE FROM inbox WHERE id = ? AND senderID = ?';
+    connection.query(query, [messageID, userID], (err, result) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: 'Failed to delete message' });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(403).json({ success: false, error: 'You can only delete your own messages' });
+        }
+        res.json({ success: true });
+    });
+});
+
 ///////---------------------------------------------------------///////////////////
 
 app.post('/logout', (req, res) => {
@@ -1129,7 +1148,6 @@ function onConnected(socket) {
         const { recipientID, message } = data;
         const senderID = socket.handshake.session.userID;
     
-        // Query to get the sender's username from the database
         const usernameQuery = 'SELECT Username FROM users WHERE UserID = ?';
         connection.query(usernameQuery, [senderID], (err, results) => {
             if (err) {
@@ -1138,18 +1156,18 @@ function onConnected(socket) {
                 return;
             }
     
-            // Extract the username from the results
             const senderUsername = results[0].Username;
-            //console.log(senderUsername +" this badass")
     
-            // Save the message to the database
             const query = 'INSERT INTO inbox (senderID, recipientID, message, isRead, senderUsername) VALUES (?, ?, ?, FALSE, ?)';
-            connection.query(query, [senderID, recipientID, message, senderUsername], (err, results) => {
+            connection.query(query, [senderID, recipientID, message, senderUsername], (err, result) => {
                 if (err) {
                     console.error('Error saving message to the database:', err);
                     socket.emit('private-message-error', { error: 'Failed to save message' });
                     return;
                 }
+    
+                const messageID = result.insertId;  // Get the inserted message ID
+                console.log('this ans that' +  messageID);
     
                 // Create a notification for the recipient
                 const notificationMessage = `${senderUsername} sent you a message: "${message}"`;
@@ -1160,21 +1178,20 @@ function onConnected(socket) {
                         return;
                     }
     
-                    // Emit a new notification event if the recipient is online
                     if (activeSockets[recipientID]) {
                         activeSockets[recipientID].emit('new-notification', { message: notificationMessage });
-                        activeSockets[recipientID].emit('private-message', { sender: senderID, senderUsername, message });
+                        activeSockets[recipientID].emit('private-message', { messageID, sender: senderID, senderUsername, message });
                     }
     
-                    // Update the unread message count for the recipient
                     updateUnreadMessageCount(recipientID);
                 });
-            });
     
-            // Notify the sender that the message was sent successfully
-            socket.emit('private-message', { sender: senderID, senderUsername, message });
+                // Notify the sender that the message was sent successfully
+                socket.emit('private-message', { messageID, sender: senderID, senderUsername, message });
+            });
         });
     });
+    
     
 }
 

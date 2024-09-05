@@ -25,19 +25,54 @@
     
 
 
+  
     .mine-message {
-        background-color: #000;
         margin-left: 50%;
-        border-radius: 10px;
-        padding: 4px;
-    }
+        display: flex;
+        justify-content: space-between; /* Space between text and button */
+        align-items: center; /* Vertically center the text and button */
+        padding: 10px;
+        background-color: #111;
+        border: 1px solid #00ff00;
+        border-radius: 5px;
+        color: #21f8ff;
+        text-shadow: 0 0 5px #00ff00;
+        margin-bottom: 10px;
+}
+
+.mine-message span {
+    color: #ffffff;
+    font-size: 1em;
+}
+
+.mine-message button {
+    color: rgba(255, 0, 0, 0.986);
+    background-color: #ee10003a;
+    font-size: 1em;
+    border-radius: 5px;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.mine-message button:hover {
+    background-color: rgba(255, 0, 0, 0.7);
+}
+
 
     .other-message {
         text-align: left;
-        background-color: #000;
         margin-right: 50%;
-        border-radius: 10px;
-        padding: 4px;
+        display: flex;
+        justify-content: space-between; /* Space between text and button */
+        align-items: center; /* Vertically center the text and button */
+        padding: 10px;
+        background-color: #111;
+        border: 1px solid #00ff00;
+        border-radius: 5px;
+        color: #21f8ff;
+        text-shadow: 0 0 5px #00ff00;
+        margin-bottom: 10px;
     }
 
     .main{
@@ -252,16 +287,18 @@
         }
         .navigation button, .navigation a {
             background: none;
-            border: 2px solid #33ff33;
+            border: 1px solid #4b00a0;
             color: #33ff33;
             padding: 5px 10px;
             cursor: pointer;
             text-decoration: none;
             display: flex;
             align-items: center;
+            border-radius: 5px;
+            margin-bottom: 5px;
         }
         .navigation a:hover, .navigation button:hover {
-            background-color: #33ff33;
+            background-color: #4900f5;
             color: #111;
         }
         .wrap{
@@ -319,6 +356,7 @@ h3 {
     width: 100%;
 }
 
+
 #search {
     width: 100%;
     padding: 10px 40px 10px 15px; /* Padding to make space for the icon */
@@ -353,7 +391,110 @@ h3 {
 .search-wrapper i:hover {
     color: #fff; /* Change icon color on hover */
 }
+@media (max-width: 768px) {
+    /* Adjust flex direction for smaller screens */
+    .wrap {
+        flex-direction: column;
+    }
 
+    .page {
+        width: 80%;
+        padding: 10px;
+        margin: auto;
+    }
+
+    .messageBox {
+        display: flex;
+            align-items: center;
+            background-color: #1d1b33d7;
+            border: 1px solid #007e00;
+            border-radius: 10px;
+            padding: 10px;
+    }
+
+    #send-button {
+            border: 1px solid #422bc9;
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 30px; /* Adjust icon size */
+            border-radius: 5px;
+            color: #008ce9;
+    }
+
+    #chat-box {
+        max-height: 50vh;
+    }
+
+    h3 {
+        font-size: 1.3rem;
+    }
+
+    #message-input {
+        font-size: 1rem;
+        padding: 10px;
+    }
+    /* Adjust the dealers section for smaller screens */
+    .dealers {
+        display: none;
+        width: 100%; /* Make it full-width on small screens */
+        text-align: center;
+        margin-bottom: 20px; /* Add margin for spacing */
+    }
+
+    .user-list {
+        width: 90%; /* Reduce the width of the user list */
+        padding: 15px; /* Adjust padding for smaller screens */
+        font-size: 0.9rem; /* Reduce font size */
+        margin: 0 auto; /* Center it horizontally */
+    }
+
+    h3 {
+        font-size: 1.2rem; /* Decrease font size for the heading */
+        margin-bottom: 10px;
+    }
+
+    .search-wrapper {
+        width: 100%; /* Make the search wrapper full width */
+    }
+
+    #search {
+        font-size: 0.9rem; /* Reduce font size of the search input */
+        padding: 8px 35px 8px 10px; /* Adjust padding for smaller screens */
+    }
+
+    .search-wrapper i {
+        font-size: 16px; /* Adjust icon size */
+    }
+    .mine-message {
+        font-size: 0.8rem; /* Reduce font size for mobile */
+        padding: 5px; /* Smaller padding */
+    }
+
+    .mine-message span {
+        font-size: 0.8em; /* Adjust text size relative to the container */
+    }
+
+    .mine-message button {
+        font-size: 0.8em; /* Smaller button text */
+        padding: 4px 8px; /* Smaller button padding */
+    }
+
+    .other-message {
+        font-size: 0.8rem; /* Reduce font size for mobile */
+        padding: 8px; /* Smaller padding */
+    }
+
+    .other-message span {
+        font-size: 0.8em; /* Adjust text size relative to the container */
+    }
+
+    .other-message button {
+        font-size: 0.8em; /* Smaller button text */
+        padding: 4px 8px; /* Smaller button padding */
+    }
+}
 
     </style>
 </head>
@@ -365,6 +506,11 @@ h3 {
           <h1>Private Chat</h1>
           <p><span id="user_name">My Name</span></p>
         </div>
+        <div class="navigation">
+            <button onclick="window.history.back();">Back</button>
+            <a href="/profile">Profile</a>
+            <button onclick="window.location.href='/homepage';">Home</button>
+          </div>
         <div class="wrap">
         <div class="main">
             <div id="chat-box">
@@ -397,13 +543,6 @@ h3 {
       </div>
       </div> 
 
-      <div class="navigation">
-        <button onclick="window.history.back();">Back</button>
-        <a href="/profile">Profile</a>
-        <a href="/settings">Settings</a>
-        <a href="/help">Help</a>
-        <button onclick="window.location.href='/logout';">Logout</button>
-      </div>
       
  </div>
  
@@ -414,31 +553,45 @@ h3 {
         // Connect to the server
         const socket = io.connect('http://localhost:8000');
 
+        let userID;  // Define a global variable to store userID
+
+        // Inside the socket event handler
         socket.on('user-info', (data) => {
             console.log(data);
             document.getElementById('user_name').textContent = `I am ${data.username}`;
-            //document.getElementById('userID').textContent = `UserID: ${data.userID}`;
+            
+            // Store the userID in the global variable
+            userID = data.userID;
         });
 
-        // Listen for incoming private messages
         socket.on('private-message', (data) => {
-            const { sender, senderUsername, message } = data;
+            const { messageID, sender, senderUsername, message } = data;
             const chatBox = document.getElementById('chat-box');
             const newMessage = document.createElement('p');
             const urlParams = new URLSearchParams(window.location.search);
             const recipientID = urlParams.get('userId');
+            
+            newMessage.id = `message-${messageID}`;
+
+
             if(sender == recipientID){
                 newMessage.className = "other-message";
                 newMessage.textContent = `[${senderUsername}]: ${message}`;
-            }else{
+            } else {
                 newMessage.className = "mine-message";
                 newMessage.textContent = `[You]: ${message}`;
-           }
-            
-            //newMessage.textContent = `[from ${sender}]: ${message}`;
+
+                // Add a delete button
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.onclick = () => deleteMessage(messageID);
+                newMessage.appendChild(deleteButton);
+            }
+
             chatBox.appendChild(newMessage);
             scrollToBottom();
         });
+
 
         function scrollToBottom() {
            const chatBox = document.getElementById('chat-box');
@@ -457,7 +610,8 @@ h3 {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        document.getElementById('unread-count').textContent = 0;
+                        //document.getElementById('unread-count').textContent = 0;
+                        console.log('all good');
                     }
                 });
         };
@@ -468,32 +622,80 @@ h3 {
 
         ///////--------------------------------------///////////////
               // Load previous messages
-          fetch(`/messages/${recipientID}`)
-              .then(response => response.json())
-              .then(messages => {
-                  const chatBox = document.getElementById('chat-box');
-    
-                  messages.forEach(message => {
-                      const newMessage = document.createElement('p');
-                      if (message.senderID == recipientID) {
-                          newMessage.className = 'other-message';
-                          newMessage.textContent = `[${message.senderUsername}]: ${message.message}`;
-                      } else {
-                          newMessage.className = 'mine-message';
-                          newMessage.textContent = `[You]: ${message.message}`;
-                      }
-                      chatBox.appendChild(newMessage);
-                      scrollToBottom();
-                  });
-              });
+        fetch(`/messages/${recipientID}`)
+            .then(response => response.json())
+            .then(messages => {
+                const chatBox = document.getElementById('chat-box');
+
+                messages.forEach(message => {
+                    const newMessage = document.createElement('p');
+                    newMessage.id = `message-${message.id}`; // Assign a unique ID to the message element
+
+                    if (message.senderID == recipientID) {
+                        newMessage.className = 'other-message';
+                        newMessage.textContent = `[${message.senderUsername}]: ${message.message}`;
+                    } else {
+                        newMessage.className = 'mine-message';
+                        newMessage.textContent = `[You]: ${message.message}`;
+
+                        // Add delete button if the message was sent by the current user
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Delete';
+                        deleteButton.addEventListener('click', () => deleteMessage(message.id));
+                        newMessage.appendChild(deleteButton);
+                    }
+
+                    chatBox.appendChild(newMessage);
+                    scrollToBottom();
+                });
+            });
+
+    // Function to handle message deletion
+    // Define the deleteMessage function outside of the socket event handler
+        function deleteMessage(messageID) {
+            if (!userID) {
+                console.error('User ID is not set');
+                return;
+            }
+
+            fetch('/api/private/deleteMessage', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ messageID, userID }) // Use the global userID variable
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Remove the message element from the DOM
+                    document.getElementById(`message-${messageID}`).remove();
+                } else {
+                    alert('Failed to delete message: ' + data.error);
+                }
+            });
+        }
+
 
         // Send a private message
-        document.getElementById('send-button').addEventListener('click', () => {
+       // Function to send a message
+        function sendMessage() {
             const message = document.getElementById('message-input').value;
-            // Emit the private message along with the recipient ID
-            socket.emit('private-message', { recipientID, message });
-            document.getElementById('message-input').value = '';
+            if (message.trim() !== '') {  // Check if the message is not empty
+                socket.emit('private-message', { recipientID, message });
+                document.getElementById('message-input').value = ''; // Clear the input after sending
+            }
+        }
+
+        // Send a private message when the "Send" button is clicked
+        document.getElementById('send-button').addEventListener('click', sendMessage);
+
+        // Send a private message when the "Enter" key is pressed
+        document.getElementById('message-input').addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();  // Prevent form submission or any other default behavior
+                sendMessage();           // Trigger the send message function
+            }
         });
+
 
         // Listen for all users from the server
         socket.on('all-users', (users) => {
