@@ -32,6 +32,7 @@
         padding: 20px;
         text-align: center;
         border-bottom: 2px solid #33ff33;
+        align-items: center;
     }
 
     .company-name {
@@ -119,7 +120,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 500px;
+            width: 300px;
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -179,7 +180,7 @@
     }
 
     .footer-shape {
-    background: rgba(26, 25, 25, 0.459);
+    background: rgba(26, 25, 25, 0);
     padding: 20px;
     text-align: center;
     bottom: 0;
@@ -484,25 +485,28 @@ button:active {
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 999;
         }
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-        .navigation button, .navigation a {
-            background: none;
-            border: 2px solid #33ff33;
-            color: #33ff33;
-            padding: 5px 10px;
-            cursor: pointer;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-        .navigation a:hover, .navigation button:hover {
-            background-color: #33ff33;
-            color: #111;
-        }
+        /* Navigation Styling for Larger Screens */
+.navigation {
+    display: flex;
+    gap: 20px; /* Space between buttons */
+    justify-content: center;
+}
+
+/* Button Styling */
+.navigation button {
+    font-size: 16px;
+    padding: 10px 20px;
+    background-color: #444;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.navigation button:hover {
+    background-color: #555;
+}
+
         .marquee {
             width: 40%;
             background-color: #381e08;
@@ -540,12 +544,7 @@ button:active {
             background-color: #033e5a;
             color: #ff0707;
         }
-        #notificationBtn{
-            background-color: #321f5fc5;
-            border: 1px solid rgb(69, 1, 179);
-            font-weight: bold;
-            font-size: 1em;
-        }
+        
         #notificationBtn:hover{
             color: #01ff0e;
         }
@@ -597,12 +596,138 @@ button:active {
   100% {transform: rotate(-1turn)}
 }
 
+@media only screen and (max-width: 600px) {
+    nav ul li {
+        display: block;
+        margin: 5px 0;
+    }
+
+    #user-info {
+        background-color: #3d1e04c0;
+            color: #33ff33;
+            padding: 10px;
+            border: 1px solid #33ff33;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            position: relative;
+    }
+    .container {
+        flex-direction: column; /* Stack items vertically on smaller screens */
+        padding: 5px;
+    }
+
+    .left, .marquee, .right {
+        font-size: 12px; /* Reduce font size for small screens */
+        padding: 5px;
+    }
+
+    .marquee {
+        margin: 10px 0; /* Add some margin for better spacing */
+    }
+
+    #username, #userID {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .right a, .right button {
+        font-size: 12px;
+        margin: 5px 0;
+    }
+    #inbox-btn{
+        font-size: 10px;
+        padding: 1px 3px;
+    }
+    
+
+    .goods-item {
+        width: 100%;
+    }
+
+    .footer-shape {
+        height: 80px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+    #user-list {
+        width: 200px; /* Reduce width for small screens */
+        padding: 10px;
+    }
+
+    #user-list h3 {
+        font-size: 14px; /* Reduce font size */
+    }
+
+    #user-list .close-btn {
+        font-size: 18px; /* Reduce close button size */
+        top: 5px;
+        right: 5px;
+    }
+    .user-item {
+        padding: 5px;
+        margin-bottom: 8px;
+        flex-direction: column;
+    }
+
+    button {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
+    .user-id, .profile-link {
+        font-size: 12px; /* Reduced font size */
+    }
+
+    .namebutton {
+        flex-direction: column; /* Stack elements vertically */
+    }
+
+    button {
+        margin-bottom: 5px; /* Add spacing between elements */
+    }
+
+    .profile-link {
+        font-size: 12px;
+    }
+
+    .loader {
+        width: 30px;
+        height: 30px; /* Adjust loader size */
+        margin: 10px auto; /* Center it */
+    }
+    .navigation {
+        flex-direction: row; /* Align buttons horizontally */
+        gap: 5px; /* Reduce space between buttons */
+        justify-content: center;
+        flex-wrap: wrap; /* Allows wrapping if there’s not enough space */
+    }
+
+
+    .navigation button#notificationBtn {
+        padding: 3px 6px; /* Slightly reduce notification button size */
+    }
+
+    .navigation button#logout {
+        background-color: #d60000; /* Keep logout button style distinct */
+    }
+
+    .navigation button#logout:hover {
+        background-color: #750000;
+    }
+}
+
 </style>
 </head>
 <body>
 
     <header>
-        <h1 class="company-name">VeilChat X-5</h1>
+        <h1 class="company-name">H-Den X-5</h1>
         <nav>
             <ul>
                 <li><a href="#">***</a></li>
@@ -620,9 +745,17 @@ button:active {
             </div>
             <div class="right">
                 <a href="/xman">Group Chat</a>
-                <button id="inbox-btn">INBOX📩 <span id="unread-count">0</span></button>
+                <button id="inbox-btn">INBOX📩<span id="unread-count">0</span></button>
             </div>
         </div>
+        <div class="navigation">
+            <button id="notificationBtn">Notifications (<span id="unread">0</span>)</button>
+            <button id="profileBtn">Profile</button>
+            <button id="settingsBtn">Settings</button>
+            <button id="groupsBtn">Groups</button>
+            <button id="logout">Logout</button>
+        </div>
+        
     
         <div id="user-list">
             <button class="close-btn">&times;</button>
@@ -634,15 +767,6 @@ button:active {
     <div class="delivery-info">
         <h2>Considerable Information</h2>
         <p><strong>How it Works</strong> <br>Search whatever item - Hit [Deal It] to Contact seller - Payment and Delivery can be done by help of  <br><span style="font-weight: bold;color: #ff3333;font-size: 20px;">G-Dealer</span> or self arrangement between dealers.</p><br>
-        <div class="navigation">
-            <button id="notificationBtn">
-                Notifications (<span id="unread">0</span>)
-            </button>
-            <a href="/profile">Profile</a>
-            <a href="/settings">Settings</a>
-            <a href="/groupage">Groups</a>
-            <button id="logout">Logout</button>
-          </div>
     </div>
     
     <h1 style="text-align: center; margin: 20px 0; font-size: 2em; color: #33ff33;">Goods Marketplace</h1>
@@ -825,11 +949,8 @@ button:active {
     <div class="push">
         <img src="profile-logo.jpg" class="left-image" alt="Left Image">
         <div class="footer-shape">
-            <div class="copyright">
-                <button id="top"><i class="fas fa-arrow-up"></i></button>
-                
-                <p>&copy; 2024 GhostLine X-5 ** All rights reserved.</p>
-            </div>
+            <p>&copy; 2024 Hacker's Den X-5</p>
+
         </div>
         <img src="profile-logo.jpg" class="right-image" alt="Right Image">
     </div>
@@ -991,7 +1112,7 @@ button:active {
                         namebutton.classList.add('namebutton');
     
                         const button = document.createElement('button');
-                        button.textContent = user.Username + user.UserID +"[SEE CHAT]";
+                        button.textContent = user.Username + user.UserID ;
     
                         button.addEventListener('click', () => {
                             window.location.href = `onemess.html?userId=${user.UserID}`;
@@ -1002,7 +1123,7 @@ button:active {
                         label.classList.add('user-id');
     
                         const profileLink = document.createElement('a');
-                        profileLink.textContent = 'View Profile';
+                        profileLink.textContent = 'Profile';
                         profileLink.href = `profile.html?userId=${user.UserID}`;
                         profileLink.classList.add('profile-link');
                         
