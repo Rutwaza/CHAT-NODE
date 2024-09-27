@@ -230,6 +230,19 @@ const dbOptions = {
 
 const connection = mysql.createConnection(dbOptions);
 
+
+// USING EXTERNAL VARIABLES DATABASES
+
+/* // Database connection configuration
+const dbOptions = {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME
+};
+
+const connection = mysql.createConnection(dbOptions);*/
+
 connection.connect((err) => {
     if (err) {
         console.error('Error connecting to database:', err);
