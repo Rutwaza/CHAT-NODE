@@ -220,6 +220,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+/*
 // Database connection configuration
 const dbOptions = {
     host: 'localhost',
@@ -229,11 +230,12 @@ const dbOptions = {
 };
 
 const connection = mysql.createConnection(dbOptions);
+*/
 
 
 // USING EXTERNAL VARIABLES DATABASES
 
-/* // Database connection configuration
+ // Database connection configuration
 const dbOptions = {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -241,7 +243,7 @@ const dbOptions = {
     database: process.env.DB_NAME
 };
 
-const connection = mysql.createConnection(dbOptions);*/
+const connection = mysql.createConnection(dbOptions);
 
 connection.connect((err) => {
     if (err) {
