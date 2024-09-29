@@ -212,6 +212,25 @@ const server = app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
 
+process.on('SIGTERM', () => {
+    console.log('Received SIGTERM, shutting down...');
+    // Graceful shutdown logic here
+    server.close(() => {
+      console.log('All connections closed, exiting...');
+      process.exit(0); // Exit the process with success
+    });
+  });
+  
+  process.on('SIGINT', () => {
+    console.log('Received SIGINT (Ctrl+C), shutting down...');
+    // Same cleanup logic as SIGTERM
+    server.close(() => {
+      console.log('All connections closed, exiting...');
+      process.exit(0);
+    });
+  });
+  
+
 const io = socketIO(server);
 
 app.use(cookieParser());
