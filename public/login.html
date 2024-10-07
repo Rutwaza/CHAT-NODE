@@ -192,12 +192,13 @@
 
         <div class="form">
             <h3>HackerzDen <br>---Login---</h3>
-            <form action="/api/login" method="POST">
-                <label for="email">Email</label><br>
-                <input type="text" name="email" id="email" required><br>
-                <label for="password">Password</label><br>
-                <input type="password" name="password" id="password" required><br>
-                <button type="submit">LOGIN</button><br>
+            <form id="loginForm">
+                    <label for="email">Email:</label><br>
+                    <input type="email" name="email" id="email" required><br>
+                    <label for="password">Password:</label><br>
+                    <input type="password" name="password" id="password" required><br>
+                    <button type="submit">Login</button>
+                <div id="errorMessage" style="color: red;"></div>
                 <div class="logdiv">
                 <p>If You Don't Have An Acount
                     <a href="https://hackersden-lk5287vle-nelsons-projects-35a52f9b.vercel.app/signup.html">SIGNUP</a>
@@ -208,4 +209,36 @@
     </div>
 
 </body>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault(); // Prevent default form submission
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (response.ok) {
+                // Redirect to homepage on successful login
+                window.location.href = '/homepage';
+            } else {
+                // Display error message
+                const errorText = await response.text();
+                document.getElementById('errorMessage').textContent = errorText;
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+            document.getElementById('errorMessage').textContent = 'An error occurred. Please try again.';
+        }
+    });
+</script>
+
 </html>

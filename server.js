@@ -375,10 +375,10 @@ app.get('/uploads', (req, res) => {
     res.send(path.join(__dirname, 'uploads'));
 });
 
-/*
+
 
 // Handle login endpoint
-app.post('/login', (req, res) => {
+app.post('/api/login', (req, res) => {
     const { email, password } = req.body;
 
     connection.query('SELECT * FROM users WHERE Email = ?', [email], (err, results) => {
@@ -408,7 +408,7 @@ app.post('/login', (req, res) => {
         }
     });
 });
-*/
+
 
 // Handle signup endpoint
 app.post('/signup', (req, res) => {
