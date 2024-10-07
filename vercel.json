@@ -15,7 +15,10 @@
         "src": "/api/(.*)",
         "dest": "/server.js"
       },
-      
+      {
+        "src": "/(.*)",
+        "dest": "/public/$1"
+      },
       {
         "src": "/login",
         "dest": "/public/login.html"

@@ -205,6 +205,7 @@ const sharedSession = require('express-socket.io-session');
 const multer = require('multer');
 const { type } = require('os');
 const upload = multer({ dest: 'uploads/' });
+const authRoutes = require('./api/auth'); // Import your API routes
 
 const PORT = process.env.PORT || 8000;
 const app = express();
@@ -238,6 +239,8 @@ app.use(cookieParser());
 // Parse incoming request bodies
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use('/api', authRoutes); // All auth routes will be prefixed with /api
 
 /*
 // Database connection configuration
@@ -372,8 +375,10 @@ app.get('/uploads', (req, res) => {
     res.send(path.join(__dirname, 'uploads'));
 });
 
+/*
+
 // Handle login endpoint
-app.post('https://hackersden-lk5287vle-nelsons-projects-35a52f9b.vercel.app/login', (req, res) => {
+app.post('/login', (req, res) => {
     const { email, password } = req.body;
 
     connection.query('SELECT * FROM users WHERE Email = ?', [email], (err, results) => {
@@ -403,6 +408,7 @@ app.post('https://hackersden-lk5287vle-nelsons-projects-35a52f9b.vercel.app/logi
         }
     });
 });
+*/
 
 // Handle signup endpoint
 app.post('/signup', (req, res) => {
