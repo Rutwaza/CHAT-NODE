@@ -373,7 +373,7 @@ app.get('/uploads', (req, res) => {
 });
 
 // Handle login endpoint
-app.post('/login', (req, res) => {
+app.post('https://hackersden-lk5287vle-nelsons-projects-35a52f9b.vercel.app/login', (req, res) => {
     const { email, password } = req.body;
 
     connection.query('SELECT * FROM users WHERE Email = ?', [email], (err, results) => {
