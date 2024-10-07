@@ -209,7 +209,7 @@ const upload = multer({ dest: 'uploads/' });
 const PORT = process.env.PORT || 8000;
 const app = express();
 const server = app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on https://hackersden-mf69li1j1-nelsons-projects-35a52f9b.vercel.app:${PORT}`);
 });
 
 process.on('SIGTERM', () => {
