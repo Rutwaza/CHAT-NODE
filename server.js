@@ -11,12 +11,32 @@ const sharedSession = require('express-socket.io-session');
 const multer = require('multer');
 const { type } = require('os');
 const upload = multer({ dest: 'uploads/' });
+const authRoutes = require('./api/auth'); // Import your API routes
 
 const PORT = process.env.PORT || 8000;
 const app = express();
 const server = app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on https://hackersden-mf69li1j1-nelsons-projects-35a52f9b.vercel.app:${PORT}`);
 });
+
+process.on('SIGTERM', () => {
+    console.log('Received SIGTERM, shutting down...');
+    // Graceful shutdown logic here
+    server.close(() => {
+      console.log('All connections closed, exiting...');
+      process.exit(0); // Exit the process with success
+    });
+  });
+  
+  process.on('SIGINT', () => {
+    console.log('Received SIGINT (Ctrl+C), shutting down...');
+    // Same cleanup logic as SIGTERM
+    server.close(() => {
+      console.log('All connections closed, exiting...');
+      process.exit(0);
+    });
+  });
+  
 
 const io = socketIO(server);
 
@@ -28,6 +48,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
+app.use('/api', authRoutes); // All auth routes will be prefixed with /api
+
+/*
 // Database connection configuration
 const dbOptions = {
     host: 'localhost',
@@ -45,6 +68,18 @@ const dbOptions = {
 };*/
 
 const connection = mysql.createConnection(dbOptions);
+
+
+// USING EXTERNAL VARIABLES DATABASES
+
+/* // Database connection configuration
+const dbOptions = {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME
+};*/
+
 
 connection.connect((err) => {
     if (err) {
@@ -154,17 +189,19 @@ app.get('/uploads', (req, res) => {
     res.send(path.join(__dirname, 'uploads'));
 });
 
+
+
 // Handle login endpoint
-app.post('/login', (req, res) => {
+app.post('/api/login', (req, res) => {
     const { email, password } = req.body;
 
     connection.query('SELECT * FROM users WHERE Email = ?', [email], (err, results) => {
         if (err) {
-            return res.status(500).sendFile(path.join(__dirname, '/public/error_db.html'));
+            return res.status(500).sendFile(path.join(__dirname, 'https://hackersden-lvr341qj2-nelsons-projects-35a52f9b.vercel.app/error_db.html'));
         }
 
         if (results.length === 0) {
-            return res.status(401).sendFile(path.join(__dirname, '/public/error.html'));
+            return res.status(401).sendFile(path.join(__dirname, 'https://hackersden-lvr341qj2-nelsons-projects-35a52f9b.vercel.app/error.html'));
         }
 
         const user = results[0];
@@ -174,17 +211,18 @@ app.post('/login', (req, res) => {
             req.session.save((err) => { // Ensure the session is saved before redirecting
                 if (err) {
                     console.error('Session save error:', err);
-                    return res.status(500).sendFile(path.join(__dirname, '/public/error_db.html'));
+                    return res.status(500).sendFile(path.join(__dirname, 'https://hackersden-lvr341qj2-nelsons-projects-35a52f9b.vercel.app/error_db.html'));
                 }
                 console.log('User ID:', req.session.userID);
                 console.log('Username:', req.session.username);
-                res.redirect('/homepage');
+                res.redirect('https://hackersden-lvr341qj2-nelsons-projects-35a52f9b.vercel.app/homepage.html');
             });
         } else {
-            res.status(401).sendFile(path.join(__dirname, '/public/error.html'));
+            res.status(401).sendFile(path.join(__dirname, 'https://hackersden-lvr341qj2-nelsons-projects-35a52f9b.vercel.app/error.html'));
         }
     });
 });
+
 
 // Handle signup endpoint
 app.post('/signup', (req, res) => {
