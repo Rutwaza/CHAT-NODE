@@ -23,16 +23,17 @@
         justify-content: center;
         height: 100vh;
         margin: 0;
-        color: #33ff33;
+        color: #ffffff;
     }
 
     header {
-        background-color: #111;
-        color: #33ff33;
+        background-color: #696666;
+        color: #000000;
         padding: 20px;
         text-align: center;
-        border-bottom: 2px solid #33ff33;
+        border-bottom: 2px solid #000000;
         align-items: center;
+        border-radius: 5px;
     }
 
     .company-name {
@@ -52,21 +53,21 @@
     }
 
     nav ul li a {
-        color: #33ff33;
+        color: #000000;
         text-decoration: none;
         padding: 0 10px;
         border-bottom: 2px solid transparent;
     }
 
     nav ul li a:hover {
-        border-bottom: 2px solid #33ff33;
+        border-bottom: 2px solid #000000;
     }
 
     #user-info {
             background-color: #3d1e04c0;
-            color: #33ff33;
+            color: #ffffff;
             padding: 10px;
-            border: 1px solid #33ff33;
+            border: 1px solid #000000;
             border-radius: 5px;
             display: flex;
             justify-content: space-between;
@@ -80,11 +81,6 @@
             flex-direction: column;
         }
 
-        .right {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
 
         #user-info span {
             background-color: #111;
@@ -93,18 +89,7 @@
             margin-bottom: 5px;
         }
 
-        #user-info button,
-        #user-info a {
-            background-color: #033e5a;
-            color: black;
-            padding: 5px 10px;
-            border-radius: 5px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            margin-top: 5px;
-            transition: background-color 0.3s ease;
-        }
+     
 
         #user-info button:hover,
         #user-info a:hover {
@@ -115,7 +100,7 @@
             display: none;
             background-color: #111;
             border: 1px solid #06576b;
-            color: #33ff33;
+            color: #ffffff;
             position: fixed;
             top: 50%;
             left: 50%;
@@ -146,34 +131,6 @@
             cursor: pointer;
         }
         
-    .delivery-info {
-        background-color: #111111d7;
-        border: 2px solid #33ff33;
-        border-radius: 8px;
-        padding: 20px;
-        width: 70%;
-        margin: auto;
-        margin-top: 20px;
-    }
-
-    .delivery-info h2 {
-        color: #33ff33;
-        font-size: 24px;
-        margin-bottom: 10px;
-        text-align: center;
-    }
-
-    .delivery-info p {
-        color: #ff2600;
-        font-size: 16px;
-        line-height: 1.6;
-        text-align: center;
-    }
-
-    .delivery-info p strong {
-        font-weight: bold;
-        color: #33ff33;
-    }
 
     .description {
         padding: 15px;
@@ -207,7 +164,7 @@
 
 
 .footer-shape p {
-    color: rgb(39, 231, 0);
+    color: rgba(179, 179, 179, 0.637);
     font-family: 'Arial', sans-serif;
     margin-bottom: 4px;
 }
@@ -232,12 +189,12 @@
 }
 
 .goods-item {
-    background-color: #111;
-    color: #33ff33;
+    background-color: #181818;
+    color: #000000;
     border-radius: 10px;
-    padding: 20px;
+    padding: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: 2px solid #33ff33;
+    border: 2px solid #000000;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -245,24 +202,26 @@
     width: calc(45% - 20px); /* Adjust width based on gap */
 }
 
-.goods-item .image-container {
-    flex: 1;
-    max-width: 120px; /* Adjust as needed */
-    margin-right: 20px;
-}
+
 
 .goods-item img {
     width: 100%;
-    height: auto;
+    height: 100%;
     border-radius: 10px;
     cursor: pointer
 }
 
 
 .goods-item .details {
-    flex: 2;
     display: flex;
     flex-direction: column;
+    width: 50%; /* Adjust as needed */
+    background-color: #0f0908;
+    border-radius: 5px;
+    margin-left: 2px;
+    text-align: center;
+    height: 100%;
+    color: #dfdfdf;
 }
 
 .goods-item h2 {
@@ -275,14 +234,70 @@
     margin: 5px 0;
 }
 
-.goods-item .seller-info {
-    background-color: #222;
-    padding: 10px;
-    border-radius: 5px;
-    margin-top: 10px;
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 200px; /* Adjust height as needed */
+    overflow: hidden;
+    border-radius: 10px;
 }
-.seller-info{
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the container */
+    border-radius: 10px;
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+    color: #fff;
+    padding: 10px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.username {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.like-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.like-button {
+    background: none;
+    border: none;
+    color: #ff4d4d;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+.like-button:hover .like-heart {
+    color: #ff1a1a;
+}
+
+.like-heart {
+    margin-right: 5px;
+}
+
+.like-count {
+    font-size: 16px;
+    color: #fff;
 }
 
 .deal-button {
@@ -485,22 +500,29 @@ button:active {
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 999;
         }
-        /* Navigation Styling for Larger Screens */
 .navigation {
     display: flex;
-    gap: 20px; /* Space between buttons */
-    justify-content: center;
+    flex-direction: column;
+    gap: 15px; /* Space between buttons */
+    width: 100%; 
 }
 
 /* Button Styling */
 .navigation button {
     font-size: 16px;
     padding: 10px 20px;
-    background-color: #444;
-    color: white;
-    border: none;
     cursor: pointer;
     text-align: center;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    background-color: #333;
+    border-radius: 5px;
+    transition: 0.3s;
 }
 
 .navigation button:hover {
@@ -508,7 +530,7 @@ button:active {
 }
 
         .marquee {
-            width: 40%;
+            width: 90%;
             background-color: #381e08;
             padding: 10px;
             border-radius: 10px;
@@ -541,13 +563,10 @@ button:active {
             animation: scroll-left 50s linear infinite;
         }
         #unread-count{
-            background-color: #033e5a;
             color: #ff0707;
+
         }
         
-        #notificationBtn:hover{
-            color: #01ff0e;
-        }
         #logout{
             background-color: #a80000;
             font-size: 1em;          
@@ -591,12 +610,32 @@ button:active {
  transform: rotate(180deg);
  transform-origin: right;
 }
+/* Hide scrollbar for Chrome, Safari, and Opera */
+::-webkit-scrollbar {
+    width: 5px; /* Make the scrollbar width smaller */
+}
+
+/* Customize the scrollbar track */
+::-webkit-scrollbar-track {
+    background: transparent; /* Make the track transparent */
+}
+
+/* Customize the scrollbar handle (thumb) */
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 201, 236, 0.2); /* Semi-transparent handle */
+    border-radius: 10px; /* Rounder edges */
+}
+
+/* Customize the handle when hovered */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4); /* Darken when hovered */
+}
 
 @keyframes l30 {
   100% {transform: rotate(-1turn)}
 }
 
-@media only screen and (max-width: 600px) {
+@media (max-width: 1050px) {
     nav ul li {
         display: block;
         margin: 5px 0;
@@ -604,9 +643,9 @@ button:active {
 
     #user-info {
         background-color: #3d1e04c0;
-            color: #33ff33;
+            color: #000000;
             padding: 10px;
-            border: 1px solid #33ff33;
+            border: 1px solid #000000;
             border-radius: 5px;
             display: flex;
             justify-content: space-between;
@@ -619,7 +658,7 @@ button:active {
         padding: 5px;
     }
 
-    .left, .marquee, .right {
+    .left, .marquee {
         font-size: 12px; /* Reduce font size for small screens */
         padding: 5px;
     }
@@ -632,23 +671,67 @@ button:active {
         display: block;
         margin-bottom: 5px;
     }
-
-    .right a, .right button {
-        font-size: 12px;
-        margin: 5px 0;
-    }
+    
     #inbox-btn{
-        font-size: 10px;
-        padding: 1px 3px;
+        font-size: 14px;
+        padding: 2px 4px;
+    }
+
+    #inbox-btn#unread-count {
+        font-size: 12px; /* Slightly smaller for mobile */
+        top: -4px;
+        right: -8px;
     }
     
 
     .goods-item {
+        flex-direction: column; /* Stack content vertically */
         width: 100%;
+    }
+
+    .goods-item .details {
+        padding-left: 0;
+        text-align: center; /* Center-align text for better readability */
+    }
+
+    .goods-item h2 {
+        font-size: 1.5em; /* Adjust font size for titles */
+    }
+
+    .goods-item p {
+        font-size: 1em; /* Adjust paragraph text size */
+    }
+
+   
+    .details{
+        width: 80%;
+    }
+    .like-container{
+        margin-left: 0px;
+    }
+
+    .goods-item .like-container {
+        margin-top: 10px;
+    }
+
+    .goods-item .deal-button {
+        font-size: 1.2em; /* Make Deal It button more touch-friendly */
+        background-color: #aa3e00;
+        color: black;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        margin-top: 10px;
+        align-self: center;
+        position: relative;
     }
 
     .footer-shape {
         height: 80px;
+    }
+    .footer-shape p{
+        display: none;
     }
 
     button {
@@ -712,250 +795,176 @@ button:active {
     .navigation button#notificationBtn {
         padding: 3px 6px; /* Slightly reduce notification button size */
     }
+    .navigation button#profileBtn {
+        padding: 3px 6px; /* Slightly reduce notification button size */
+    }
+    .navigation button#settingsBtn {
+        padding: 3px 6px; /* Slightly reduce notification button size */
+    }
+    .navigation button#groupsBtn {
+        padding: 3px 6px; /* Slightly reduce notification button size */
+    }
+    .navigation button#trendsBtn {
+        padding: 3px 6px; /* Slightly reduce notification button size */
+    }
+    .navigation button#postBtn {
+        padding: 3px 6px; /* Slightly reduce notification button size */
+    }
 
     .navigation button#logout {
         background-color: #d60000; /* Keep logout button style distinct */
+        padding: 3px 6px;
     }
 
     .navigation button#logout:hover {
         background-color: #750000;
     }
+    #search-input {
+        width: 70%; /* Full width on small screens */
+        font-size: 14px; /* Slightly smaller font */
+        margin-bottom: 10px; /* Add margin between input and button */
+        margin: auto;
+        color: #00fff2;
+    }
+
+    #search-input button {
+        width: 50%; /* Full width button on small screens */
+        font-size: 14px; /* Adjust button font size */
+        padding: 10px; /* Increase touchable area */
+    }
+    .hacker-link {
+        font-size: 18px; /* Adjust font size for mobile */
+        padding: 12px 30px; /* Increase padding for better touch area */
+        width: 80%; /* Make it full-width */
+        text-align: center; /* Ensure text is centered */
+        margin: auto;
+    }
+    
+    #goods-container{
+        width: 90%;
+    }
 }
+.container1 {
+    display: flex;
+    
+}
+/* Sidebar Styling */
+.sidebar {
+    width: 20%; /* Adjust width as needed */
+    background-color: #696666;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    height: 100vh; /* Full height of the viewport */
+    position: fixed; /* Fix it to the left side */
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    border-radius: 5px;
+}
+.nav-btn {
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-align: center;
+    width: 100%; /* Full width of the sidebar */
+    color: white;
+    text-decoration: none;
+    background-color: #333;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+.nav-btn:hover {
+    background-color: #555;
+}
+
+.nav-btn a {
+    color: white;
+    text-decoration: none;
+}
+.main-content {
+    margin-left: 20%; /* Add margin equal to the sidebar's width */
+    width: 80%; /* Adjust width to fit the remaining space */
+    padding: 20px; /* Optional: Add padding for better spacing */
+}
+
+
 
 </style>
 </head>
 <body>
-
-    <header>
-        <h1 class="company-name">H-Den X-5</h1>
-        <nav>
-            <ul>
-                <li><a href="#">***</a></li>
-                <li><a href="#">G-DEALER</a></li>
-                <li><a href="#">***</a></li>
-            </ul>
-        </nav>
-        <div id="user-info">
-            <div class="left">
-                <span id="username">Username:You Need To Loggin</span>
-                <span id="userID">UserID:Session Expired !</span>
-            </div>
-            <div class="marquee">
-                <marquee behavior="scroll" direction="left">Welcome to the Secret and Secured Black Market</marquee>
-            </div>
-            <div class="right">
-                <a href="/xman">Group Chat</a>
-                <button id="inbox-btn">INBOX📩<span id="unread-count">0</span></button>
-            </div>
-        </div>
+   <div class="container1">
+    <div class="sidebar">
+        <img src="2no_bg.png" alt="Marketplace Logo" style="width: 70%; margin-bottom: 20px;">
         <div class="navigation">
-            <button id="notificationBtn">Notifications (<span id="unread">0</span>)</button>
-            <button id="profileBtn">Profile</button>
-            <button id="settingsBtn">Settings</button>
-            <button id="groupsBtn" onclick="window.location.href='/groupage'">Groups</button>
-            <button id="logout">Logout</button>
+            <button class="nav-btn" id="profileBtn" style="background-color: #000;">Profile</button>
+            <button class="nav-btn" id="inbox-btn" style="background-color: #000;">Inbox📩<span id="unread-count"></span></button>
+            <button class="nav-btn" id="groupsBtn" onclick="window.location.href='/groupage'"  style="background-color: #000;">Groups</button>
+            <button class="nav-btn" id="notificationBtn"  style="background-color: #000;">Notifications (<span id="unread">0</span>)</button>
+            <a href="/xman" class="nav-btn" id="trendsBtn" style="background-color: #000;">Trends</a>
+            <a href="/post-good" class="nav-btn" id="postBtn" style="background-color: #000;">Post</a>
+            <button class="nav-btn" id="settingsBtn" style="background-color: #000;">Settings</button>
+            <button class="nav-btn" id="logout">Logout</button>
+        </div>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1 class="company-name">GLOBE6</h1>
+            <nav>
+                <ul>
+                    <li><a href="#">***</a></li>
+                    <li><a href="#">G_6</a></li>
+                    <li><a href="#">***</a></li>
+                </ul>
+            </nav>
+            <div id="user-info">
+                
+                <div class="marquee">
+                    <marquee behavior="scroll" direction="left">Welcome to the Secret and Secured Black Market</marquee>
+                </div>
+                <div class="left">
+                    <span id="username">.</span>
+                    <span id="userID">.</span>
+                </div>
+            </div>
+            
+        
+            <div id="user-list">
+                <button class="close-btn">&times;</button>
+                <h3>User List</h3>
+                <div class="loader"></div> 
+            </div>
+        </header>
+        
+        <h1 style="text-align: center; margin: 20px 0; font-size: 2em; color: #33ff33; @media (max-width: 970px) {font-size: 1em;}">Goods Marketplace</h1>
+        <div style="text-align: center;">
+            
         </div>
         
-    
-        <div id="user-list">
-            <button class="close-btn">&times;</button>
-            <h3>User List</h3>
-            <div class="loader"></div> 
+        <div style="text-align: center; margin: 20px 0;">
+            <input type="text" id="search-input" placeholder="Search for goods...">
+            <button onclick="searchGoods()">Search</button>
         </div>
-    </header>
-
-    <div class="delivery-info">
-        <h2>Considerable Information</h2>
-        <p><strong>How it Works</strong> <br>Search whatever item - Hit [Deal It] to Contact seller - Payment and Delivery can be done by help of  <br><span style="font-weight: bold;color: #ff3333;font-size: 20px;">G-Dealer</span> or self arrangement between dealers.</p><br>
-    </div>
-    
-    <h1 style="text-align: center; margin: 20px 0; font-size: 2em; color: #33ff33;">Goods Marketplace</h1>
-    <div style="text-align: center;">
-        <a href="/post-good" class="hacker-link">Publish a New Deal</a>
-    </div>
-    
-    <div style="text-align: center; margin: 20px 0;">
-        <input type="text" id="search-input" placeholder="Search for goods...">
-        <button onclick="searchGoods()">Search</button>
-    </div>
-    <div id="goods-container">
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', fetchGoods);
-
-        function fetchGoods() {
-            fetch('/goods')
-                .then(response => response.json())
-                .then(data => displayGoods(data));
-        }
-
-        function searchGoods() {
-            const query = document.getElementById('search-input').value;
-            fetch(`/search?query=${query}`)
-                .then(response => response.json())
-                .then(data => displayGoods(data));
-        }
-
-        function displayGoods(goods) {
-            const container = document.createElement('div');
-            container.className = 'goods-wrapper';
-            
-            const existingWrapper = document.getElementById('goods-container');
-            existingWrapper.innerHTML = ''; // Clear previous content
-            existingWrapper.appendChild(container);
-            
-            goods.forEach(good => {
-                const item = document.createElement('div');
-                item.className = 'goods-item';
-                item.innerHTML = `
-                    <div class="image-container">
-                    <img src="${good.imagePath}" alt="${good.name}"">
-                    <button class="view-fullsize">View Full Size</button>                    
-                    </div>
-                    <div class="details">
-                        <h2>${good.name}</h2>
-                        <p>${good.description}</p>
-                        <div class="seller-info">
-                            <div>
-                            <p>Seller: ${good.Username}</p>
-                            <p>User ID: ${good.UserID}</p>
-                            </div>
-
-                            <div class="like-container">
-                                <button class="like-button" data-liked="false" data-good-id="${good.id}">
-                                    <span class="like-heart">&#9825;</span>
-                                    <span class="like-count">${good.likes}</span>
-                                </button>
-                            </div>
-                        </div>
-                    <a href="#" class="deal-button" data-userid="${good.UserID}">Deal It</a>                    </div>
-                `;
-                container.appendChild(item);
-
-                document.addEventListener('click', function(event) {
-                    if (event.target.classList.contains('deal-button')) {
-                        const userId = event.target.dataset.userid;
-                        // Redirect the user to the onemess.html page while preserving the session
-                        window.location.href = `http://localhost:8000/onemess.html?userId=${userId}`;
-                    }
-                });
-                
-                document.addEventListener('click', function(event) {
-                    if (event.target.closest('.like-button')) {
-                        const button = event.target.closest('.like-button');
-                        const liked = button.dataset.liked === 'true';
-                        const goodId = button.dataset.goodId;
-
-                        if (!liked) {
-                            // Increment like count
-                            const likeCountSpan = button.querySelector('.like-count');
-                            let likeCount = parseInt(likeCountSpan.textContent, 10);
-                            likeCount++;
-                            likeCountSpan.textContent = likeCount;
-                            
-                            // Mark button as liked
-                            button.dataset.liked = 'true';
-                            button.querySelector('.like-heart').style.color = '#ff1a1a';
-
-                            // Send like to server
-                            fetch('/like', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({ goodId: goodId })
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    console.log('Like recorded');
-                                } else {
-                                    console.error('Failed to record like');
-                                }
-                            })
-                            .catch(error => console.error('Error:', error));
-                        }
-                    }
-                });
-
-
-                  // Add event listener to the "View Full Size" button
-            const viewFullSizeButton = item.querySelector('.view-fullsize');
-            viewFullSizeButton.addEventListener('click', () => {
-                const newWindow = window.open('', '_blank');
-                newWindow.document.write(`
-                    <html>
-                        <head>
-                            <title>Full Size Image</title>
-                            <style>
-                            body {
-                                margin: 0;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-                                height: 100vh;
-                                background-color: #000; /* Light background color for contrast */
-                            }
-                            .image-wrapper {
-                                max-width: 90%; /* Allow some padding from the edges */
-                                max-height: 90vh; /* Ensure it doesn't exceed the viewport height */
-                                overflow: hidden;
-                                border: 5px solid #333; /* Dark border for a sleek look */
-                                border-radius: 10px; /* Rounded corners for a modern feel */
-                                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-                                background-color: #fff; /* White background for the image container */
-                                padding: 10px; /* Padding around the image */
-                            }
-                            .image-wrapper img {
-                                width: 100%;
-                                height: auto;
-                                display: block; /* Remove bottom space/line */
-                                border-radius: 5px; /* Slightly rounded corners for the image */
-                            }
-                        </style>
-
-                        </head>
-                        <body>
-                            <div class="image-wrapper">
-                                <img src="${good.imagePath}" alt="${good.name}">
-                            </div>
-                        </body>
-                    </html>
-                `);
-                newWindow.document.close();
-            });
-                    
-           });
-
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            fetch('/check-likes') // Endpoint to check liked items
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(likedItem => {
-                        const likeButton = document.querySelector(`.like-button[data-good-id="${likedItem.id}"]`);
-                        if (likeButton) {
-                            likeButton.dataset.liked = 'true';
-                            likeButton.querySelector('.like-heart').style.color = '#ff1a1a';
-                        }
-                    });
-                });
-        });
-
-
-    </script>
-    <div class="push">
-        <img src="profile-logo.jpg" class="left-image" alt="Left Image">
-        <div class="footer-shape">
-            <p>&copy; 2024 Hacker's Den X-5</p>
-
+        <div id="goods-container">
         </div>
-        <img src="profile-logo.jpg" class="right-image" alt="Right Image">
-    </div>
     
-    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+        <div class="push">
+            <img src="profile-logo.jpg" class="left-image" alt="Left Image">
+            <div class="footer-shape">
+                <p>&copy; 2024 Hacker's Den X-5</p>
+    
+            </div>
+            <img src="profile-logo.jpg" class="right-image" alt="Right Image">
+        </div>
+        </div>
+   </div>
+   
+    
+</body>
+
+
+<script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js" integrity="sha512-Q1f3TS3vSt1jQ8AwP2OuenztnLU6LwxgyyYOG1jgMW/cbEMHps/3wjvnl1P3WTrF3chJUWEoxDUEjMxDV8pujg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
@@ -967,8 +976,162 @@ button:active {
                 location.reload(); // Refresh the page
             }
     });
-
     </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', fetchGoods);
+
+    function fetchGoods() {
+        fetch('/goods')
+            .then(response => response.json())
+            .then(data => displayGoods(data));
+    }
+
+    function searchGoods() {
+        const query = document.getElementById('search-input').value;
+        fetch(`/search?query=${query}`)
+            .then(response => response.json())
+            .then(data => displayGoods(data));
+    }
+
+    function displayGoods(goods) {
+        const container = document.createElement('div');
+        container.className = 'goods-wrapper';
+        
+        const existingWrapper = document.getElementById('goods-container');
+        existingWrapper.innerHTML = ''; // Clear previous content
+        existingWrapper.appendChild(container);
+        
+        goods.forEach(good => {
+            const item = document.createElement('div');
+            item.className = 'goods-item';
+            item.innerHTML = `
+                <div class="image-container">
+                    <img src="${good.imagePath}" alt="${good.name}" class="clickable-image">
+                    <div class="overlay">
+                        <p class="username">${good.Username}</p>
+                        <div class="like-container">
+                            <button class="like-button" data-liked="false" data-good-id="${good.id}">
+                                <span class="like-heart">&#9825;</span>
+                                <span class="like-count">${good.likes}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="details">
+                    <h2>${good.name}</h2>
+                    <p>${good.description}</p>
+                    <a href="#" class="deal-button" data-userid="${good.UserID}">Message</a>
+                </div>
+            </div>
+            `;
+            container.appendChild(item);
+            
+
+            document.addEventListener('click', function(event) {
+                if (event.target.classList.contains('deal-button')) {
+                    const userId = event.target.dataset.userid;
+                    // Redirect the user to the onemess.html page while preserving the session
+                    window.location.href = `http://localhost:8000/onemess.html?userId=${userId}`;
+                }
+            });
+            
+            document.addEventListener('click', function(event) {
+                if (event.target.closest('.like-button')) {
+                    const button = event.target.closest('.like-button');
+                    const liked = button.dataset.liked === 'true';
+                    const goodId = button.dataset.goodId;
+
+                    if (!liked) {
+                        // Increment like count
+                        const likeCountSpan = button.querySelector('.like-count');
+                        let likeCount = parseInt(likeCountSpan.textContent, 10);
+                        likeCount++;
+                        likeCountSpan.textContent = likeCount;
+                        
+                        // Mark button as liked
+                        button.dataset.liked = 'true';
+                        button.querySelector('.like-heart').style.color = '#ff1a1a';
+
+                        // Send like to server
+                        fetch('/like', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ goodId: goodId })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                console.log('Like recorded');
+                            } else {
+                                console.error('Failed to record like');
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                    }
+                }
+            });
+
+            
+
+
+             // Add event listener to the image for viewing full size
+    const image = item.querySelector('.clickable-image');
+    image.addEventListener('click', () => {
+        const newWindow = window.open('', '_blank');
+        newWindow.document.write(`
+            <html>
+                <head>
+                    <title>Full Size Image</title>
+                    <style>
+                        body {
+                            margin: 0;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100vh;
+                            background-color: #000;
+                        }
+                        img {
+                            max-width: 90%;
+                            max-height: 90%;
+                            border-radius: 10px;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <img src="${good.imagePath}" alt="${good.name}">
+                </body>
+            </html>
+        `);
+        newWindow.document.close();
+    });
+        
+                
+       });
+       
+
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('/check-likes') // Endpoint to check liked items
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(likedItem => {
+                    const likeButton = document.querySelector(`.like-button[data-good-id="${likedItem.id}"]`);
+                    if (likeButton) {
+                        likeButton.dataset.liked = 'true';
+                        likeButton.querySelector('.like-heart').style.color = '#ff1a1a';
+                    }
+                });
+            });
+    });
+
+
+</script>
+
     <script>
         const socket = io.connect('http://localhost:8000');
 
@@ -1154,6 +1317,4 @@ button:active {
         });
     </script>
 
-    
-</body>
 </html>

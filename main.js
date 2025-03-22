@@ -1,31 +1,33 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-const express = require('express');
-const serverApp = express();
-
-// Express server logic here (e.g., routes, WebSocket handling, etc.)
-
-let mainWindow;
 
 app.on('ready', () => {
-    mainWindow = new BrowserWindow({
+    const mainWindow = new BrowserWindow({
+        width: 800,
+        height: 600,
+        frame: true,
+        icon: path.join(__dirname, 'x5.png'), // Add the path to your icon
         webPreferences: {
-            nodeIntegration: true
+            preload: path.join(__dirname, 'preload.js'), // Use the preload script
+            nodeIntegration: false, // Disable nodeIntegration for security
+            contextIsolation: true, // Enable context isolation
         }
     });
 
-    mainWindow.loadFile(path.join(__dirname, 'public', 'index.html'));
+    mainWindow.loadURL('http://localhost:8000'); // Load your app's URL
 
-    // Open the DevTools.
-    mainWindow.webContents.openDevTools();
-
-    mainWindow.on('closed', () => {
-        mainWindow = null;
-    });
-});
-
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit();
-    }
+    /*/ Handle window control actions
+    ipcMain.on('window-control', (event, action) => {
+        if (action === 'minimize') {
+            mainWindow.minimize();
+        } else if (action === 'maximize') {
+            if (mainWindow.isMaximized()) {
+                mainWindow.unmaximize();
+            } else {
+                mainWindow.maximize();
+            }
+        } else if (action === 'close') {
+            mainWindow.close();
+        }
+    }); */
 });

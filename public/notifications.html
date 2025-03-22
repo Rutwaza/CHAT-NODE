@@ -158,7 +158,93 @@ h1 {
     display: inline-block;
     margin: 0;
 }
+/* Hide scrollbar for Chrome, Safari, and Opera */
+::-webkit-scrollbar {
+    width: 5px; /* Make the scrollbar width smaller */
+}
 
+/* Customize the scrollbar track */
+::-webkit-scrollbar-track {
+    background: transparent; /* Make the track transparent */
+}
+
+/* Customize the scrollbar handle (thumb) */
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 201, 236, 0.2); /* Semi-transparent handle */
+    border-radius: 10px; /* Rounder edges */
+}
+
+/* Customize the handle when hovered */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4); /* Darken when hovered */
+}
+
+@media (max-width:600px){
+    h1 {
+    text-align: center;
+    padding: 10px;
+    border-bottom: 1px solid #33ff33;
+    margin: auto;
+    font-size: 1.3em;
+}
+#notifications-container {
+    padding: 10px;
+    max-width: 500px;
+    margin: 10px auto;
+}
+.notification {
+    position: relative;
+    border: 1px solid #33ff33;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: rgba(0, 0, 0, 0.85);
+    box-shadow: 0 0 15px #020b41;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.message {
+    font-size: 0.7em;
+    margin-bottom: 7px;
+}
+.date {
+    font-size: 0.6em;
+    color: #999;
+}
+#nav-buts {
+    display: flex;
+    justify-content: space-between; /* Space out the buttons */
+    align-items: center;
+    padding: 5px;
+    background-color: #1c1c1c96; /* Dark background */
+    border-radius: 10px; /* Rounded corners for the container */
+}
+
+.nav-btn {
+    background-color: #333; /* Dark background for the buttons */
+    color: #fff; /* White text color */
+    border: none; /* Remove default border */
+    padding: 5px 10px; /* Padding for the button */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 14px; /* Increase font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+.nav-btn i {
+    margin-right: 4px; /* Space between icon and text */
+    font-size: 16px; /* Adjust icon size */
+}
+.delete-btn {
+    background-color: #aa0000; /* Red background for the delete button */
+}
+
+.delete-btn:hover {
+    background-color: #cc0000; /* Slightly lighter red on hover */
+}
+
+}
 
 
     </style>

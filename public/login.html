@@ -29,16 +29,16 @@
             border-radius: 10px;
             background-color: #141414c0;
             box-shadow: 0 0 10px rgb(61, 60, 60);
-            width: 350px;
+            width: 370px;
             z-index: 1;
             margin-top: 5px;
             margin: auto;
         }
         .form h3{
-            margin-left:18%;
             font-size: 1.5em;
             color:  #020a71 ;
             text-shadow: 1px 1px #0091ff;
+            text-align: center;
         }
 
         label {
@@ -106,8 +106,8 @@
         }
 
         .logdiv{
-            margin-left:13%;
             margin-top: 10px;
+            margin: auto;
         }
 
         .logdiv a {
@@ -115,7 +115,7 @@
             font-family: 'Courier New', Courier, monospace;
             text-shadow: 1px 1px 2px rgba(0, 255, 242, 0.897); /* Add text shadow */
             font-size: 1.5em;
-            margin-left: 80px;
+            margin: auto;
         }
 
         .logdiv a:hover{
@@ -172,6 +172,94 @@
         .error__close path {
         fill: #fff;
         }
+        .home-button {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.home-link {
+    display: inline-block;
+    padding: 6px 15px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin: auto;
+}
+
+.home-link:hover {
+    background-color: #555;
+}
+.x5{
+    align-items: center;
+    text-align: center;
+}
+.x5 img{
+    text-align: center;
+    border-radius: 50px;
+    width: 10%;
+    margin: auto;
+    background-color: #000000;
+}
+        @media (max-width: 600px) {
+    /* Make the form take most of the screen width */
+    .main {
+        padding: 10px;
+    }
+
+    .form {
+        width: 100%;
+        padding: 15px;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    /* Reduce heading size for better fit on small screens */
+    .form h3 {
+        font-size: 1.2em;
+        text-align: center;
+        margin: auto;
+    }
+
+    /* Input fields should take full width */
+    .form input, .form select {
+        width: 100%;
+        padding: 1px;
+        margin-bottom: 5px;
+        box-sizing: border-box;
+        font-size: 1em;
+    }
+
+    /* Adjust button style */
+    .form button {
+        width: 100%;
+        padding: 4px;
+        font-size: 1em;
+        margin-top: 10px;
+        margin-left: 0;
+    }
+
+    /* Adjust the logdiv paragraph and link styling */
+    .logdiv {
+        text-align: center;
+        margin-top: 15px;
+        flex-wrap: wrap;
+    }
+
+    .logdiv a {
+        color: #0066cc;
+        text-decoration: none;
+        text-align: center;
+    }
+    
+    .home-link {
+        width: 40%;
+        text-align: center;
+        padding: 12px;
+        font-size: 1em;
+    }
+}
+
 
 </style>
 </head>
@@ -179,18 +267,13 @@
 
     <div class="main">
 
-        <div class="error" id="error">
-           <!-- <div class="error_div">
-                <div class="error__icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none"><path fill="#393a37" d="m13 13h-2v-6h2zm0 4h-2v-2h2zm-1-15c-1.3132 0-2.61358.25866-3.82683.7612-1.21326.50255-2.31565 1.23915-3.24424 2.16773-1.87536 1.87537-2.92893 4.41891-2.92893 7.07107 0 2.6522 1.05357 5.1957 2.92893 7.0711.92859.9286 2.03098 1.6651 3.24424 2.1677 1.21325.5025 2.51363.7612 3.82683.7612 2.6522 0 5.1957-1.0536 7.0711-2.9289 1.8753-1.8754 2.9289-4.4189 2.9289-7.0711 0-1.3132-.2587-2.61358-.7612-3.82683-.5026-1.21326-1.2391-2.31565-2.1677-3.24424-.9286-.92858-2.031-1.66518-3.2443-2.16773-1.2132-.50254-2.5136-.7612-3.8268-.7612z"></path></svg>
-                </div>
-                <div class="error__title">Email or Password is incorrect! Try again</div>
-            </div>-->
+        <div class="x5">
+            <img src="x5.png" alt="logo">
         </div>
         
 
         <div class="form">
-            <h3>GhostLine-Login</h3>
+            <h3>HD X5-Signup</h3>
             <form action="/login" method="POST">
                 <label for="email">Email</label><br>
                 <input type="text" name="email" id="email" required><br>
@@ -203,6 +286,10 @@
                 </p>
                 </div>
             </form>
+            <!-- Home Button -->
+            <div class="home-button">
+                <a href="http://localhost:8000/" class="home-link">Home</a>
+            </div>
         </div>
     </div>
 
